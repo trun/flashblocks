@@ -98,6 +98,7 @@
                     nestedBlocks[i] = null;
                 }
             }
+            block.nestedBlocks = nestedBlocks;
 
             for each (var arg:Block in block.getArguments()) {
                 cleanConnections(arg);
