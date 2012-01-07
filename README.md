@@ -8,7 +8,7 @@ Flashblocks is a ActionScript library to support the creation of visual block ba
 
 Requirements
 
- - Flex SDK 3 (sorry, not Flex 4 yet)
+ - Flex SDK 3 (sorry, no Flex 4 yet)
  - Java JDK 6+
  - Ant
 

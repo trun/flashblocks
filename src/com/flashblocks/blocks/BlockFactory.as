@@ -1,4 +1,5 @@
 ﻿package com.flashblocks.blocks {
+    import com.flashblocks.blocks.AnchorBlock;
     import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.blocks.args.*;
     import mx.controls.Label;
@@ -10,22 +11,24 @@
      */
     public class BlockFactory {
 
+        public static function createAnchorBlock(label:String):AnchorBlock {
+            var block:AnchorBlock = new AnchorBlock(SocketType.SLANT, 0x333366);
+            block.addContent(createBlockLabel(label, 14, "center"));
+            return block;
+        }
+
         public static function createBinaryMathReporterBlock(label:String):ReporterBlock {
             var block:ReporterBlock = new ReporterBlock(SocketType.ANGLE, 0x333366);
-
             block.addContent(new StringArgumentBlock(0));
             block.addContent(createBlockLabel(label, 14, "center"));
             block.addContent(new StringArgumentBlock(0));
-
             return block;
         }
 
         public static function createUnaryMathReporterBlock(label:String):ReporterBlock {
             var block:ReporterBlock = new ReporterBlock(SocketType.ANGLE, 0x666699);
-
             block.addContent(createBlockLabel(label, 14, "center"));
             block.addContent(new StringArgumentBlock(0));
-
             return block;
         }
 
@@ -57,11 +60,24 @@
         public static function createPenCommandBlock(label:String):CommandBlock {
             var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x6666FF);
             block.addContent(createBlockLabel(label));
+            return block;
+        }
+
+        public static function createPenArgCommandBlock(label:String):CommandBlock {
+            var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x6666FF);
+            block.addContent(createBlockLabel(label));
             block.addContent(new ArgumentBlock());
             return block;
         }
 
-        public static function createAltPenCommandBlock(label:String):CommandBlock {
+        public static function createPenNumCommandBlock(label:String):CommandBlock {
+            var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x6666FF);
+            block.addContent(createBlockLabel(label));
+            block.addContent(new StringArgumentBlock());
+            return block;
+        }
+
+        public static function createPenAltCommandBlock(label:String):CommandBlock {
             var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x6666FF);
             block.addContent(createBlockLabel(label));
             block.addContent(new ColorPickerArgumentBlock());

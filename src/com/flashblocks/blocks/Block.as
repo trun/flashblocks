@@ -55,7 +55,6 @@
             resizeEffect.duration = 500;
 
             setStyle("verticalGap", 0);
-            0//setStyle("resizeEffect", resizeEffect);
 
             addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
             addEventListener(MouseEvent.MOUSE_UP, onMouseUp);

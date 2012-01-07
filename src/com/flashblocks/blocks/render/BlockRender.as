@@ -11,10 +11,12 @@
     public class BlockRender extends VBox {
 
         protected var color:uint;
+        protected var offset:Number;
         protected var render:UIComponent;
 
-        public function BlockRender(color:uint) {
+        public function BlockRender(color:uint, offset:Number=RenderConstants.NOTCH_OFFSET) {
             this.color = color;
+            this.offset = offset;
 
             render = new UIComponent();
             render.percentWidth = 100;

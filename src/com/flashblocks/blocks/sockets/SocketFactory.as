@@ -14,6 +14,8 @@
                     return new SocketRoundLeft(color);
                 case SocketType.SQUARE:
                     return new SocketSquareLeft(color);
+                case SocketType.SLANT:
+                    return new SocketSlantLeft(color);
             }
             return null;
         }
@@ -26,6 +28,8 @@
                     return new SocketRoundRight(color);
                 case SocketType.SQUARE:
                     return new SocketSquareRight(color);
+                case SocketType.SLANT:
+                    return new SocketSlantRight(color);
             }
             return null;
         }

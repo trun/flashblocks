@@ -146,15 +146,15 @@
         // EVENT HANDLERS
         //
 
-        private function onMouseDown(e:MouseEvent):void {
+        protected function onMouseDown(e:MouseEvent):void {
             dispatchEvent(new BlockDragEvent(BlockDragEvent.DRAG_START, false, false, this, this.parent));
         }
 
-        private function onMouseUp(e:MouseEvent):void {
+        protected function onMouseUp(e:MouseEvent):void {
             dispatchEvent(new BlockDragEvent(BlockDragEvent.DRAG_COMPLETE, false, false, this, null));
         }
 
-        private function onMouseMove(e:MouseEvent):void {
+        protected function onMouseMove(e:MouseEvent):void {
             if (isDragging() && !e.buttonDown)
                 dispatchEvent(new BlockDragEvent(BlockDragEvent.DRAG_COMPLETE, false, false, this, null));
         }

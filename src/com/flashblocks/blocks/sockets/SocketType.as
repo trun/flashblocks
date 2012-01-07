@@ -9,6 +9,7 @@
         public static const ROUND:String = "round";
         public static const SQUARE:String = "square";
         public static const ANGLE:String = "angle";
+        public static const SLANT:String = "slant";
 
     }
 

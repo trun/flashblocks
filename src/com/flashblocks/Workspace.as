@@ -40,7 +40,7 @@
         private var divBox:HBox;
 
         private var paletteHolder:PaletteHolder;
-        private var pageHolder:PageHolder;
+        private var page:Page;
         private var dragLayer:BlockDragLayer;
 
         private var widgets:Array;
@@ -71,21 +71,18 @@
             paletteHolder.percentHeight = 100;
             divBox.addChild(paletteHolder);
 
-            pageHolder = new PageHolder();
-            pageHolder.percentWidth = 100;
-            pageHolder.percentHeight = 100;
-            divBox.addChild(pageHolder);
+            page = new Page();
+            page.percentWidth = 100;
+            page.percentHeight = 100;
+            page.addBlock(BlockFactory.createAnchorBlock("MyProgram"));
+            divBox.addChild(page);
+            registerWidget(page);
 
             var palette:Palette = addPalette("Movement");
             var logicPalette:Palette = addPalette("Logic");
             var mathPalette:Palette = addPalette("Math");
             var procedurePalette:Palette = addPalette("Procedure");
             var colorPalette:Palette = addPalette("Colors");
-
-            addPage("Page 1");
-            addPage("Page 2");
-            addPage("Page 3");
-            addPage("Page 4");
 
             var block:Block;
 
@@ -100,6 +97,12 @@
             block.addContent(blockLabel("If"));
             block.addContent(spacer);
             block.addContent(new ArgumentBlock());
+            registerBlock(block);
+            logicPalette.addBlock(block);
+
+            block = new SingleLogicBlock(SocketType.SQUARE, 0xCC3300);
+            block.addContent(blockLabel("Repeat"));
+            block.addContent(new StringArgumentBlock());
             registerBlock(block);
             logicPalette.addBlock(block);
 
@@ -198,11 +201,47 @@
             registerBlock(block);
             mathPalette.addBlock(block);
 
-            block = BlockFactory.createPenCommandBlock("Set Pen Color");
+            block = BlockFactory.createPenNumCommandBlock("Forward");
             registerBlock(block);
             colorPalette.addBlock(block);
 
-            block = BlockFactory.createAltPenCommandBlock("Set Pen Color");
+            block = BlockFactory.createPenNumCommandBlock("Forward");
+            registerBlock(block);
+            colorPalette.addBlock(block);
+
+            block = BlockFactory.createPenNumCommandBlock("Forward");
+            registerBlock(block);
+            colorPalette.addBlock(block);
+
+            block = BlockFactory.createPenNumCommandBlock("Backward");
+            registerBlock(block);
+            colorPalette.addBlock(block);
+
+            block = BlockFactory.createPenNumCommandBlock("Left");
+            registerBlock(block);
+            colorPalette.addBlock(block);
+
+            block = BlockFactory.createPenNumCommandBlock("Right");
+            registerBlock(block);
+            colorPalette.addBlock(block);
+
+            block = BlockFactory.createPenNumCommandBlock("Right");
+            registerBlock(block);
+            colorPalette.addBlock(block);
+
+            block = BlockFactory.createPenCommandBlock("Pen Up");
+            registerBlock(block);
+            colorPalette.addBlock(block);
+
+            block = BlockFactory.createPenCommandBlock("Pen Down");
+            registerBlock(block);
+            colorPalette.addBlock(block);
+
+            block = BlockFactory.createPenArgCommandBlock("Set Pen Color");
+            registerBlock(block);
+            colorPalette.addBlock(block);
+
+            block = BlockFactory.createPenAltCommandBlock("Set Pen Color");
             registerBlock(block);
             colorPalette.addBlock(block);
 
@@ -227,14 +266,6 @@
 
         private function onCreationComplete(e:FlexEvent):void {
             dragLayer.registerWorkspace(this);
-        }
-
-        public function addPage(name:String):Page {
-            var page:Page = new Page();
-            page.name = page.label = name;
-            pageHolder.addChild(page);
-            registerWidget(page);
-            return page;
         }
 
         public function addPalette(name:String):Palette {
