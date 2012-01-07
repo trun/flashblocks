@@ -3,7 +3,7 @@
     import com.flashblocks.blocks.render.BlockFlatBottom;
     import com.flashblocks.blocks.render.BlockNotchBottom;
     import com.flashblocks.blocks.render.BlockRender;
-    import com.flashblocks.sockets.SocketType;
+    import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.util.BlockUtil;
     import flash.geom.Point;
     import mx.containers.VBox;

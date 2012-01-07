@@ -1,5 +1,5 @@
 ﻿package com.flashblocks.blocks {
-    import com.flashblocks.sockets.SocketType;
+    import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.blocks.args.*;
     import mx.controls.Label;
     import mx.controls.Spacer;

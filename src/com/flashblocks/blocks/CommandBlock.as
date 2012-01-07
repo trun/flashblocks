@@ -1,6 +1,6 @@
 ﻿package com.flashblocks.blocks {
     import com.flashblocks.blocks.render.*;
-    import com.flashblocks.sockets.SocketType;
+    import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.util.BlockUtil;
     import flash.geom.Point;
     import mx.binding.utils.BindingUtils;

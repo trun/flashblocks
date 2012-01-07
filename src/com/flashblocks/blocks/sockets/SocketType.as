@@ -1,4 +1,4 @@
-﻿package com.flashblocks.sockets {
+﻿package com.flashblocks.blocks.sockets {
 
     /**
      * ...

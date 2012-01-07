@@ -1,13 +1,13 @@
-﻿package com.flashblocks.sockets {
+﻿package com.flashblocks.blocks.sockets {
     import flash.display.Graphics;
 
     /**
      * ...
      * @author Trevor Rundell
      */
-    public class SocketAngleLeft extends Socket {
+    public class SocketAngleRight extends Socket {
 
-        public function SocketAngleLeft(color:uint=0xFFFFFF) {
+        public function SocketAngleRight(color:uint=0xFFFFFF) {
             super(color);
         }
 
@@ -16,9 +16,9 @@
 
             g.clear();
             g.beginFill(color);
-            g.moveTo(socket.width, 0);
-            g.lineTo(0, socket.height / 2);
-            g.lineTo(socket.width, socket.height);
+            g.moveTo(0, 0);
+            g.lineTo(socket.width, socket.height / 2);
+            g.lineTo(0, socket.height);
             g.endFill();
         }
 

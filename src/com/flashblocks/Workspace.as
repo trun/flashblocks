@@ -9,7 +9,7 @@
     import com.flashblocks.blocks.ReporterBlock;
     import com.flashblocks.blocks.SingleLogicBlock;
     import com.flashblocks.events.BlockDragEvent;
-    import com.flashblocks.sockets.SocketType;
+    import com.flashblocks.blocks.sockets.SocketType;
     import flash.display.DisplayObject;
     import flash.events.Event;
     import flash.events.MouseEvent;

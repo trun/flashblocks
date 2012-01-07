@@ -1,4 +1,4 @@
-﻿package com.flashblocks.sockets {
+﻿package com.flashblocks.blocks.sockets {
     import flash.events.Event;
     import mx.binding.utils.ChangeWatcher;
     import mx.containers.VBox;

@@ -1,8 +1,8 @@
 ﻿package com.flashblocks.blocks {
     import com.flashblocks.events.BlockConnectionEvent;
     import com.flashblocks.events.BlockDragEvent;
-    import com.flashblocks.sockets.Socket;
-    import com.flashblocks.sockets.SocketFactory;
+    import com.flashblocks.blocks.sockets.Socket;
+    import com.flashblocks.blocks.sockets.SocketFactory;
     import com.flashblocks.util.BlockUtil;
     import flash.display.DisplayObject;
     import flash.events.Event;
