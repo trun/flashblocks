@@ -1,10 +1,11 @@
 # Flashblocks
+=====
 
 Flashblocks is a ActionScript library to support the creation of visual block based programming applications.
 
 ![flashblocks](https://raw.github.com/trun/flashblocks/master/static/flashblocks.png)
 
-## Building Flashblocks
+### Building Flashblocks
 
 Requirements
 
@@ -12,12 +13,12 @@ Requirements
  - Java JDK 6+
  - Ant
 
-Be sure to set your `FLEX_HOME` environment variable and then just run...
+Be sure to set your `FLEX_HOME` environment variable and then run...
 
 ```
 ant build
 ```
 
-## Running the examples
+### Running the examples
 
 ... coming soon ...

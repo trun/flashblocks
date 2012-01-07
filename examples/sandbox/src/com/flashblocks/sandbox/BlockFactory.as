@@ -1,4 +1,5 @@
-﻿package com.flashblocks.blocks {
+﻿package com.flashblocks.sandbox {
+    import com.flashblocks.blocks.*;
     import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.blocks.args.*;
     import mx.controls.Label;

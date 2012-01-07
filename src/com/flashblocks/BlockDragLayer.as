@@ -9,10 +9,10 @@
     import flash.filters.GlowFilter;
     import flash.geom.Point;
     import mx.core.UIComponent;
+    import mx.events.FlexEvent;
     import mx.managers.PopUpManager;
 
     public class BlockDragLayer extends UIComponent implements IWorkspaceWidget {
-
         private var workspace:Workspace;
 
         private var block:Block;
@@ -26,8 +26,6 @@
         private var shadowFilter:BitmapFilter;
 
         public function BlockDragLayer() {
-            super();
-
             percentWidth = 100;
             percentHeight = 100;
 
@@ -49,6 +47,10 @@
             }
         }
 
+        public function registerContainer(container:DisplayObject):void {
+            PopUpManager.addPopUp(this, container);
+        }
+
         /* INTERFACE com.flashblocks.IBlockContainer */
 
         public function addBlock(block:Block):void {
@@ -62,15 +64,17 @@
                 removeChild(block);
         }
 
-        public function getAllBlocks():Array{
-            return [ block ];
+        public function getAllBlocks():Array {
+            if (block) {
+                return [ block ];
+            }
+            return [ ];
         }
 
         /* INTERFACE com.flashblocks.IWorkspaceWidget */
 
         public function registerWorkspace(workspace:Workspace):void{
             this.workspace = workspace;
-            PopUpManager.addPopUp(this, workspace);
 
             workspace.addEventListener(BlockDragEvent.DRAG_START, onBlockDragStart);
             workspace.addEventListener(BlockDragEvent.DRAG_COMPLETE, onBlockDragComplete);

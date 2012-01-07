@@ -19,5 +19,9 @@
     </compiler>
     <include-classes>
         <class>com.flashblocks.Workspace</class>
+        <class>com.flashblocks.Page</class>
+        <class>com.flashblocks.PageList</class>
+        <class>com.flashblocks.Palette</class>
+        <class>com.flashblocks.PaletteList</class>
     </include-classes>
 </flex-config>
