@@ -39,7 +39,7 @@
 
         private var divBox:HBox;
 
-        private var paletteHolder:PaletteHolder;
+        private var paletteHolder:PaletteList;
         private var page:Page;
         private var dragLayer:BlockDragLayer;
 
@@ -67,7 +67,7 @@
             divBox.percentHeight = 100;
             this.addChild(divBox);
 
-            paletteHolder = new PaletteHolder();
+            paletteHolder = new PaletteList();
             paletteHolder.percentHeight = 100;
             divBox.addChild(paletteHolder);
 

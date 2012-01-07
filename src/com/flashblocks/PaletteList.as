@@ -10,12 +10,12 @@
      * ...
      * @author Trevor Rundell
      */
-    public class PaletteHolder extends HBox {
+    public class PaletteList extends HBox {
 
         private var tabStack:LinkBar;
         private var viewStack:ViewStack;
 
-        public function PaletteHolder() {
+        public function PaletteList() {
             super();
 
             setStyle("borderStyle", "solid");

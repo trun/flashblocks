@@ -5,9 +5,9 @@
      * ...
      * @author Trevor Rundell
      */
-    public class PageHolder extends TabNavigator {
+    public class PageList extends TabNavigator {
 
-        public function PageHolder() {
+        public function PageList() {
             super();
         }
 
