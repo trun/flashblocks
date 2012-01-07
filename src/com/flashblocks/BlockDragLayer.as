@@ -4,22 +4,13 @@
     import com.flashblocks.util.BlockUtil;
     import flash.display.DisplayObject;
     import flash.display.DisplayObjectContainer;
-    import flash.display.Sprite;
     import flash.events.Event;
-    import flash.events.MouseEvent;
     import flash.filters.BitmapFilter;
-    import flash.filters.DropShadowFilter;
     import flash.filters.GlowFilter;
     import flash.geom.Point;
-    import mx.containers.VBox;
     import mx.core.UIComponent;
-    import mx.events.FlexEvent;
     import mx.managers.PopUpManager;
 
-    /**
-     * ...
-     * @author ...
-     */
     public class BlockDragLayer extends UIComponent implements IWorkspaceWidget {
 
         private var workspace:Workspace;
@@ -40,7 +31,6 @@
             percentWidth = 100;
             percentHeight = 100;
 
-            //shadowFilter = new DropShadowFilter(6, 45, 0x000000, .4);
             shadowFilter = new GlowFilter(0x000000, 0.5, 12, 12);
 
             addEventListener(Event.ENTER_FRAME, onEnterFrame);
@@ -127,13 +117,16 @@
             var dropped:Boolean = false;
 
             for each (var widget:IWorkspaceWidget in workspace.getWidgets()) {
+                // skip the drag layer
                 if (widget == this)
                     continue;
 
+                // skip widgets that are not DisplayObjects
                 var widgetDO:DisplayObject;
                 if (!widget is DisplayObject)
                     continue;
 
+                // skip invisible widgets
                 widgetDO = widget as DisplayObject;
                 if (!widgetDO.visible)
                     continue;
