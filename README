@@ -1,3 +1,11 @@
-Flashblocks is a ActionScript framework to support the creation of block based programming tools.
+Flashblocks is a ActionScript library to support the creation of visual block based programming applications.
 
-More to come...
+# Building Flashblocks
+
+```
+ant build
+```
+
+# Running the examples
+
+... coming soon ...
