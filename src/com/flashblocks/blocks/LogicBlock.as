@@ -10,7 +10,6 @@
     import flash.filters.BevelFilter;
     import flash.geom.Point;
     import mx.binding.utils.ChangeWatcher;
-    import mx.containers.Canvas;
     import mx.containers.HBox;
     import mx.containers.VBox;
 

@@ -1,7 +1,5 @@
 ﻿package com.flashblocks {
     import com.flashblocks.blocks.Block;
-    import flash.display.DisplayObjectContainer;
-    import mx.core.IUIComponent;
 
     /**
      * ...

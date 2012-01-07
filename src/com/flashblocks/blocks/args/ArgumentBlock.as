@@ -6,8 +6,6 @@
     import com.flashblocks.blocks.SimpleBlock;
     import com.flashblocks.events.BlockConnectionEvent;
     import flash.filters.BevelFilter;
-    import mx.containers.HBox;
-    import mx.controls.Label;
     import mx.controls.Spacer;
 
     /**

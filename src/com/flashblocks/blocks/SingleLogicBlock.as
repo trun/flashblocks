@@ -19,13 +19,13 @@
             bottomBottomLineBox.addChild(new BlockNotchBottom(blockColor));
             bottomBottomLineBox.addChild(new BlockFlatBottom(blockColor));
 
-            var flatBottom:BlockRender = new BlockFlatBottom(blockColor)
+            var flatBottom:BlockRender = new BlockFlatBottom(blockColor);
             flatBottom.width = 30;
             topNestedLineBox.addChild(flatBottom);
             topNestedLineBox.addChild(new BlockNotchBottom(blockColor));
             topNestedLineBox.addChild(new BlockFlatBottom(blockColor));
 
-            var flatTop:BlockRender = new BlockFlatTop(blockColor)
+            var flatTop:BlockRender = new BlockFlatTop(blockColor);
             flatTop.width = 30;
             bottomNestedLineBox.addChild(flatTop);
             bottomNestedLineBox.addChild(new BlockNotchTop(blockColor));

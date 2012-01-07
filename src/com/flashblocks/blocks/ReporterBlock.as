@@ -1,8 +1,6 @@
 ﻿package com.flashblocks.blocks {
     import com.flashblocks.blocks.render.BlockFlatBottom;
     import com.flashblocks.blocks.render.BlockFlatTop;
-    import com.flashblocks.blocks.sockets.SocketType;
-    import mx.controls.Label;
 
     /**
      * ...

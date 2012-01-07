@@ -1,6 +1,5 @@
 ﻿package com.flashblocks.events {
     import com.flashblocks.blocks.Block;
-    import flash.display.DisplayObject;
     import flash.display.DisplayObjectContainer;
     import flash.events.Event;
 

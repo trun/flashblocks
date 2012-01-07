@@ -9,9 +9,6 @@
     import mx.binding.utils.ChangeWatcher;
     import mx.containers.HBox;
     import mx.containers.VBox;
-    import mx.controls.Label;
-    import mx.events.MoveEvent;
-    import mx.events.ResizeEvent;
 
     /**
      * A simple block layout.

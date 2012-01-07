@@ -1,18 +1,10 @@
 ﻿package com.flashblocks.blocks {
     import com.flashblocks.events.BlockConnectionEvent;
-    import com.flashblocks.events.BlockDragEvent;
     import flash.display.DisplayObject;
     import flash.events.MouseEvent;
-    import flash.filters.BevelFilter;
-    import mx.binding.utils.BindingUtils;
     import mx.containers.Canvas;
-    import mx.containers.VBox;
-    import mx.effects.Move;
     import mx.effects.Resize;
-    import mx.effects.Sequence;
     import mx.events.PropertyChangeEvent;
-    import mx.events.PropertyChangeEventKind;
-    import mx.events.ResizeEvent;
 
     /**
      * ...

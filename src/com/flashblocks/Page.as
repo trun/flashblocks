@@ -1,17 +1,8 @@
 ﻿package com.flashblocks {
-    import com.flashblocks.blocks.AnchorBlock;
     import com.flashblocks.blocks.Block;
-    import com.flashblocks.blocks.BlockFactory;
     import com.flashblocks.util.BlockUtil;
-    import flash.display.DisplayObject;
-    import flash.display.DisplayObjectContainer;
-    import flash.display.MovieClip;
     import flash.geom.Point;
     import mx.containers.Canvas;
-    import mx.containers.VBox;
-    import mx.core.Container;
-    import mx.events.DragEvent;
-    import mx.managers.DragManager;
 
     /**
      * ...

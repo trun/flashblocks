@@ -1,42 +1,21 @@
 ﻿package com.flashblocks {
-    import com.flashblocks.blocks.args.ArgumentBlock;
-    import com.flashblocks.blocks.args.StringArgumentBlock;
-    import com.flashblocks.blocks.Block;
-    import com.flashblocks.blocks.BlockFactory;
-    import com.flashblocks.blocks.CommandBlock;
-    import com.flashblocks.blocks.LogicBlock;
-    import com.flashblocks.blocks.ProcedureBlock;
-    import com.flashblocks.blocks.ReporterBlock;
-    import com.flashblocks.blocks.SingleLogicBlock;
+    import com.flashblocks.blocks.*;
+    import com.flashblocks.blocks.args.*;
+    import com.flashblocks.blocks.sockets.*;
     import com.flashblocks.events.BlockDragEvent;
-    import com.flashblocks.blocks.sockets.SocketType;
-    import flash.display.DisplayObject;
+
     import flash.events.Event;
-    import flash.events.MouseEvent;
-    import mx.binding.utils.BindingUtils;
-    import mx.binding.utils.ChangeWatcher;
+
     import mx.containers.HBox;
-    import mx.containers.HDividedBox;
     import mx.containers.Panel;
-    import mx.containers.TitleWindow;
-    import mx.containers.VBox;
     import mx.controls.Label;
     import mx.controls.Spacer;
-    import mx.core.IFlexDisplayObject;
-    import mx.core.UIComponent;
     import mx.events.FlexEvent;
-    import mx.managers.PopUpManager;
-
-    /**
-     * ...
-     * @author Trevor Rundell
-     */
 
     [Event(name="dragStart", type="com.flashblocks.events.BlockDragEvent")]
     [Event(name="dragComplete", type="com.flashblocks.events.BlockDragEvent")]
     [Event(name="dragDrop", type="com.flashblocks.events.BlockDragEvent")]
     public class Workspace extends Panel {
-
         private var divBox:HBox;
 
         private var paletteHolder:PaletteList;

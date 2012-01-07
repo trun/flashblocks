@@ -1,12 +1,7 @@
 ﻿package com.flashblocks.blocks {
     import com.flashblocks.blocks.render.*;
-    import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.util.BlockUtil;
     import flash.geom.Point;
-    import mx.binding.utils.BindingUtils;
-    import mx.containers.VBox;
-    import mx.controls.Label;
-    import mx.core.UIComponent;
 
     /**
      * ...

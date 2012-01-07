@@ -1,7 +1,4 @@
 ﻿package com.flashblocks.blocks.args {
-    import com.flashblocks.blocks.Block;
-    import com.flashblocks.blocks.BlockType;
-    import com.flashblocks.events.BlockConnectionEvent;
     import flash.events.Event;
     import mx.controls.TextInput;
 
