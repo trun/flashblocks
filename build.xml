@@ -1,0 +1,38 @@
+<project default="build" basedir=".">
+    <description>Build file for flashblocks library.</description>
+
+    <!-- build properties -->
+    <property name="src.dir" value="${basedir}/src"/>
+    <property name="bin.dir" value="${basedir}/bin"/>
+    <property name="build.dir" value="${basedir}/build"/>
+
+    <!-- env properties -->
+    <property environment="env"/>
+    <property name="FLEX_HOME" value="${env.FLEX_HOME}"/>
+
+    <macrodef name="build-swc-macro">
+        <attribute name="app" />
+        <attribute name="swc"       default="@{app}" />
+        <attribute name="swcFile"   default="${bin.dir}/@{swc}.swc" />
+        <sequential>
+            <!-- java task method of calling compc.jar -->
+            <java jar="${FLEX_HOME}/lib/compc.jar" dir="." fork="true" failonerror="true">
+                <jvmarg value="-Xmx512m" />
+                <arg value="-local-fonts-snapshot=${FLEX_HOME}/frameworks/localFonts.ser"/>
+                <arg value="-load-config=${FLEX_HOME}/frameworks/flex-config.xml"/>
+                <arg value="-load-config+=${build.dir}/flex-config.xml"/>
+                <arg value="-output=@{swcFile}" />
+            </java>
+        </sequential>
+    </macrodef>
+
+    <target name="build" depends="clean, build-swc"/>
+
+    <target name="clean">
+        <delete file="bin/flashblocks.swc"/>
+    </target>
+
+    <target name="build-swc">
+        <build-swc-macro app="flashblocks"/>
+    </target>
+</project>

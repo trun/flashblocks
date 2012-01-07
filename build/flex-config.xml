@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<flex-config xmlns="http://www.adobe.com/2006/flex-config">
+    <use-network>true</use-network>
+    <benchmark>false</benchmark>
+    <compiler>
+        <accessible>false</accessible>
+        <allow-source-path-overlap>false</allow-source-path-overlap>
+        <optimize>false</optimize>
+        <strict>true</strict>
+        <es>false</es>
+        <show-actionscript-warnings>true</show-actionscript-warnings>
+        <show-binding-warnings>true</show-binding-warnings>
+        <show-unused-type-selector-warnings>true</show-unused-type-selector-warnings>
+        <use-resource-bundle-metadata>true</use-resource-bundle-metadata>
+        <verbose-stacktraces>false</verbose-stacktraces>
+        <source-path>
+            <path-element>../src</path-element>
+        </source-path>
+    </compiler>
+    <include-classes>
+        <class>com.flashblocks.Workspace</class>
+    </include-classes>
+</flex-config>

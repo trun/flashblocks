@@ -2,3 +2,4 @@ out/
 *.as3proj
 *.iml
 .idea/
+bin/*.swc
