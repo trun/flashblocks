@@ -10,7 +10,7 @@
         public static const REPORTER:String = "reporter";
         public static const ARGUMENT:String = "argument";
         public static const PROCEDURE:String = "procedure";
-        public static const CONTROL:String = "control";
+        public static const LOGIC:String = "logic";
 
     }
 

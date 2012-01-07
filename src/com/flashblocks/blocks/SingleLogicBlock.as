@@ -6,12 +6,12 @@
      * such as "if" or "while". More complex examples such as "if-else" or
      * "switch" require a more complex block construction.
      */
-    public class SingleLogicBlock extends ControlLogicBlock {
+    public class SingleLogicBlock extends LogicBlock {
 
         public function SingleLogicBlock(socketType:String="square", color:uint=0xCCCC00) {
             super(socketType, color);
 
-            blockType = BlockType.CONTROL;
+            blockType = BlockType.LOGIC;
 
             topTopLineBox.addChild(new BlockNotchTop(blockColor));
             topTopLineBox.addChild(new BlockFlatTop(blockColor));

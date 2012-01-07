@@ -25,7 +25,7 @@
      *  ||__|_______________|__||
      *  |_______________________|
      */
-    public class ControlLogicBlock extends Block {
+    public class LogicBlock extends Block {
 
         protected var hbox:HBox;
         protected var leftBox:VBox;
@@ -50,7 +50,7 @@
 
         protected var nestedBlockWatcher:ChangeWatcher;
 
-        public function ControlLogicBlock(socketType:String="square", color:uint=0x999900) {
+        public function LogicBlock(socketType:String="square", color:uint=0x999900) {
             super(socketType, "", color);
 
             hbox = new HBox();

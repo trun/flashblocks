@@ -4,7 +4,7 @@
     import com.flashblocks.blocks.Block;
     import com.flashblocks.blocks.BlockFactory;
     import com.flashblocks.blocks.CommandBlock;
-    import com.flashblocks.blocks.ControlLogicBlock;
+    import com.flashblocks.blocks.LogicBlock;
     import com.flashblocks.blocks.ProcedureBlock;
     import com.flashblocks.blocks.ReporterBlock;
     import com.flashblocks.blocks.SingleLogicBlock;
