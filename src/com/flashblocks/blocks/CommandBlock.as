@@ -29,12 +29,11 @@
         override public function connectOlderSibling(block:Block):void {
             if (olderSibling) {
                 olderSibling.connectYoungerSibling(block);
+            } else {
+                parent.addChild(block);
+                block.x = this.x;
+                block.y = this.y - block.height;
             }
-
-            parent.addChild(block);
-
-            block.x = this.x;
-            block.y = this.y - block.height;
 
             block.connectYoungerSibling(this);
         }

@@ -91,11 +91,13 @@
             var nestedBlocks:Array = new Array();
             for (var i:uint = 0; i < block.nestedBlocks.length; i++) {
                 var child:Block = block.nestedBlocks[i];
-                if (child && block.contains(child)) {
-                    cleanConnections(child);
-                    nestedBlocks[i] = child;
-                } else {
-                    nestedBlocks[i] = null;
+                if (child) {
+                    if (block.contains(child)) {
+                        cleanConnections(child);
+                        nestedBlocks[i] = child;
+                    } else {
+                        nestedBlocks[i] = null;
+                    }
                 }
             }
             block.nestedBlocks = nestedBlocks;
@@ -116,7 +118,7 @@
                 }
             }
 
-            if (child.hasOlderSiblingPort()) {
+            if (child.hasOlderSiblingPort() && child.olderSibling == null) {
                 if (child.testOlderSiblingConnection(block)) {
                     child.connectOlderSibling(block);
                     return true;
