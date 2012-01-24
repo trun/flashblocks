@@ -21,4 +21,7 @@ ant build
 
 ### Running the examples
 
-... coming soon ...
+#### LogoBlocks
+
+![logoblocks](https://raw.github.com/trun/flashblocks/master/static/logoblocks.png)
+
