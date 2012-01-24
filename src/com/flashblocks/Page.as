@@ -61,39 +61,36 @@
         }
 
         private function cleanConnections(block:Block):void {
-            if (block.youngerSibling) {
-                if (block.contains(block.youngerSibling)) {
-                    cleanConnections(block.youngerSibling);
+            if (block.after) {
+                if (block.contains(block.after)) {
+                    cleanConnections(block.after);
                 } else {
-                    block.youngerSibling = null;
+                    block.after = null;
                 }
             }
 
-            if (block.olderSibling && !block.olderSibling.contains(block)) {
-                block.olderSibling = null;
+            if (block.before && !block.before.contains(block)) {
+                block.before = null;
             }
 
-            if (block.internalBlock) {
-                if (block.contains(block.internalBlock)) {
-                    cleanConnections(block.internalBlock);
+            if (block.inner) {
+                if (block.contains(block.inner)) {
+                    cleanConnections(block.inner);
                 } else {
-                    block.internalBlock = null;
+                    block.inner = null;
                 }
             }
 
-            var nestedBlocks:Array = new Array();
-            for (var i:uint = 0; i < block.nestedBlocks.length; i++) {
-                var child:Block = block.nestedBlocks[i];
+            for (var i:uint = 0; i < block.nested.length; i++) {
+                var child:Block = block.nested[i];
                 if (child) {
                     if (block.contains(child)) {
                         cleanConnections(child);
-                        nestedBlocks[i] = child;
                     } else {
-                        nestedBlocks[i] = null;
+                        block.nested[i] = null;
                     }
                 }
             }
-            block.nestedBlocks = nestedBlocks;
 
             for each (var arg:Block in block.getArguments()) {
                 cleanConnections(arg);
@@ -104,48 +101,48 @@
             if (!child.enableConnections)
                 return false;
 
-            if (child.hasYoungerSiblingPort()) {
-                if (child.testYoungerSiblingConnection(block)) {
-                    child.connectYoungerSibling(block);
+            if (child.hasAfter()) {
+                if (child.testAfterConnection(block)) {
+                    child.connectAfter(block);
                     return true;
                 }
             }
 
-            if (child.hasOlderSiblingPort() && child.olderSibling == null) {
-                if (child.testOlderSiblingConnection(block)) {
-                    child.connectOlderSibling(block);
+            if (child.hasBefore() && child.before == null) {
+                if (child.testBeforeConnection(block)) {
+                    child.connectBefore(block);
                     return true;
                 }
             }
 
             for each (var arg:Block in child.getArguments()) {
-                if (arg.enableConnections && arg.testInternalConnection(block)) {
-                    arg.connectInternalBlock(block);
+                if (arg.enableConnections && arg.testInnerConnection(block)) {
+                    arg.connectInner(block);
                     return true;
                 }
 
-                if (arg.internalBlock) {
-                    if (tryConnection(arg.internalBlock, block)) {
+                if (arg.inner) {
+                    if (tryConnection(arg.inner, block)) {
                         return true;
                     }
                 }
             }
 
-            if (child.youngerSibling != null) {
-                if (tryConnection(child.youngerSibling, block)) {
+            if (child.after != null) {
+                if (tryConnection(child.after, block)) {
                     return true;
                 }
             }
 
-            for each (var nested:Block in child.nestedBlocks) {
+            for each (var nested:Block in child.nested) {
                 if (tryConnection(nested, block)) {
                     return true;
                 }
             }
 
-            if (child.hasNestedPort()) {
-                if (child.testNestedConnection(block)) {
-                    child.connectNestedBlock(block);
+            for (var i:uint = 0; i < child.numNested(); i++) {
+                if (child.testNestedConnection(i, block)) {
+                    child.connectNested(i, block);
                     return true;
                 }
             }

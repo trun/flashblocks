@@ -135,8 +135,8 @@
 
 
         private function onHeightChange(e:Event):void{
-            if (youngerSibling)
-                youngerSibling.y = hbox.height;
+            if (after)
+                after.y = hbox.height;
         }
 
         //

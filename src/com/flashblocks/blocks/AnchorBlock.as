@@ -45,21 +45,21 @@
         // Connection testing
         //
 
-        override public function connectYoungerSibling(block:Block):void {
+        override public function connectAfter(block:Block):void {
             addChild(block);
 
             block.x = 15;
             block.y = hbox.height;
 
-            if (youngerSibling)
-                block.connectYoungerSibling(youngerSibling);
+            if (after)
+                block.connectAfter(after);
 
-            block.olderSibling = this;
-            this.youngerSibling = block;
+            block.before = this;
+            this.after = block;
         }
 
-        override public function testYoungerSiblingConnection(block:Block):Boolean {
-            if (!block.hasYoungerSiblingPort())
+        override public function testAfterConnection(block:Block):Boolean {
+            if (!block.hasAfter())
                 return false;
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
@@ -67,7 +67,7 @@
             return hbox.hitTestObject(block) && (p.y > hbox.height - 10);
         }
 
-        override public function hasYoungerSiblingPort():Boolean {
+        override public function hasAfter():Boolean {
             return true;
         }
 
@@ -81,10 +81,11 @@
             }
             if (parent) {
                 widthWatcher = ChangeWatcher.watch(parent, "width", onResize);
+                onResize(); // force resize
             }
         }
 
-        private function onResize(e:Event):void {
+        private function onResize(e:Event=null):void {
             hbox.width = parent.width;
         }
 

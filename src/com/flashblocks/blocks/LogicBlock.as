@@ -190,14 +190,14 @@
         }
 
         private function onHeightChange(e:Event):void {
-            if (youngerSibling) {
-                youngerSibling.y = hbox.height;
+            if (after) {
+                after.y = hbox.height;
             }
         }
 
         private function onTopHeightChange(e:Event):void {
-            if (nestedBlocks[0]) {
-                nestedBlocks[0].y = topBox.height;
+            if (nested[0]) {
+                nested[0].y = topBox.height;
             }
         }
 
@@ -206,16 +206,16 @@
         }
 
         private function onNestedBlockDisconnect(e:Event):void {
-            nestedBlocks[0].removeEventListener(BlockConnectionEvent.DISCONNECT, onNestedBlockDisconnect);
-            nestedBlocks = new Array();
+            nested[0].removeEventListener(BlockConnectionEvent.DISCONNECT, onNestedBlockDisconnect);
+            nested[0] = null;
             nestedBlockWatcher.unwatch();
             resizeMidBox();
         }
 
         private function resizeMidBox():void {
-            if (nestedBlocks[0]) {
-                bottomBox.width = nestedBlocks[0].width + midLeftBox.width;
-                midStretchBox.height = nestedBlocks[0].height;
+            if (nested[0]) {
+                bottomBox.width = nested[0].width + midLeftBox.width;
+                midStretchBox.height = nested[0].height;
             } else {
                 bottomBox.percentWidth = 100;
                 midStretchBox.height = midStretchBox.minHeight;
@@ -243,13 +243,13 @@
         // OLDER SIBLING CONNECTION
         //
 
-        override public function hasOlderSiblingPort():Boolean {
+        override public function hasBefore():Boolean {
             return true;
         }
 
-        override public function connectOlderSibling(block:Block):void {
-            if (olderSibling) {
-                olderSibling.connectYoungerSibling(block);
+        override public function connectBefore(block:Block):void {
+            if (before) {
+                before.connectAfter(block);
             }
 
             parent.addChild(block);
@@ -257,13 +257,13 @@
             block.x = this.x;
             block.y = this.y - block.height;
 
-            block.connectYoungerSibling(this);
+            block.connectAfter(this);
         }
 
-        override public function testOlderSiblingConnection(block:Block):Boolean {
-            if (!block.hasYoungerSiblingPort())
+        override public function testBeforeConnection(block:Block):Boolean {
+            if (!block.hasAfter())
                 return false;
-            if (block.youngerSibling != null)
+            if (block.after != null)
                 return false;
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this.parent);
@@ -275,12 +275,12 @@
         // YOUNGER SIBLING CONNECTION
         //
 
-        override public function hasYoungerSiblingPort():Boolean {
+        override public function hasAfter():Boolean {
             return true;
         }
 
-        override public function testYoungerSiblingConnection(block:Block):Boolean {
-            if (!block.hasYoungerSiblingPort())
+        override public function testAfterConnection(block:Block):Boolean {
+            if (!block.hasAfter())
                 return false;
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
@@ -288,29 +288,29 @@
             return hbox.hitTestObject(block) && (p.y > hbox.height - 10);
         }
 
-        override public function connectYoungerSibling(block:Block):void {
+        override public function connectAfter(block:Block):void {
             addChild(block);
 
             block.x = 0;
             block.y = hbox.height;
 
-            if (youngerSibling)
-                block.connectYoungerSibling(youngerSibling);
+            if (after)
+                block.connectAfter(after);
 
-            block.olderSibling = this;
-            this.youngerSibling = block;
+            block.before = this;
+            this.after = block;
         }
 
         //
         // NESTED BLOCK CONNECTION
         //
 
-        override public function hasNestedPort():Boolean {
-            return true;
+        override public function numNested():uint {
+            return 1;
         }
 
-        override public function testNestedConnection(block:Block):Boolean {
-            if (!block.hasOlderSiblingPort())
+        override public function testNestedConnection(level:uint, block:Block):Boolean {
+            if (!block.hasBefore())
                 return false;
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
@@ -318,17 +318,17 @@
             return hbox.hitTestObject(block) && (p.y > topVBox.height - 10) && (p.y < topVBox.height + 10);
         }
 
-        override public function connectNestedBlock(block:Block):void {
-            if (nestedBlocks[0])
-                block.connectYoungerSibling(nestedBlocks[0]);
+        override public function connectNested(level:uint, block:Block):void {
+            if (nested[level])
+                block.connectAfter(nested[level]);
 
             addChild(block);
 
             block.x = 30;
             block.y = topBox.height;
 
-            block.olderSibling = this;
-            this.nestedBlocks = [ block ];
+            block.before = this;
+            this.nested[level] = block;
 
             nestedBlockWatcher = ChangeWatcher.watch(block, "height", onNestedHeightChange);
             block.addEventListener(BlockConnectionEvent.DISCONNECT, onNestedBlockDisconnect);

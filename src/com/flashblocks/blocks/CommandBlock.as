@@ -21,35 +21,35 @@
             bottomMidBox.addChild(new BlockFlatBottom(blockColor));
         }
 
-        override public function connectOlderSibling(block:Block):void {
-            if (olderSibling) {
-                olderSibling.connectYoungerSibling(block);
+        override public function connectBefore(block:Block):void {
+            if (before) {
+                before.connectAfter(block);
             } else {
                 parent.addChild(block);
                 block.x = this.x;
                 block.y = this.y - block.height;
             }
 
-            block.connectYoungerSibling(this);
+            block.connectAfter(this);
         }
 
-        override public function connectYoungerSibling(block:Block):void {
+        override public function connectAfter(block:Block):void {
             addChild(block);
 
             block.x = 0;
             block.y = hbox.height;
 
-            if (youngerSibling)
-                block.connectYoungerSibling(youngerSibling);
+            if (after)
+                block.connectAfter(after);
 
-            block.olderSibling = this;
-            this.youngerSibling = block;
+            block.before = this;
+            this.after = block;
         }
 
-        override public function testOlderSiblingConnection(block:Block):Boolean {
-            if (!block.hasYoungerSiblingPort())
+        override public function testBeforeConnection(block:Block):Boolean {
+            if (!block.hasAfter())
                 return false;
-            if (block.youngerSibling != null)
+            if (block.after != null)
                 return false;
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this.parent);
@@ -57,8 +57,8 @@
             return hbox.hitTestObject(block) && (p.y < this.y);
         }
 
-        override public function testYoungerSiblingConnection(block:Block):Boolean {
-            if (!block.hasYoungerSiblingPort())
+        override public function testAfterConnection(block:Block):Boolean {
+            if (!block.hasAfter())
                 return false;
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
@@ -66,11 +66,11 @@
             return hbox.hitTestObject(block) && (p.y > hbox.height - 10);
         }
 
-        override public function hasOlderSiblingPort():Boolean {
+        override public function hasBefore():Boolean {
             return true;
         }
 
-        override public function hasYoungerSiblingPort():Boolean {
+        override public function hasAfter():Boolean {
             return true;
         }
 

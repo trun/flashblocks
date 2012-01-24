@@ -8,6 +8,8 @@
     import flash.filters.BitmapFilter;
     import flash.filters.GlowFilter;
     import flash.geom.Point;
+
+    import mx.core.Application;
     import mx.core.UIComponent;
     import mx.events.FlexEvent;
     import mx.managers.PopUpManager;

@@ -33,29 +33,29 @@
             enableConnections = true;
         }
 
-        override public function hasInternalPort():Boolean {
+        override public function hasInner():Boolean {
             return true;
         }
 
-        override public function testInternalConnection(block:Block):Boolean {
-            return hitTestObject(block) && !internalBlock && block.blockType == BlockType.REPORTER;
+        override public function testInnerConnection(block:Block):Boolean {
+            return hitTestObject(block) && !inner && block.blockType == BlockType.REPORTER;
         }
 
-        override public function connectInternalBlock(block:Block):void {
+        override public function connectInner(block:Block):void {
             addChild(block);
 
             block.x = 0;
             block.y = 0;
 
             hbox.visible = hbox.includeInLayout = false;
-            internalBlock = block;
+            inner = block;
 
             block.addEventListener(BlockConnectionEvent.DISCONNECT, onBlockDisconnect);
         }
 
         private function onBlockDisconnect(e:BlockConnectionEvent):void {
             hbox.visible = hbox.includeInLayout = true;
-            internalBlock.removeEventListener(BlockConnectionEvent.DISCONNECT, onBlockDisconnect);
+            inner.removeEventListener(BlockConnectionEvent.DISCONNECT, onBlockDisconnect);
         }
 
     }

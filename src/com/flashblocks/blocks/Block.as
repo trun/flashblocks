@@ -25,10 +25,10 @@
         private var _blockColor:uint;
         private var _enableConnections:Boolean;
 
-        private var _olderSibling:Block;
-        private var _youngerSibling:Block;
-        private var _nestedBlocks:Array;
-        private var _internalBlock:Block;
+        private var _before:Block;
+        private var _after:Block;
+        private var _inner:Block;
+        private var _nested:Array;
 
         protected var dragging:Boolean = false;
 
@@ -39,12 +39,9 @@
             this.blockLabel = blockLabel;
             this.blockColor = blockColor;
 
-            this.nestedBlocks = new Array();
+            this._nested = new Array();
 
             this.clipContent = false;
-
-            var resizeEffect:Resize = new Resize(this);
-            resizeEffect.duration = 500;
 
             setStyle("verticalGap", 0);
 
@@ -105,28 +102,26 @@
             _enableConnections = value;
         }
 
-        public function get olderSibling():Block { return _olderSibling; }
+        public function get before():Block { return _before; }
 
-        public function set olderSibling(value:Block):void {
-            _olderSibling = value;
+        public function set before(value:Block):void {
+            _before = value;
         }
 
-        public function get youngerSibling():Block { return _youngerSibling; }
+        public function get after():Block { return _after; }
 
-        public function set youngerSibling(value:Block):void {
-            _youngerSibling = value;
+        public function set after(value:Block):void {
+            _after = value;
         }
 
-        public function get nestedBlocks():Array { return _nestedBlocks ? _nestedBlocks : [ ]; }
+        public function get inner():Block { return _inner; }
 
-        public function set nestedBlocks(value:Array):void {
-            _nestedBlocks = value;
+        public function set inner(value:Block):void {
+            _inner = value;
         }
 
-        public function get internalBlock():Block { return _internalBlock; }
-
-        public function set internalBlock(value:Block):void {
-            _internalBlock = value;
+        public function get nested():Array {
+            return _nested;
         }
 
         //
@@ -159,26 +154,30 @@
         //
         // PORT EXISTENCE TESTS -- Test if a block as a particular port.
         //
-        //   Older Sibling Port -- Notch at top of block
-        //   Younger Sibling Port -- Notch at bottom of block
-        //   Nested Port -- Sideways connection for control logic
-        //   Internal Port -- Connection for argument blocks that allow drops
+        //   Before Port -- Notch at top of block
+        //   After Port -- Notch at bottom of block
+        //   Nested Port -- Nested connection for control logic
+        //   Inner Port -- Inner connection for arguments
         //
 
-        public function hasOlderSiblingPort():Boolean {
+        public function hasBefore():Boolean {
             return false; // override
         }
 
-        public function hasYoungerSiblingPort():Boolean {
+        public function hasAfter():Boolean {
             return false; // override
         }
 
-        public function hasNestedPort():Boolean {
+        public function hasInner():Boolean {
             return false; // override
         }
 
-        public function hasInternalPort():Boolean {
-            return false; // override
+        public function numNested():uint {
+            return nested.length; // override
+        }
+
+        public function numArguments():uint {
+            return getArguments().length;
         }
 
         //
@@ -188,19 +187,19 @@
         //   types or custom connection rules.
         //
 
-        public function testOlderSiblingConnection(block:Block):Boolean {
+        public function testBeforeConnection(block:Block):Boolean {
             return false; // override
         }
 
-        public function testYoungerSiblingConnection(block:Block):Boolean {
+        public function testAfterConnection(block:Block):Boolean {
             return false; // override
         }
 
-        public function testNestedConnection(block:Block):Boolean {
+        public function testInnerConnection(block:Block):Boolean {
             return false; // override
         }
 
-        public function testInternalConnection(block:Block):Boolean {
+        public function testNestedConnection(level:uint, block:Block):Boolean {
             return false; // override
         }
 
@@ -208,19 +207,19 @@
         // CONNECTION METHODS -- Connect blocks together at specific ports.
         //
 
-        public function connectOlderSibling(block:Block):void {
+        public function connectBefore(block:Block):void {
             // override
         }
 
-        public function connectYoungerSibling(block:Block):void {
+        public function connectAfter(block:Block):void {
             // override
         }
 
-        public function connectNestedBlock(block:Block):void {
+        public function connectInner(block:Block):void {
             // override
         }
 
-        public function connectInternalBlock(block:Block):void {
+        public function connectNested(level:uint, block:Block):void {
             // override
         }
 
@@ -263,7 +262,5 @@
         private function onMouseDown(e:MouseEvent):void {
             e.stopPropagation();
         }
-
     }
-
 }
