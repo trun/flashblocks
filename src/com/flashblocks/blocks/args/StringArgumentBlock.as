@@ -28,6 +28,13 @@
             textInput.width = Math.max(MIN_WIDTH, textInput.textWidth + 20);
         }
 
+        override public function getValue():* {
+            if (inner) {
+                return null; // TODO
+            }
+            return textInput.text;
+        }
+
     }
 
 }

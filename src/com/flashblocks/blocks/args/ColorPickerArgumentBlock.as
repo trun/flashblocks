@@ -1,10 +1,6 @@
 ﻿package com.flashblocks.blocks.args {
     import mx.controls.ColorPicker;
 
-    /**
-     * ...
-     * @author Trevor Rundell
-     */
     public class ColorPickerArgumentBlock extends ArgumentBlock {
 
         private var colorPicker:ColorPicker;
@@ -19,6 +15,13 @@
             colorPicker.width = 40;
             colorPicker.selectedColor = defaultValue;
             hbox.addChild(colorPicker);
+        }
+
+        override public function getValue():* {
+            if (inner) {
+                return inner.blockColor;
+            }
+            return colorPicker.selectedColor;
         }
 
     }

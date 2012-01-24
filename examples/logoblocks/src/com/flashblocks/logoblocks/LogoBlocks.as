@@ -7,8 +7,10 @@ package com.flashblocks.logoblocks {
     import com.flashblocks.blocks.Block;
     import com.flashblocks.blocks.FactoryBlock;
     import com.flashblocks.logoblocks.BlockFactory;
+    import com.flashblocks.logoblocks.interpreter.Interpreter;
 
     import flash.events.Event;
+    import flash.events.MouseEvent;
 
     import mx.containers.Canvas;
 
@@ -18,11 +20,14 @@ package com.flashblocks.logoblocks {
     import mx.containers.Panel;
     import mx.containers.VBox;
     import mx.controls.Button;
+    import mx.core.UIComponent;
     import mx.events.FlexEvent;
 
     public class LogoBlocks extends Panel {
         private var workspace:Workspace;
         private var dragLayer:BlockDragLayer;
+        private var interpreter:Interpreter;
+        private var anchorBlock:Block;
 
         public function LogoBlocks() {
             percentWidth = 100;
@@ -68,10 +73,11 @@ package com.flashblocks.logoblocks {
             vBox.percentHeight = 100;
             divBox.addChild(vBox);
 
+            anchorBlock = BlockFactory.createAnchorBlock("LogoBlocks");
             var page:Page = new Page();
             page.percentWidth = 100;
             page.percentHeight = 100;
-            page.addBlock(BlockFactory.createAnchorBlock("LogoBlocks"));
+            page.addBlock(anchorBlock);
             vBox.addChild(page);
             workspace.registerWidget(page);
 
@@ -81,18 +87,33 @@ package com.flashblocks.logoblocks {
             controlBox.setStyle("horizontalGap", 0);
             vBox.addChild(controlBox);
 
+            var runBtn:Button = createControlButton("Run");
+            runBtn.addEventListener(MouseEvent.CLICK, onRunClick);
+
             controlBox.addChild(createControlButton("Reset"));
-            controlBox.addChild(createControlButton("Run"));
+            controlBox.addChild(runBtn);
             controlBox.addChild(createControlButton("Run All"));
 
             var turtleCanvas:Panel = new Panel();
             turtleCanvas.percentWidth = 100;
             turtleCanvas.percentHeight = 100;
+            turtleCanvas.setStyle("backgroundColor", 0x000000);
             divBox.addChild(turtleCanvas);
+
+            var drawingCanvas:UIComponent = new UIComponent();
+            drawingCanvas.percentWidth = 100;
+            drawingCanvas.percentHeight = 100;
+            turtleCanvas.addChild(drawingCanvas);
+
+            interpreter = new Interpreter(drawingCanvas);
 
             // drag layer must be registered on creation complete
             // otherwise the pop up layer will not be visible
             addEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete);
+        }
+
+        private function onRunClick(e:MouseEvent):void {
+            interpreter.execute(anchorBlock);
         }
 
         private function onCreationComplete(e:Event):void {

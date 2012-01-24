@@ -58,6 +58,10 @@
             inner.removeEventListener(BlockConnectionEvent.DISCONNECT, onBlockDisconnect);
         }
 
+        public function getValue():* {
+            // override
+            return null;
+        }
     }
 
 }
