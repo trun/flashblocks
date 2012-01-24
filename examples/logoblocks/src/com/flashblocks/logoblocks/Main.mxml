@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:lb="com.flashblocks.logoblocks.*"
+    backgroundGradientColors="[#999999, #666666]" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+    <lb:LogoBlocks />
+</mx:Application>

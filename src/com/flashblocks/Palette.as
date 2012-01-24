@@ -1,5 +1,6 @@
 ﻿package com.flashblocks {
     import com.flashblocks.blocks.Block;
+    import com.flashblocks.blocks.FactoryBlock;
     import com.flashblocks.util.BlockUtil;
     import flash.geom.Point;
     import mx.containers.VBox;
@@ -29,22 +30,50 @@
         /* INTERFACE com.flashblocks.IBlockContainer */
 
         public function addBlock(block:Block):void {
-            var inserted:Boolean = false;
+            // unstack after blocks
+            if (block.after) {
+                addBlock(block.after);
+            }
 
+            // unstack nested blocks
+            var i:uint;
+            for (i = 0; i < block.numNested(); i++) {
+                if (block.nested[i]) {
+                    addBlock(block.nested[i]);
+                }
+            }
+
+            // unstack arguments
+            for each (var arg:Block in block.getArguments()) {
+                if (arg.inner) {
+                    addBlock(arg.inner);
+                }
+            }
+
+            // replenish block factories
+            for each (var child:Block in getAllBlocks()) {
+                if (child is FactoryBlock && child.blockName == block.blockName) {
+                    (child as FactoryBlock).incrementCount();
+                    block.parent.removeChild(block);
+                    workspace.deregisterBlock(block);
+                    return;
+                }
+            }
+
+            // insert block into display list at estimated position
             if (block.parent) {
                 var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
 
-                for (var i:uint = 0; i < numChildren; i++) {
+                for (i = 0; i < numChildren; i++) {
                     if (p.y <= getChildAt(i).y) {
-                        inserted = true;
                         addChildAt(block, i);
-                        break;
+                        return;
                     }
                 }
             }
 
-            if (!inserted)
-                addChild(block);
+            // insert block into display list at end
+            addChild(block);
         }
 
         public function removeBlock(block:Block):void {

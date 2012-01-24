@@ -10,10 +10,22 @@ package com.flashblocks {
     [Event(name="dragComplete", type="com.flashblocks.events.BlockDragEvent")]
     [Event(name="dragDrop", type="com.flashblocks.events.BlockDragEvent")]
     public class Workspace extends UIComponent {
+        private static var instance:Workspace;
+
         private var widgets:Array;
 
-        public function Workspace() {
+        public function Workspace(lock:Class) {
+            if (lock != Lock) {
+                throw new ArgumentError('illegal instantion. use getInstance().')
+            }
             widgets = new Array();
+        }
+
+        public static function getInstance():Workspace {
+            if (!instance) {
+                instance = new Workspace(Lock);
+            }
+            return instance;
         }
 
         // Widgets
@@ -59,3 +71,5 @@ package com.flashblocks {
         }
     }
 }
+
+internal class Lock { }

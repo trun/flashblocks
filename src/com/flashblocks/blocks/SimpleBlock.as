@@ -152,8 +152,9 @@
         }
 
         protected function onMouseMove(e:MouseEvent):void {
-            if (isDragging() && !e.buttonDown)
+            if (isDragging() && !e.buttonDown) {
                 dispatchEvent(new BlockDragEvent(BlockDragEvent.DRAG_COMPLETE, false, false, this, null));
+            }
         }
 
     }

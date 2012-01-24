@@ -13,6 +13,7 @@
         public static function createAnchorBlock(label:String):AnchorBlock {
             var block:AnchorBlock = new AnchorBlock(SocketType.SLANT, 0x333366);
             block.addContent(createBlockLabel(label, 14, "center"));
+            block.blockName = label;
             return block;
         }
 
@@ -21,6 +22,7 @@
             block.addContent(new StringArgumentBlock(0));
             block.addContent(createBlockLabel(label, 14, "center"));
             block.addContent(new StringArgumentBlock(0));
+            block.blockName = label;
             return block;
         }
 
@@ -28,24 +30,28 @@
             var block:ReporterBlock = new ReporterBlock(SocketType.ANGLE, 0x666699);
             block.addContent(createBlockLabel(label, 14, "center"));
             block.addContent(new StringArgumentBlock(0));
+            block.blockName = label;
             return block;
         }
 
         public static function createPositionReporterBlock(label:String):ReporterBlock {
             var block:ReporterBlock = new ReporterBlock(SocketType.ANGLE, 0xCC00CC);
             block.addContent(createBlockLabel(label));
+            block.blockName = label;
             return block;
         }
 
         public static function createBooleanReporterBlock(label:String):ReporterBlock {
             var block:ReporterBlock = new ReporterBlock(SocketType.ROUND, 0x990099);
             block.addContent(createBlockLabel(label));
+            block.blockName = label;
             return block;
         }
 
         public static function createColorReporterBlock(label:String, color:uint):ReporterBlock {
             var block:ReporterBlock = new ReporterBlock(SocketType.ANGLE, color);
             block.addContent(createBlockLabel(label));
+            block.blockName = label;
             return block;
         }
 
@@ -53,12 +59,14 @@
             var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x9999FF);
             block.addContent(createBlockLabel(label));
             block.addContent(new ArgumentBlock());
+            block.blockName = label;
             return block;
         }
 
         public static function createPenCommandBlock(label:String):CommandBlock {
             var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x6666FF);
             block.addContent(createBlockLabel(label));
+            block.blockName = label;
             return block;
         }
 
@@ -66,6 +74,7 @@
             var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x6666FF);
             block.addContent(createBlockLabel(label));
             block.addContent(new ArgumentBlock());
+            block.blockName = label;
             return block;
         }
 
@@ -73,6 +82,7 @@
             var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x6666FF);
             block.addContent(createBlockLabel(label));
             block.addContent(new StringArgumentBlock());
+            block.blockName = label;
             return block;
         }
 
@@ -80,12 +90,14 @@
             var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x6666FF);
             block.addContent(createBlockLabel(label));
             block.addContent(new ColorPickerArgumentBlock());
+            block.blockName = label;
             return block;
         }
 
         public static function createMoveBlock(label:String):CommandBlock {
             var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x9999FF);
             block.addContent(createBlockLabel(label));
+            block.blockName = label;
             return block;
         }
 
@@ -93,6 +105,7 @@
             var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x9999FF);
             block.addContent(createBlockLabel(label));
             block.addContent(new ArgumentBlock());
+            block.blockName = label;
             return block;
         }
 
