@@ -11,6 +11,9 @@ package com.flashblocks.logoblocks {
 
     import flash.events.Event;
     import flash.events.MouseEvent;
+    import flash.geom.Rectangle;
+
+    import mx.binding.utils.ChangeWatcher;
 
     import mx.containers.Canvas;
 
@@ -28,6 +31,7 @@ package com.flashblocks.logoblocks {
         private var dragLayer:BlockDragLayer;
         private var interpreter:Interpreter;
         private var anchorBlock:Block;
+        private var turtleCanvas:Panel;
 
         public function LogoBlocks() {
             percentWidth = 100;
@@ -83,7 +87,7 @@ package com.flashblocks.logoblocks {
 
             var controlBox:HBox = new HBox();
             controlBox.percentWidth = 100;
-            controlBox.setStyle("horizontalGap", 0);
+            controlBox.setStyle("horizontalGap", 10);
             vBox.addChild(controlBox);
 
             var runBtn:Button = createControlButton("Run");
@@ -93,15 +97,17 @@ package com.flashblocks.logoblocks {
             controlBox.addChild(runBtn);
             controlBox.addChild(createControlButton("Run All"));
 
-            var turtleCanvas:Panel = new Panel();
+            turtleCanvas = new Panel();
             turtleCanvas.percentWidth = 100;
             turtleCanvas.percentHeight = 100;
             turtleCanvas.setStyle("horizontalAlign", "center");
             turtleCanvas.setStyle("verticalAlign", "middle");
-            turtleCanvas.setStyle("backgroundColor", 0x000000);
             divBox.addChild(turtleCanvas);
 
-            var drawingCanvas:UIComponent = new UIComponent();
+            ChangeWatcher.watch(turtleCanvas, "width", onTurtleCanvasResize);
+            ChangeWatcher.watch(turtleCanvas, "height", onTurtleCanvasResize);
+
+            var drawingCanvas:LogoCanvas = new LogoCanvas();
             turtleCanvas.addChild(drawingCanvas);
 
             interpreter = new Interpreter(drawingCanvas);
@@ -109,6 +115,10 @@ package com.flashblocks.logoblocks {
             // drag layer must be registered on creation complete
             // otherwise the pop up layer will not be visible
             addEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete);
+        }
+
+        private function onTurtleCanvasResize(e:Event):void {
+            turtleCanvas.scrollRect = new Rectangle(0, 0, turtleCanvas.width, turtleCanvas.height);
         }
 
         private function onRunClick(e:MouseEvent):void {

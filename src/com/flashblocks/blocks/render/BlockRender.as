@@ -14,7 +14,7 @@
         protected var offset:Number;
         protected var render:UIComponent;
 
-        public function BlockRender(color:uint, offset:Number=RenderConstants.NOTCH_OFFSET) {
+        public function BlockRender(color:uint, offset:Number=20) {
             this.color = color;
             this.offset = offset;
 

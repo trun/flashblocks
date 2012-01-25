@@ -1,9 +1,5 @@
 ﻿package com.flashblocks.blocks.render {
 
-    /**
-     * ...
-     * @author Trevor Rundell
-     */
     public class RenderConstants {
 
         public static const BORDER_WIDTH:Number = 0;
