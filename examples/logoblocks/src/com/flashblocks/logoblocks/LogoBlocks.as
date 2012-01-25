@@ -83,7 +83,6 @@ package com.flashblocks.logoblocks {
 
             var controlBox:HBox = new HBox();
             controlBox.percentWidth = 100;
-            controlBox.height = 50;
             controlBox.setStyle("horizontalGap", 0);
             vBox.addChild(controlBox);
 
@@ -97,12 +96,12 @@ package com.flashblocks.logoblocks {
             var turtleCanvas:Panel = new Panel();
             turtleCanvas.percentWidth = 100;
             turtleCanvas.percentHeight = 100;
+            turtleCanvas.setStyle("horizontalAlign", "center");
+            turtleCanvas.setStyle("verticalAlign", "middle");
             turtleCanvas.setStyle("backgroundColor", 0x000000);
             divBox.addChild(turtleCanvas);
 
             var drawingCanvas:UIComponent = new UIComponent();
-            drawingCanvas.percentWidth = 100;
-            drawingCanvas.percentHeight = 100;
             turtleCanvas.addChild(drawingCanvas);
 
             interpreter = new Interpreter(drawingCanvas);

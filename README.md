@@ -5,7 +5,7 @@ Flashblocks is a ActionScript library to support the creation of visual block ba
 
 ![flashblocks](https://raw.github.com/trun/flashblocks/master/static/flashblocks.png)
 
-### Building Flashblocks
+## Building Flashblocks
 
 Requirements
 
@@ -19,9 +19,11 @@ Be sure to set your `FLEX_HOME` environment variable and then run...
 ant build
 ```
 
-### Running the examples
+## Running the examples
 
-#### LogoBlocks
+Coming soon ...
+
+### LogoBlocks
 
 ![logoblocks](https://raw.github.com/trun/flashblocks/master/static/logoblocks.png)
 
