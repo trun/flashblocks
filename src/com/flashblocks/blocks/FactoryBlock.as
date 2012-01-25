@@ -50,6 +50,12 @@ package com.flashblocks.blocks {
             ChangeWatcher.watch(countLabel, "width", onResize);
             ChangeWatcher.watch(countLabel, "height", onResize);
 
+            // hide label if unlimited block count
+            if (blockCount == -1) {
+                countLabel.visible = false;
+                countLabel.includeInLayout = false;
+            }
+
             hbox.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
         }
 
