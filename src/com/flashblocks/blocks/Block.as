@@ -152,6 +152,14 @@
             return args;
         }
 
+        public function getArgument(i:uint=0):ArgumentBlock {
+            return getArguments()[i];
+        }
+
+        public function getValue():* {
+            return null; // override
+        }
+
         //
         // PORT EXISTENCE TESTS -- Test if a block as a particular port.
         //

@@ -59,11 +59,6 @@
             hbox.visible = hbox.includeInLayout = true;
             inner.removeEventListener(BlockConnectionEvent.DISCONNECT, onBlockDisconnect);
         }
-
-        public function getValue():* {
-            // override
-            return null;
-        }
     }
 
 }

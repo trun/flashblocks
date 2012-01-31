@@ -90,13 +90,6 @@ package com.flashblocks.logoblocks {
             controlBox.setStyle("horizontalGap", 10);
             vBox.addChild(controlBox);
 
-            var runBtn:Button = createControlButton("Run");
-            runBtn.addEventListener(MouseEvent.CLICK, onRunClick);
-
-            controlBox.addChild(createControlButton("Reset"));
-            controlBox.addChild(runBtn);
-            controlBox.addChild(createControlButton("Run All"));
-
             turtleCanvas = new Panel();
             turtleCanvas.percentWidth = 100;
             turtleCanvas.percentHeight = 100;
@@ -112,6 +105,19 @@ package com.flashblocks.logoblocks {
 
             interpreter = new Interpreter(drawingCanvas);
 
+            var resetBtn:Button = createControlButton("Reset");
+            resetBtn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
+                drawingCanvas.reset();
+            });
+
+            var runBtn:Button = createControlButton("Run");
+            runBtn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
+                interpreter.execute(anchorBlock);
+            });
+
+            controlBox.addChild(resetBtn);
+            controlBox.addChild(runBtn);
+
             // drag layer must be registered on creation complete
             // otherwise the pop up layer will not be visible
             addEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete);
@@ -119,10 +125,6 @@ package com.flashblocks.logoblocks {
 
         private function onTurtleCanvasResize(e:Event):void {
             turtleCanvas.scrollRect = new Rectangle(0, 0, turtleCanvas.width, turtleCanvas.height);
-        }
-
-        private function onRunClick(e:MouseEvent):void {
-            interpreter.execute(anchorBlock);
         }
 
         private function onCreationComplete(e:Event):void {
@@ -143,7 +145,7 @@ package com.flashblocks.logoblocks {
             return palette;
         }
 
-        private function createControlButton(label:String):Button {
+        private static function createControlButton(label:String):Button {
             var btn:Button = new Button();
             btn.percentHeight = 100;
             btn.percentWidth = 100;
