@@ -12,6 +12,12 @@ package com.flashblocks.logoblocks.interpreter {
         }
 
         public function execute(block:Block, callback:Function=null):void {
+            setTimeout(function():void {
+                executeDo(block, callback);
+            }, 100);
+        }
+
+        public function executeDo(block:Block, callback:Function=null):void {
             if (block.after) {
                 var origCallback:Function = callback;
                 callback = function():void {
