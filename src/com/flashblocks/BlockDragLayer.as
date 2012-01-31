@@ -62,8 +62,9 @@
 
         public function removeBlock(block:Block):void {
             stopDragBlock(block);
-            if (this.contains(block))
+            if (this.contains(block)) {
                 removeChild(block);
+            }
         }
 
         public function getAllBlocks():Array {
@@ -103,7 +104,6 @@
             for each (var filter:BitmapFilter in block.filters)
                 if (filter != shadowFilter)
                     filters.push(filter);
-
             block.filters = filters;
             block.setDragging(false);
         }
@@ -138,16 +138,46 @@
                     continue;
 
                 if (widgetDO.hitTestObject(block)) {
+                    if (originalParent is Block) {
+                        (originalParent as Block).cleanConnections();
+                    }
                     widget.addBlock(block);
                     dropped = true;
                     break;
                 }
             }
 
+            // Return block to original state
+            // TODO: remember block connection so we can clean connections prior to dropping the block
             if (!dropped) {
                 block.x = originalPositionX;
                 block.y = originalPositionY;
-                (originalParent as IWorkspaceWidget).addBlock(block);
+                if (originalParent is IWorkspaceWidget) {
+                    (originalParent as IWorkspaceWidget).addBlock(block);
+                } else if (originalParent is Block) {
+                    var originalParentBlock:Block = originalParent as Block;
+                    if (originalParentBlock.after == block) {
+                        originalParentBlock.after = null;
+                        originalParentBlock.connectAfter(block);
+                    } else if (originalParentBlock.before == block) {
+                        originalParentBlock.before = null;
+                        originalParentBlock.connectBefore(block);
+                    } else if (originalParentBlock.inner == block) {
+                        originalParentBlock.inner = null;
+                        originalParentBlock.connectInner(block);
+                    } else {
+                        for (var i:uint = 0; i < originalParentBlock.nested.length; i++) {
+                            trace('testing nested... ' + i);
+                            trace(' - original parent... ' + originalParentBlock.nested[i]);
+                            if (originalParentBlock.nested[i] == block) {
+                                originalParentBlock.nested[i] = null;
+                                originalParentBlock.connectNested(i, block);
+                                break;
+                            }
+                        }
+                    }
+                    originalParentBlock.cleanConnections();
+                }
             }
 
             removeBlock(block);

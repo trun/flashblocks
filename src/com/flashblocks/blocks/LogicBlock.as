@@ -47,7 +47,8 @@
         protected var rightTopSocket:Socket;
         protected var rightBottomSocket:Socket;
 
-        protected var nestedBlockWatcher:ChangeWatcher;
+        protected var nestedBlockWidthWatcher:ChangeWatcher;
+        protected var nestedBlockHeightWatcher:ChangeWatcher;
 
         public function LogicBlock(socketType:String="square", color:uint=0x999900) {
             super(socketType, "", color);
@@ -207,9 +208,8 @@
 
         private function onNestedBlockDisconnect(e:Event):void {
             nested[0].removeEventListener(BlockConnectionEvent.DISCONNECT, onNestedBlockDisconnect);
-            nested[0] = null;
-            nestedBlockWatcher.unwatch();
-            resizeMidBox();
+            nestedBlockWidthWatcher.unwatch();
+            nestedBlockHeightWatcher.unwatch();
         }
 
         private function resizeMidBox():void {
@@ -330,9 +330,15 @@
             block.before = this;
             this.nested[level] = block;
 
-            nestedBlockWatcher = ChangeWatcher.watch(block, "height", onNestedHeightChange);
+            nestedBlockWidthWatcher = ChangeWatcher.watch(block, "width", onNestedHeightChange);
+            nestedBlockHeightWatcher = ChangeWatcher.watch(block, "height", onNestedHeightChange);
             block.addEventListener(BlockConnectionEvent.DISCONNECT, onNestedBlockDisconnect);
 
+            resizeMidBox();
+        }
+
+        override public function cleanNestedConnections(recursive:Boolean=false):void {
+            super.cleanNestedConnections();
             resizeMidBox();
         }
 

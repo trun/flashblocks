@@ -1,4 +1,5 @@
 ﻿package com.flashblocks.blocks {
+    import com.flashblocks.blocks.args.ArgumentBlock;
     import com.flashblocks.events.BlockConnectionEvent;
     import flash.display.DisplayObject;
     import flash.events.MouseEvent;
@@ -244,6 +245,52 @@
 
         public function canDrop(block:Block):Boolean {
             return false; // override
+        }
+
+        //
+        // Utility Methods
+        //
+
+        public function cleanConnections(recursive:Boolean=false):void {
+            cleanAfterConnections();
+            cleanInnerConnections();
+            cleanNestedConnections();
+
+            for each (var arg:ArgumentBlock in getArguments()) {
+                arg.cleanConnections();
+            }
+        }
+
+        public function cleanAfterConnections(recursive:Boolean=false):void {
+            if (after) {
+                if (after.parent != this) {
+                    after = null;
+                } else if (recursive) {
+                    after.cleanConnections(true);
+                }
+            }
+        }
+
+        public function cleanInnerConnections(recursive:Boolean=false):void {
+            if (inner) {
+                if (inner.parent != this) {
+                    inner = null;
+                } else if (recursive) {
+                    inner.cleanConnections(true);
+                }
+            }
+        }
+
+        public function cleanNestedConnections(recursive:Boolean=false):void {
+            for (var i:uint = 0; i < nested.length; i++) {
+                if (nested[i]) {
+                    if (nested[i].parent != this) {
+                        nested[i] = null;
+                    } else if (recursive) {
+                        nested[i].cleanConnections(true);
+                    }
+                }
+            }
         }
 
         //

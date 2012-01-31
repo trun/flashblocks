@@ -135,7 +135,7 @@
             }
 
             for each (var nested:Block in child.nested) {
-                if (tryConnection(nested, block)) {
+                if (nested && tryConnection(nested, block)) {
                     return true;
                 }
             }
