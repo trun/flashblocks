@@ -70,7 +70,7 @@ package com.flashblocks.logoblocks {
         public static function createRepeatBlock():SingleLogicBlock {
             var block:SingleLogicBlock = new SingleLogicBlock(SocketType.SQUARE, 0x00CCCC);
             block.addContent(createBlockLabel("Repeat"));
-            block.addContent(new StringArgumentBlock());
+            block.addContent(new StringArgumentBlock(0));
             block.blockName = "Repeat";
             return block;
         }
