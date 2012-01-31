@@ -65,6 +65,7 @@
             if (this.contains(block)) {
                 removeChild(block);
             }
+            block = null;
         }
 
         public function getAllBlocks():Array {

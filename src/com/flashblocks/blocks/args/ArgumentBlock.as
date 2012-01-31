@@ -1,11 +1,13 @@
 ﻿package com.flashblocks.blocks.args {
     import com.flashblocks.blocks.Block;
     import com.flashblocks.blocks.BlockType;
+    import com.flashblocks.blocks.SimpleBlock;
     import com.flashblocks.blocks.render.BlockFlatBottom;
     import com.flashblocks.blocks.render.BlockFlatTop;
-    import com.flashblocks.blocks.SimpleBlock;
     import com.flashblocks.events.BlockConnectionEvent;
+
     import flash.filters.BevelFilter;
+
     import mx.controls.Spacer;
 
     /**

@@ -148,7 +148,9 @@
         }
 
         protected function onMouseUp(e:MouseEvent):void {
-            dispatchEvent(new BlockDragEvent(BlockDragEvent.DRAG_COMPLETE, false, false, this, null));
+            if (isDragging()) {
+                dispatchEvent(new BlockDragEvent(BlockDragEvent.DRAG_COMPLETE, false, false, this, null));
+            }
         }
 
         protected function onMouseMove(e:MouseEvent):void {
