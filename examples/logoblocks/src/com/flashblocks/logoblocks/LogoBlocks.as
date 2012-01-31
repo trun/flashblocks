@@ -112,7 +112,12 @@ package com.flashblocks.logoblocks {
 
             var runBtn:Button = createControlButton("Run");
             runBtn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
-                interpreter.execute(anchorBlock);
+                runBtn.enabled = false;
+                resetBtn.enabled = false;
+                interpreter.execute(anchorBlock, function():void {
+                    runBtn.enabled = true;
+                    resetBtn.enabled = true;
+                });
             });
 
             controlBox.addChild(resetBtn);
