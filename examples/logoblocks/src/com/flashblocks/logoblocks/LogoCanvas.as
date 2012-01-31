@@ -43,6 +43,7 @@ package com.flashblocks.logoblocks {
             _penColor = 0x000000;
             graphics.clear();
             graphics.lineStyle(2, _penColor);
+            draw();
         }
 
         public function moveForward(val:Number):void {
