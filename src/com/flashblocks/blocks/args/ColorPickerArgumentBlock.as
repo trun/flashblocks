@@ -18,9 +18,6 @@
         }
 
         override public function getValue():* {
-            if (inner) {
-                return inner.blockColor;
-            }
             return colorPicker.selectedColor;
         }
 

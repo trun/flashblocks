@@ -9,7 +9,7 @@
     public class ReporterBlock extends SimpleBlock {
 
         public function ReporterBlock(socketType:String="angle", blockColor:uint = 0xFFFFFF) {
-            super(socketType, "", blockColor);
+            super(socketType, "", blockColor, blockColor);
 
             blockType = BlockType.REPORTER;
 

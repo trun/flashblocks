@@ -47,8 +47,8 @@
         protected var leftSocket:Socket;
         protected var rightSocket:Socket;
 
-        public function SimpleBlock(socketType:String="round", blockLabel:String="", blockColor:uint=0x66FF66) {
-            super(socketType, blockLabel, blockColor);
+        public function SimpleBlock(socketType:String="round", blockLabel:String="", blockColor:uint=0x66FF66, blockValue:*=null) {
+            super(socketType, blockLabel, blockColor, blockValue);
 
             hbox = new HBox();
             hbox.buttonMode = true;

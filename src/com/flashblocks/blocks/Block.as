@@ -24,6 +24,7 @@
         private var _blockName:String;
         private var _blockLabel:String;
         private var _blockColor:uint;
+        private var _blockValue:*;
         private var _enableConnections:Boolean;
 
         private var _before:Block;
@@ -33,12 +34,13 @@
 
         protected var dragging:Boolean = false;
 
-        public function Block(socketType:String="round", blockLabel:String="", blockColor:uint=0x66FF66) {
+        public function Block(socketType:String="round", blockLabel:String="", blockColor:uint=0x66FF66, blockValue:*=null) {
             super();
 
             this.socketType = socketType;
             this.blockLabel = blockLabel;
             this.blockColor = blockColor;
+            this.blockValue = blockValue;
 
             this._nested = new Array();
 
@@ -92,6 +94,14 @@
 
         public function set blockColor(value:uint):void {
             _blockColor = value;
+            dispatchEvent(new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE));
+        }
+
+        [Bindable(event="propertyChange")]
+        public function get blockValue():* { return _blockValue; }
+
+        public function set blockValue(value:*):void {
+            _blockValue = value;
             dispatchEvent(new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE));
         }
 
@@ -157,7 +167,7 @@
         }
 
         public function getValue():* {
-            return null; // override
+            return blockValue; // override
         }
 
         //
@@ -299,6 +309,38 @@
                     }
                 }
             }
+        }
+
+        public function toJSON():Object {
+            var i:int;
+            var o:Object = {
+                type: 'block',
+                name: blockName
+            };
+            var args:Array = getArguments();
+            if (args) {
+                o.args = [];
+                for (i = 0; i < numArguments(); i++) {
+                    o.args[i] = args[i].toJSON();
+                }
+            }
+            if (numNested() > 0) {
+                o.nested = numNested;
+                for (i = 0; i < numNested(); i++) {
+                    if (nested[i]) {
+                        o['nested_' + i] = nested[i].toJSON();
+                    }
+                }
+            }
+            if (after) {
+                var afterJSON:Object = after.toJSON();
+                if (afterJSON is Array) {
+                    return [ o ].concat(afterJSON);
+                } else {
+                    return [ o , afterJSON ];
+                }
+            }
+            return o;
         }
 
         //

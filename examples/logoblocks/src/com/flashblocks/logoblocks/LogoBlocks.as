@@ -114,7 +114,7 @@ package com.flashblocks.logoblocks {
             runBtn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
                 runBtn.enabled = false;
                 resetBtn.enabled = false;
-                interpreter.execute(anchorBlock, function():void {
+                interpreter.execute(anchorBlock, null, function():void {
                     runBtn.enabled = true;
                     resetBtn.enabled = true;
                 });

@@ -29,9 +29,6 @@
         }
 
         override public function getValue():* {
-            if (inner) {
-                return null; // TODO
-            }
             return textInput.text;
         }
 

@@ -29,19 +29,19 @@ package com.flashblocks.logoblocks {
         //
 
         public static function createForwardBlock():CommandBlock {
-            return createCommandBlock1("Forward");
+            return createCommandBlock1("Forward", "20");
         }
 
         public static function createBackwardBlock():CommandBlock {
-            return createCommandBlock1("Backward");
+            return createCommandBlock1("Backward", "20");
         }
 
         public static function createTurnRightBlock():CommandBlock {
-            return createCommandBlock1("Turn Right");
+            return createCommandBlock1("Turn Right", "45");
         }
 
         public static function createTurnLeftBlock():CommandBlock {
-            return createCommandBlock1("Turn Left");
+            return createCommandBlock1("Turn Left", "45");
         }
 
         //
@@ -70,7 +70,7 @@ package com.flashblocks.logoblocks {
         public static function createRepeatBlock():SingleLogicBlock {
             var block:SingleLogicBlock = new SingleLogicBlock(SocketType.SQUARE, 0x00CCCC);
             block.addContent(createBlockLabel("Repeat"));
-            block.addContent(new StringArgumentBlock(0));
+            block.addContent(new StringArgumentBlock(5));
             block.blockName = "Repeat";
             return block;
         }
@@ -106,10 +106,10 @@ package com.flashblocks.logoblocks {
             return block;
         }
 
-        private static function createCommandBlock1(label:String, color:uint=0x336699):CommandBlock {
+        private static function createCommandBlock1(label:String, arg:String="0", color:uint=0x336699):CommandBlock {
             var block:CommandBlock = new CommandBlock(SocketType.SQUARE, color);
             block.addContent(createBlockLabel(label));
-            block.addContent(new StringArgumentBlock(0));
+            block.addContent(new StringArgumentBlock(arg));
             block.blockName = label;
             return block;
         }

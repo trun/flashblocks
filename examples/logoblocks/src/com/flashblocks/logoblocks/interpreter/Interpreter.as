@@ -1,5 +1,6 @@
 package com.flashblocks.logoblocks.interpreter {
     import com.flashblocks.blocks.Block;
+    import com.flashblocks.blocks.BlockType;
     import com.flashblocks.logoblocks.LogoCanvas;
 
     import flash.utils.setTimeout;
@@ -11,40 +12,44 @@ package com.flashblocks.logoblocks.interpreter {
             this.canvas = canvas;
         }
 
-        public function execute(block:Block, callback:Function=null):void {
+        public function execute(block:Block, context:Object=null, callback:Function=null):void {
             setTimeout(function():void {
-                executeDo(block, callback);
+                executeDo(block, context, callback);
             }, 100);
         }
 
-        public function executeDo(block:Block, callback:Function=null):void {
+        public function executeDo(block:Block, context:Object=null, callback:Function=null):void {
+            if (!context) {
+                context = new Object();
+            }
+
             if (block.after) {
                 var origCallback:Function = callback;
                 callback = function():void {
-                    execute(block.after, origCallback);
+                    execute(block.after, context, origCallback);
                 };
             }
 
             var val:int;
             switch (block.blockName) {
                 case "Forward":
-                    val = parseInt(block.getArgument().getValue());
+                    val = parseInt(eval(block.getArgument()));
                     canvas.moveForward(val);
                     break;
                 case "Backward":
-                    val = parseInt(block.getArgument().getValue());
+                    val = parseInt(eval(block.getArgument()));
                     canvas.moveBackward(val);
                     break;
                 case "Turn Right":
-                    val = parseInt(block.getArgument().getValue());
+                    val = parseInt(eval(block.getArgument()));
                     canvas.turnRight(val);
                     break;
                 case "Turn Left":
-                    val = parseInt(block.getArgument().getValue());
+                    val = parseInt(eval(block.getArgument()));
                     canvas.turnLeft(val);
                     break;
                 case "Set Pen Color":
-                    canvas.penColor = block.getArgument().getValue();
+                    canvas.penColor = eval(block.getArgument());
                     break;
                 case "Pen Up":
                     canvas.penUp = true;
@@ -53,31 +58,41 @@ package com.flashblocks.logoblocks.interpreter {
                     canvas.penUp = false;
                     break;
                 case "Repeat":
-                    val = parseInt(block.getArgument().getValue());
-                    var repeat:Function = function(i:uint):void {
+                    val = parseInt(eval(block.getArgument()));
+                    var doRepeat:Function = function(i:uint):void {
                         if (i > 0) {
-                            execute(block.nested[0], function():void {
-                                repeat(i - 1);
+                            execute(block.nested[0], context, function():void {
+                                doRepeat(i - 1);
                             });
-                        } else if (callback) {
+                        } else if (callback != null) {
                             callback();
                         }
                     };
-                    repeat(val);
+                    doRepeat(val);
                     return;
             }
 
-            if (callback) {
+            if (callback != null) {
                 callback();
             }
         }
 
-        public function eval(block:Block, context:Object):* {
-            var val:* = block.getValue();
-            if (val is Block) {
-                return eval(val,  context);
+        public static function eval(block:Block, context:Object=null):* {
+            context = context || {};
+            if (block.blockType == BlockType.ARGUMENT) {
+                if (block.inner) {
+                    return eval(block.inner, context);
+                }
             }
-            return val;
+            switch (block.blockName) {
+                case "And":
+                    return eval(block.getArgument(0).getValue(), context)
+                            && eval(block.getArgument(1).getValue(), context);
+                case "Or":
+                    return eval(block.getArgument(0).getValue(), context)
+                            || eval(block.getArgument(1).getValue(), context);
+            }
+            return block.getValue();
         }
     }
 }

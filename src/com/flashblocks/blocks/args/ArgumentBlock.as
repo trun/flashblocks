@@ -55,6 +55,19 @@
             block.addEventListener(BlockConnectionEvent.DISCONNECT, onBlockDisconnect);
         }
 
+        override public function toJSON():Object {
+            var o:Object = {
+                type: 'block',
+                name: blockName
+            };
+            if (inner) {
+                o.value = inner.toJSON();
+            } else {
+                o.value = getValue();
+            }
+            return o;
+        }
+
         private function onBlockDisconnect(e:BlockConnectionEvent):void {
             hbox.visible = hbox.includeInLayout = true;
             inner.removeEventListener(BlockConnectionEvent.DISCONNECT, onBlockDisconnect);
