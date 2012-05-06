@@ -24,7 +24,7 @@ Included in the source are some sample projects built using the Flashblocks libr
 
 ### LogoBlocks
 
-**LogoBlocks** is a very simple simulator based on the [Logo](http://en.wikipedia.org/wiki/Logo_%28programming_language%29) programming language. Users use commands like `Turn Right` and `Move Forward` to control a virtual tutle that draws lines with its tail. You can also utilize loops and colors to make interesting patterns.
+A very simple simulator based on the [Logo](http://en.wikipedia.org/wiki/Logo_%28programming_language%29) programming language. Users use commands like `Turn Right` and `Forward` to control a virtual turtle that draws lines with its tail. You can also utilize loops and colors to make interesting patterns.
 
 <a href="https://raw.github.com/trun/flashblocks/master/static/logoblocks.png">
   <img src="https://raw.github.com/trun/flashblocks/master/static/logoblocks_small.png">
