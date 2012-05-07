@@ -1,5 +1,6 @@
 ﻿package com.flashblocks.blocks {
     import com.flashblocks.blocks.render.*;
+    import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.util.BlockUtil;
     import flash.geom.Point;
 
@@ -9,14 +10,21 @@
      */
     public class CommandBlock extends SimpleBlock {
 
-        public function CommandBlock(socketType:String="square", blockColor:uint=0x66FF66) {
-            super(socketType, "", blockColor);
+        public function CommandBlock() {
+            super();
 
+            socketType = SocketType.SQUARE;
             blockType = BlockType.COMMAND;
+        }
 
+        override public function redraw():void {
+            super.redraw();
+
+            topMidBox.removeAllChildren();
             topMidBox.addChild(new BlockNotchTop(blockColor));
             topMidBox.addChild(new BlockFlatTop(blockColor));
 
+            bottomMidBox.removeAllChildren();
             bottomMidBox.addChild(new BlockNotchBottom(blockColor));
             bottomMidBox.addChild(new BlockFlatBottom(blockColor));
         }

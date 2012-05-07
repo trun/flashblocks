@@ -11,8 +11,8 @@
         private var textInput:TextInput;
         private var MIN_WIDTH:Number = 30;
 
-        public function StringArgumentBlock(defaultValue:*="", socketType:String="round", blockColor:uint=0xEEEEEE, type:String="string") {
-            super(socketType, blockColor);
+        public function StringArgumentBlock(defaultValue:*="") {
+            super();
 
             hbox.removeAllChildren(); // get rid of the default graphic
             hbox.filters = [ ];

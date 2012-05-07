@@ -1,4 +1,5 @@
 ﻿package com.flashblocks.blocks {
+    import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.events.BlockConnectionEvent;
     import com.flashblocks.events.BlockDragEvent;
     import com.flashblocks.blocks.sockets.Socket;
@@ -50,8 +51,17 @@
         protected var nestedBlockWidthWatcher:ChangeWatcher;
         protected var nestedBlockHeightWatcher:ChangeWatcher;
 
-        public function LogicBlock(socketType:String="square", color:uint=0x999900) {
-            super(socketType, "", color);
+        public function LogicBlock() {
+            blockType = BlockType.LOGIC;
+            socketType = SocketType.SQUARE;
+
+            ChangeWatcher.watch(this, "socketType", onSocketTypeChange);
+        }
+
+        override public function redraw():void {
+            if (hbox) {
+                removeChild(hbox);
+            }
 
             hbox = new HBox();
             hbox.buttonMode = true;
@@ -158,7 +168,6 @@
 
             ChangeWatcher.watch(hbox, "height", onHeightChange);
             ChangeWatcher.watch(topBox, "height", onTopHeightChange);
-            ChangeWatcher.watch(this, "socketType", onSocketTypeChange);
         }
 
         override public function addContent(content:DisplayObject):void {

@@ -120,8 +120,18 @@ package com.flashblocks.logoblocks {
                 });
             });
 
+            var jsonBtn:Button = createControlButton("JSON");
+            jsonBtn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
+                var code:Array = [];
+                for each (var block:Block in page.getAllBlocks()) {
+                    code.push(block.toJSON());
+                }
+                trace(code);
+            });
+
             controlBox.addChild(resetBtn);
             controlBox.addChild(runBtn);
+            //controlBox.addChild(jsonBtn);
 
             // drag layer must be registered on creation complete
             // otherwise the pop up layer will not be visible

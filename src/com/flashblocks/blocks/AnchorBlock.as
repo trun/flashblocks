@@ -3,6 +3,7 @@
     import com.flashblocks.blocks.render.BlockFlatTop;
     import com.flashblocks.blocks.render.BlockNotchBottom;
     import com.flashblocks.blocks.render.RenderConstants;
+    import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.util.BlockUtil;
 
     import flash.events.Event;
@@ -25,10 +26,18 @@
     public class AnchorBlock extends SimpleBlock {
         private var widthWatcher:ChangeWatcher;
 
-        public function AnchorBlock(socketType:String="slant", blockColor:uint=0x993333) {
-            super(socketType, "", blockColor);
+        public function AnchorBlock() {
+            super();
 
             blockType = BlockType.PROCEDURE;
+            socketType = SocketType.SLANT;
+
+            addEventListener(Event.ADDED, onParentChange);
+            addEventListener(Event.REMOVED, onParentChange);
+        }
+
+        override public function redraw():void {
+            super.redraw();
 
             hbox.buttonMode = false;
 
@@ -36,9 +45,6 @@
 
             bottomMidBox.addChild(new BlockNotchBottom(blockColor, RenderConstants.NOTCH_OFFSET + 15));
             bottomMidBox.addChild(new BlockFlatBottom(blockColor));
-
-            addEventListener(Event.ADDED, onParentChange);
-            addEventListener(Event.REMOVED, onParentChange);
         }
 
         //

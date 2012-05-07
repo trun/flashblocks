@@ -1,6 +1,7 @@
 ﻿package com.flashblocks.blocks {
     import com.flashblocks.blocks.render.BlockFlatBottom;
     import com.flashblocks.blocks.render.BlockFlatTop;
+    import com.flashblocks.blocks.sockets.SocketType;
 
     /**
      * ...
@@ -8,10 +9,15 @@
      */
     public class ReporterBlock extends SimpleBlock {
 
-        public function ReporterBlock(socketType:String="angle", blockColor:uint = 0xFFFFFF) {
-            super(socketType, "", blockColor, blockColor);
+        public function ReporterBlock(blockValue:*=null) {
+            super(blockValue);
 
+            socketType = SocketType.ANGLE;
             blockType = BlockType.REPORTER;
+        }
+
+        override public function redraw():void {
+            super.redraw();
 
             topMidBox.addChild(new BlockFlatTop(blockColor));
             bottomMidBox.addChild(new BlockFlatBottom(blockColor));

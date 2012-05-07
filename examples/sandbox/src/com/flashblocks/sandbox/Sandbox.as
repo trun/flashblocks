@@ -33,7 +33,7 @@ package com.flashblocks.sandbox {
             setStyle("paddingTop", 10);
             setStyle("paddingBottom", 10);
 
-            workspace = new Workspace();
+            workspace = Workspace.getInstance();
 
             dragLayer = new BlockDragLayer();
             workspace.registerWidget(dragLayer);
@@ -61,27 +61,31 @@ package com.flashblocks.sandbox {
             workspace.registerWidget(page);
 
             var block:Block;
-            block = new ProcedureBlock(SocketType.SQUARE, 0x993333);
+            block = new ProcedureBlock();
+            block.blockColor = 0x993333;
             block.addContent(blockLabel("Navigation"));
             workspace.registerBlock(block);
             procedurePalette.addBlock(block);
 
             var spacer:Spacer = new Spacer();
             spacer.width = 25;
-            block = new SingleLogicBlock(SocketType.SQUARE, 0xCC3300);
+            block = new SingleLogicBlock();
+            block.blockColor = 0xCC3300;
             block.addContent(blockLabel("If"));
             block.addContent(spacer);
             block.addContent(new ArgumentBlock());
             workspace.registerBlock(block);
             logicPalette.addBlock(block);
 
-            block = new SingleLogicBlock(SocketType.SQUARE, 0xCC3300);
+            block = new SingleLogicBlock();
+            block.blockColor = 0xCC3300;
             block.addContent(blockLabel("Repeat"));
             block.addContent(new StringArgumentBlock());
             workspace.registerBlock(block);
             logicPalette.addBlock(block);
 
-            block = new SingleLogicBlock(SocketType.SQUARE, 0x3366FF);
+            block = new SingleLogicBlock();
+            block.blockColor = 0x3366FF;
             block.addContent(blockLabel("Forever"));
             workspace.registerBlock(block);
             logicPalette.addBlock(block);

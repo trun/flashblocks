@@ -2,6 +2,7 @@
     import com.flashblocks.blocks.render.BlockCapTop;
     import com.flashblocks.blocks.render.BlockFlatBottom;
     import com.flashblocks.blocks.render.BlockNotchBottom;
+    import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.util.BlockUtil;
     import flash.geom.Point;
     import mx.containers.VBox;
@@ -15,10 +16,11 @@
 
         protected var connectionTarget:VBox;
 
-        public function ProcedureBlock(socketType:String="round", blockColor:uint=0x993333) {
-            super(socketType, "", blockColor);
+        public function ProcedureBlock() {
+            super();
 
             blockType = BlockType.PROCEDURE;
+            socketType = SocketType.ROUND;
 
             topMidBox.addChild(new BlockCapTop(blockColor));
 

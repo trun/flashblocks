@@ -11,23 +11,26 @@
     public class BlockFactory {
 
         public static function createAnchorBlock(label:String):AnchorBlock {
-            var block:AnchorBlock = new AnchorBlock(SocketType.SLANT, 0x333366);
-            block.addContent(createBlockLabel(label, 14, "center"));
+            var block:AnchorBlock = new AnchorBlock();
+            block.blockColor = 0x333366;
             block.blockName = label;
+            block.addContent(createBlockLabel(label, 14, "center"));
             return block;
         }
 
         public static function createBinaryMathReporterBlock(label:String):ReporterBlock {
-            var block:ReporterBlock = new ReporterBlock(SocketType.ANGLE, 0x333366);
+            var block:ReporterBlock = new ReporterBlock();
+            block.blockColor = 0x333366;
+            block.blockName = label;
             block.addContent(new StringArgumentBlock(0));
             block.addContent(createBlockLabel(label, 14, "center"));
             block.addContent(new StringArgumentBlock(0));
-            block.blockName = label;
             return block;
         }
 
         public static function createUnaryMathReporterBlock(label:String):ReporterBlock {
-            var block:ReporterBlock = new ReporterBlock(SocketType.ANGLE, 0x666699);
+            var block:ReporterBlock = new ReporterBlock();
+            block.blockColor = 0x666699;
             block.addContent(createBlockLabel(label, 14, "center"));
             block.addContent(new StringArgumentBlock(0));
             block.blockName = label;
@@ -35,28 +38,32 @@
         }
 
         public static function createPositionReporterBlock(label:String):ReporterBlock {
-            var block:ReporterBlock = new ReporterBlock(SocketType.ANGLE, 0xCC00CC);
-            block.addContent(createBlockLabel(label));
+            var block:ReporterBlock = new ReporterBlock();
+            block.blockColor = 0xCC00CC;
             block.blockName = label;
+            block.addContent(createBlockLabel(label));
             return block;
         }
 
         public static function createBooleanReporterBlock(label:String):ReporterBlock {
-            var block:ReporterBlock = new ReporterBlock(SocketType.ROUND, 0x990099);
-            block.addContent(createBlockLabel(label));
+            var block:ReporterBlock = new ReporterBlock();
+            block.blockColor = 0x990099;
             block.blockName = label;
+            block.addContent(createBlockLabel(label));
             return block;
         }
 
         public static function createColorReporterBlock(label:String, color:uint):ReporterBlock {
-            var block:ReporterBlock = new ReporterBlock(SocketType.ANGLE, color);
-            block.addContent(createBlockLabel(label));
+            var block:ReporterBlock = new ReporterBlock();
+            block.blockColor = color;
             block.blockName = label;
+            block.addContent(createBlockLabel(label));
             return block;
         }
 
         public static function createMovementCommandBlock(label:String):CommandBlock {
-            var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x9999FF);
+            var block:CommandBlock = new CommandBlock();
+            block.blockColor = 0x9999FF;
             block.addContent(createBlockLabel(label));
             block.addContent(new ArgumentBlock());
             block.blockName = label;
@@ -64,14 +71,16 @@
         }
 
         public static function createPenCommandBlock(label:String):CommandBlock {
-            var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x6666FF);
+            var block:CommandBlock = new CommandBlock();
+            block.blockColor = 0x6666FF;
             block.addContent(createBlockLabel(label));
             block.blockName = label;
             return block;
         }
 
         public static function createPenArgCommandBlock(label:String):CommandBlock {
-            var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x6666FF);
+            var block:CommandBlock = new CommandBlock();
+            block.blockColor = 0x6666FF;
             block.addContent(createBlockLabel(label));
             block.addContent(new ArgumentBlock());
             block.blockName = label;
@@ -79,15 +88,17 @@
         }
 
         public static function createPenNumCommandBlock(label:String):CommandBlock {
-            var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x6666FF);
+            var block:CommandBlock = new CommandBlock();
+            block.blockColor = 0x6666FF;
+            block.blockName = label;
             block.addContent(createBlockLabel(label));
             block.addContent(new StringArgumentBlock());
-            block.blockName = label;
             return block;
         }
 
         public static function createPenAltCommandBlock(label:String):CommandBlock {
-            var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x6666FF);
+            var block:CommandBlock = new CommandBlock();
+            block.blockColor = 0x6666FF;
             block.addContent(createBlockLabel(label));
             block.addContent(new ColorPickerArgumentBlock());
             block.blockName = label;
@@ -95,17 +106,19 @@
         }
 
         public static function createMoveBlock(label:String):CommandBlock {
-            var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x9999FF);
-            block.addContent(createBlockLabel(label));
+            var block:CommandBlock = new CommandBlock();
+            block.blockColor = 0x9999FF;
             block.blockName = label;
+            block.addContent(createBlockLabel(label));
             return block;
         }
 
         public static function createTurnBlock(label:String):CommandBlock {
-            var block:CommandBlock = new CommandBlock(SocketType.SQUARE, 0x9999FF);
+            var block:CommandBlock = new CommandBlock();
+            block.blockColor = 0x9999FF;
+            block.blockName = label;
             block.addContent(createBlockLabel(label));
             block.addContent(new ArgumentBlock());
-            block.blockName = label;
             return block;
         }
 

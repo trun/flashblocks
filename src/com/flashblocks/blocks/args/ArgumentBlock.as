@@ -4,9 +4,11 @@
     import com.flashblocks.blocks.SimpleBlock;
     import com.flashblocks.blocks.render.BlockFlatBottom;
     import com.flashblocks.blocks.render.BlockFlatTop;
+    import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.events.BlockConnectionEvent;
 
     import flash.filters.BevelFilter;
+    import flash.utils.getQualifiedClassName;
 
     import mx.controls.Spacer;
 
@@ -16,10 +18,11 @@
      */
     public class ArgumentBlock extends SimpleBlock {
 
-        public function ArgumentBlock(socketType:String="round", blockColor:uint=0xEEEEEE) {
-            super(socketType, "", blockColor);
+        public function ArgumentBlock(defaultValue:*=null) {
+            super(defaultValue);
 
             blockType = BlockType.ARGUMENT;
+            socketType = SocketType.ROUND;
 
             topMidBox.addChild(new BlockFlatTop(blockColor));
             bottomMidBox.addChild(new BlockFlatBottom(blockColor));
@@ -57,13 +60,14 @@
 
         override public function toJSON():Object {
             var o:Object = {
-                type: 'block',
-                name: blockName
+                name: getQualifiedClassName(this)
             };
             if (inner) {
                 o.value = inner.toJSON();
+                o.type = 'block';
             } else {
                 o.value = getValue();
+                o.type = typeof(o.value);
             }
             return o;
         }

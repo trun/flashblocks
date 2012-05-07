@@ -14,9 +14,10 @@ package com.flashblocks.logoblocks {
     public class BlockFactory {
 
         public static function createAnchorBlock(label:String):AnchorBlock {
-            var block:AnchorBlock = new AnchorBlock(SocketType.SLANT, 0x333366);
-            block.addContent(createBlockLabel(label));
+            var block:AnchorBlock = new AnchorBlock();
+            block.blockColor = 0x333366;
             block.blockName = label;
+            block.addContent(createBlockLabel(label));
             return block;
         }
 
@@ -68,10 +69,11 @@ package com.flashblocks.logoblocks {
         //
 
         public static function createRepeatBlock():SingleLogicBlock {
-            var block:SingleLogicBlock = new SingleLogicBlock(SocketType.SQUARE, 0x00CCCC);
+            var block:SingleLogicBlock = new SingleLogicBlock();
+            block.blockColor = 0x00CCCC;
+            block.blockName = "Repeat";
             block.addContent(createBlockLabel("Repeat"));
             block.addContent(new StringArgumentBlock(5));
-            block.blockName = "Repeat";
             return block;
         }
 
@@ -100,24 +102,27 @@ package com.flashblocks.logoblocks {
         //
 
         private static function createCommandBlock0(label:String, color:uint=0x336699):CommandBlock {
-            var block:CommandBlock = new CommandBlock(SocketType.SQUARE, color);
-            block.addContent(createBlockLabel(label));
+            var block:CommandBlock = new CommandBlock();
+            block.blockColor = color;
             block.blockName = label;
+            block.addContent(createBlockLabel(label));
             return block;
         }
 
         private static function createCommandBlock1(label:String, arg:String="0", color:uint=0x336699):CommandBlock {
-            var block:CommandBlock = new CommandBlock(SocketType.SQUARE, color);
+            var block:CommandBlock = new CommandBlock();
+            block.blockColor = color;
+            block.blockName = label;
             block.addContent(createBlockLabel(label));
             block.addContent(new StringArgumentBlock(arg));
-            block.blockName = label;
             return block;
         }
 
         private static function createColorBlock(label:String, color:uint=0x000000):ReporterBlock {
-            var block:ReporterBlock = new ReporterBlock(SocketType.ANGLE, color);
-            block.addContent(createBlockLabel(label));
+            var block:ReporterBlock = new ReporterBlock(color);
+            block.blockColor = color;
             block.blockName = label;
+            block.addContent(createBlockLabel(label));
             return block;
         }
 

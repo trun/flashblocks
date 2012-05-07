@@ -8,25 +8,27 @@
      */
     public class SingleLogicBlock extends LogicBlock {
 
-        public function SingleLogicBlock(socketType:String="square", color:uint=0xCCCC00) {
-            super(socketType, color);
+        override public function redraw():void {
+            super.redraw();
 
-            blockType = BlockType.LOGIC;
-
+            topTopLineBox.removeAllChildren();
             topTopLineBox.addChild(new BlockNotchTop(blockColor));
             topTopLineBox.addChild(new BlockFlatTop(blockColor));
 
+            bottomBottomLineBox.removeAllChildren();
             bottomBottomLineBox.addChild(new BlockNotchBottom(blockColor));
             bottomBottomLineBox.addChild(new BlockFlatBottom(blockColor));
 
             var flatBottom:BlockRender = new BlockFlatBottom(blockColor);
             flatBottom.width = 30;
+            topNestedLineBox.removeAllChildren();
             topNestedLineBox.addChild(flatBottom);
             topNestedLineBox.addChild(new BlockNotchBottom(blockColor));
             topNestedLineBox.addChild(new BlockFlatBottom(blockColor));
 
             var flatTop:BlockRender = new BlockFlatTop(blockColor);
             flatTop.width = 30;
+            bottomNestedLineBox.removeAllChildren();
             bottomNestedLineBox.addChild(flatTop);
             bottomNestedLineBox.addChild(new BlockNotchTop(blockColor));
             bottomNestedLineBox.addChild(new BlockFlatTop(blockColor));

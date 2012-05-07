@@ -47,9 +47,21 @@
         protected var leftSocket:Socket;
         protected var rightSocket:Socket;
 
-        public function SimpleBlock(socketType:String="round", blockLabel:String="", blockColor:uint=0x66FF66, blockValue:*=null) {
-            super(socketType, blockLabel, blockColor, blockValue);
+        public function SimpleBlock(blockValue:*=null) {
+            super(blockValue);
 
+            ChangeWatcher.watch(this, "socketType", onSocketTypeChange);
+        }
+
+        override public function redraw():void {
+            super.redraw();
+
+            // clear existing
+            if (hbox) {
+                removeChild(hbox);
+            }
+
+            // create new
             hbox = new HBox();
             hbox.buttonMode = true;
             hbox.setStyle("horizontalGap", 0);
@@ -105,7 +117,6 @@
             hbox.filters = [ new BevelFilter(2) ];
 
             ChangeWatcher.watch(hbox, "height", onHeightChange);
-            ChangeWatcher.watch(this, "socketType", onSocketTypeChange);
         }
 
         override public function addContent(content:DisplayObject):void {

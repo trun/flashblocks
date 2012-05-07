@@ -1,8 +1,11 @@
 ﻿package com.flashblocks.blocks {
     import com.flashblocks.blocks.args.ArgumentBlock;
+    import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.events.BlockConnectionEvent;
     import flash.display.DisplayObject;
     import flash.events.MouseEvent;
+    import flash.utils.getQualifiedClassName;
+
     import mx.containers.Canvas;
     import mx.effects.Resize;
     import mx.events.PropertyChangeEvent;
@@ -19,11 +22,10 @@
     [Event(name="disconnect", type="com.flashblocks.events.BlockConnectionEvent")]
     public class Block extends Canvas {
 
-        private var _socketType:String;
+        private var _socketType:String = SocketType.ROUND;
         private var _blockType:String;
         private var _blockName:String;
-        private var _blockLabel:String;
-        private var _blockColor:uint;
+        private var _blockColor:uint = 0x66FF66;
         private var _blockValue:*;
         private var _enableConnections:Boolean;
 
@@ -34,16 +36,11 @@
 
         protected var dragging:Boolean = false;
 
-        public function Block(socketType:String="round", blockLabel:String="", blockColor:uint=0x66FF66, blockValue:*=null) {
+        public function Block(blockValue:*=null) {
             super();
 
-            this.socketType = socketType;
-            this.blockLabel = blockLabel;
-            this.blockColor = blockColor;
-            this.blockValue = blockValue;
-
+            this._blockValue = blockValue;
             this._nested = new Array();
-
             this.clipContent = false;
 
             setStyle("verticalGap", 0);
@@ -51,6 +48,10 @@
             addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
             addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
             addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+        }
+
+        public function redraw():void {
+            // override
         }
 
         //
@@ -62,6 +63,7 @@
 
         public function set socketType(value:String):void {
             _socketType = value;
+            redraw();
             dispatchEvent(new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE));
         }
 
@@ -70,6 +72,7 @@
 
         public function set blockType(value:String):void {
             _blockType = value;
+            redraw();
             dispatchEvent(new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE));
         }
 
@@ -82,26 +85,11 @@
         }
 
         [Bindable(event="propertyChange")]
-        public function get blockLabel():String { return _blockLabel; }
-
-        public function set blockLabel(value:String):void {
-            _blockLabel = value;
-            dispatchEvent(new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE));
-        }
-
-        [Bindable(event="propertyChange")]
         public function get blockColor():uint { return _blockColor; }
 
         public function set blockColor(value:uint):void {
             _blockColor = value;
-            dispatchEvent(new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE));
-        }
-
-        [Bindable(event="propertyChange")]
-        public function get blockValue():* { return _blockValue; }
-
-        public function set blockValue(value:*):void {
-            _blockValue = value;
+            redraw();
             dispatchEvent(new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE));
         }
 
@@ -167,7 +155,7 @@
         }
 
         public function getValue():* {
-            return blockValue; // override
+            return _blockValue; // override
         }
 
         //
@@ -315,7 +303,7 @@
             var i:int;
             var o:Object = {
                 type: 'block',
-                name: blockName
+                name: getQualifiedClassName(this)
             };
             var args:Array = getArguments();
             if (args) {
