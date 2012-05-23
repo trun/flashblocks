@@ -26,6 +26,13 @@ import mx.controls.ColorPicker;
             hbox.addChild(colorPicker);
         }
 
+        override public function set blockValue(value:*):void {
+            if (colorPicker) {
+                colorPicker.selectedColor = value;
+            }
+            super.blockValue = value;
+        }
+
     }
 
 }

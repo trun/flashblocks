@@ -33,6 +33,13 @@
             textInput.width = Math.max(MIN_WIDTH, textInput.textWidth + 20);
         }
 
+        override public function set blockValue(value:*):void {
+            if (textInput) {
+                textInput.text = String(blockValue);
+            }
+            super.blockValue = value;
+        }
+
     }
 
 }
