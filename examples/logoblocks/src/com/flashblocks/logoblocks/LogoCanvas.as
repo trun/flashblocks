@@ -23,6 +23,7 @@ package com.flashblocks.logoblocks {
 
         public function set penUp(value:Boolean):void {
             _penUp = value;
+            redrawTurtle();
         }
 
         public function get penColor():uint {
@@ -79,8 +80,10 @@ package com.flashblocks.logoblocks {
 
         private function redrawTurtle():void {
             turtleCursor.graphics.clear();
-            turtleCursor.graphics.beginFill(penColor);
-            turtleCursor.graphics.lineStyle(1, penColor);
+            if (!penUp) {
+                turtleCursor.graphics.beginFill(penColor);
+            }
+            turtleCursor.graphics.lineStyle(2, penColor);
             turtleCursor.graphics.drawCircle(0, 0, 10);
             turtleCursor.graphics.drawCircle(14, 0, 4);
             turtleCursor.x = xVal;
