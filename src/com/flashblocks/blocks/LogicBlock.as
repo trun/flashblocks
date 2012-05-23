@@ -51,7 +51,9 @@
         protected var nestedBlockWidthWatcher:ChangeWatcher;
         protected var nestedBlockHeightWatcher:ChangeWatcher;
 
-        public function LogicBlock() {
+        public function LogicBlock(blockName:String) {
+            super(blockName);
+
             blockType = BlockType.LOGIC;
             socketType = SocketType.SQUARE;
 

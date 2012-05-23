@@ -36,10 +36,11 @@
 
         protected var dragging:Boolean = false;
 
-        public function Block(blockValue:*=null) {
+        public function Block(blockName:String, blockValue:*=null) {
             super();
 
-            this._blockValue = blockValue;
+            this._blockName = blockName;
+            this.blockValue = blockValue;
             this._nested = new Array();
             this.clipContent = false;
 
@@ -48,6 +49,8 @@
             addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
             addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
             addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+
+            redraw();
         }
 
         public function redraw():void {
@@ -68,6 +71,9 @@
         }
 
         [Bindable(event="propertyChange")]
+        public function get blockName():String { return _blockName; }
+
+        [Bindable(event="propertyChange")]
         public function get blockType():String { return _blockType; }
 
         public function set blockType(value:String):void {
@@ -77,19 +83,19 @@
         }
 
         [Bindable(event="propertyChange")]
-        public function get blockName():String { return _blockName; }
-
-        public function set blockName(value:String):void {
-            _blockName = value;
-            dispatchEvent(new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE));
-        }
-
-        [Bindable(event="propertyChange")]
         public function get blockColor():uint { return _blockColor; }
 
         public function set blockColor(value:uint):void {
             _blockColor = value;
             redraw();
+            dispatchEvent(new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE));
+        }
+
+        [Bindable(event="propertyChange")]
+        public function get blockValue():* { return _blockValue; }
+
+        public function set blockValue(value:*):void {
+            _blockValue = value;
             dispatchEvent(new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE));
         }
 
@@ -152,10 +158,6 @@
 
         public function getArgument(i:uint=0):ArgumentBlock {
             return getArguments()[i];
-        }
-
-        public function getValue():* {
-            return _blockValue; // override
         }
 
         //
@@ -302,8 +304,8 @@
         public function toJSON():Object {
             var i:int;
             var o:Object = {
-                type: 'block',
-                name: getQualifiedClassName(this)
+                name: blockName,
+                value: blockValue
             };
             var args:Array = getArguments();
             if (args) {
@@ -313,12 +315,15 @@
                 }
             }
             if (numNested() > 0) {
-                o.nested = numNested;
+                o.nested = [];
                 for (i = 0; i < numNested(); i++) {
                     if (nested[i]) {
-                        o['nested_' + i] = nested[i].toJSON();
+                        o.nested[i] = nested[i].toJSON();
                     }
                 }
+            }
+            if (inner) {
+                o.inner = inner.toJSON();
             }
             if (after) {
                 var afterJSON:Object = after.toJSON();

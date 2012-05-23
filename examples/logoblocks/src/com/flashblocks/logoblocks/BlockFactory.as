@@ -1,22 +1,53 @@
 package com.flashblocks.logoblocks {
     import com.flashblocks.blocks.AnchorBlock;
-    import com.flashblocks.blocks.CommandBlock;
+    import com.flashblocks.blocks.Block;
     import com.flashblocks.blocks.CommandBlock;
     import com.flashblocks.blocks.FactoryBlock;
     import com.flashblocks.blocks.ReporterBlock;
     import com.flashblocks.blocks.SingleLogicBlock;
     import com.flashblocks.blocks.args.ColorPickerArgumentBlock;
     import com.flashblocks.blocks.args.StringArgumentBlock;
-    import com.flashblocks.blocks.sockets.SocketType;
 
     import mx.controls.Label;
 
     public class BlockFactory {
 
+        public static function createBlock(blockDefinition:Object):Block {
+            var block:Block = null;
+            switch (blockDefinition.name) {
+                case "forward":
+                    block = createForwardBlock();
+                    break;
+                case "backward":
+                    block = createBackwardBlock();
+                    break;
+                case "turn-right":
+                    block = createTurnRightBlock();
+                    break;
+                case "turn-left":
+                    block = createTurnLeftBlock();
+                    break;
+                case "pen-up":
+                    block = createPenUpBlock();
+                    break;
+                case "pen-down":
+                    block = createPenDownBlock();
+                    break;
+                case "set-pen-color":
+                    block = createPenColorBlock();
+                    break;
+            }
+
+            return block;
+        }
+
+        //
+        // Special Blocks
+        //
+
         public static function createAnchorBlock(label:String):AnchorBlock {
-            var block:AnchorBlock = new AnchorBlock();
+            var block:AnchorBlock = new AnchorBlock(slugify(label));
             block.blockColor = 0x333366;
-            block.blockName = label;
             block.addContent(createBlockLabel(label));
             return block;
         }
@@ -59,8 +90,7 @@ package com.flashblocks.logoblocks {
 
         public static function createPenColorBlock():CommandBlock {
             var block:CommandBlock = createCommandBlock0("Set Pen Color", 0x6666FF);
-            block.addContent(new ColorPickerArgumentBlock());
-            block.blockName = "Set Pen Color";
+            block.addContent(new ColorPickerArgumentBlock("arg-color-picker"));
             return block;
         }
 
@@ -69,11 +99,10 @@ package com.flashblocks.logoblocks {
         //
 
         public static function createRepeatBlock():SingleLogicBlock {
-            var block:SingleLogicBlock = new SingleLogicBlock();
+            var block:SingleLogicBlock = new SingleLogicBlock("repeat");
             block.blockColor = 0x00CCCC;
-            block.blockName = "Repeat";
             block.addContent(createBlockLabel("Repeat"));
-            block.addContent(new StringArgumentBlock(5));
+            block.addContent(new StringArgumentBlock("arg-string", "5"));
             return block;
         }
 
@@ -102,26 +131,23 @@ package com.flashblocks.logoblocks {
         //
 
         private static function createCommandBlock0(label:String, color:uint=0x336699):CommandBlock {
-            var block:CommandBlock = new CommandBlock();
+            var block:CommandBlock = new CommandBlock(slugify(label));
             block.blockColor = color;
-            block.blockName = label;
             block.addContent(createBlockLabel(label));
             return block;
         }
 
         private static function createCommandBlock1(label:String, arg:String="0", color:uint=0x336699):CommandBlock {
-            var block:CommandBlock = new CommandBlock();
+            var block:CommandBlock = new CommandBlock(slugify(label));
             block.blockColor = color;
-            block.blockName = label;
             block.addContent(createBlockLabel(label));
-            block.addContent(new StringArgumentBlock(arg));
+            block.addContent(new StringArgumentBlock("arg-string", arg));
             return block;
         }
 
         private static function createColorBlock(label:String, color:uint=0x000000):ReporterBlock {
-            var block:ReporterBlock = new ReporterBlock(color);
+            var block:ReporterBlock = new ReporterBlock(slugify(label), color);
             block.blockColor = color;
-            block.blockName = label;
             block.addContent(createBlockLabel(label));
             return block;
         }
@@ -134,6 +160,10 @@ package com.flashblocks.logoblocks {
             blockLabel.setStyle("color", 0xFFFFFF);
             blockLabel.setStyle("fontSize", size);
             return blockLabel;
+        }
+
+        private static function slugify(str:String):String {
+            return str.split(" ").join("-").toLowerCase();
         }
     }
 }

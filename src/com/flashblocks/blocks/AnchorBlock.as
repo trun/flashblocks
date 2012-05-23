@@ -26,8 +26,8 @@
     public class AnchorBlock extends SimpleBlock {
         private var widthWatcher:ChangeWatcher;
 
-        public function AnchorBlock() {
-            super();
+        public function AnchorBlock(blockName:String) {
+            super(blockName);
 
             blockType = BlockType.PROCEDURE;
             socketType = SocketType.SLANT;

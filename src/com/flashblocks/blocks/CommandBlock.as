@@ -10,8 +10,8 @@
      */
     public class CommandBlock extends SimpleBlock {
 
-        public function CommandBlock() {
-            super();
+        public function CommandBlock(blockName:String) {
+            super(blockName);
 
             socketType = SocketType.SQUARE;
             blockType = BlockType.COMMAND;

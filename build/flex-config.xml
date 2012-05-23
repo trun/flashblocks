@@ -2,6 +2,7 @@
 <flex-config xmlns="http://www.adobe.com/2006/flex-config">
     <use-network>true</use-network>
     <benchmark>false</benchmark>
+    <target-player>10.0.0</target-player>
     <compiler>
         <accessible>false</accessible>
         <allow-source-path-overlap>false</allow-source-path-overlap>

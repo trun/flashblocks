@@ -9,8 +9,8 @@
      */
     public class ReporterBlock extends SimpleBlock {
 
-        public function ReporterBlock(blockValue:*=null) {
-            super(blockValue);
+        public function ReporterBlock(blockName:String, blockValue:*=null) {
+            super(blockName, blockValue);
 
             socketType = SocketType.ANGLE;
             blockType = BlockType.REPORTER;

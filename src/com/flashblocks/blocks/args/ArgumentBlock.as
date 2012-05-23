@@ -8,7 +8,6 @@
     import com.flashblocks.events.BlockConnectionEvent;
 
     import flash.filters.BevelFilter;
-    import flash.utils.getQualifiedClassName;
 
     import mx.controls.Spacer;
 
@@ -18,11 +17,19 @@
      */
     public class ArgumentBlock extends SimpleBlock {
 
-        public function ArgumentBlock(defaultValue:*=null) {
-            super(defaultValue);
+        public function ArgumentBlock(blockName:String, defaultValue:*=null) {
+            super(blockName, defaultValue);
 
             blockType = BlockType.ARGUMENT;
             socketType = SocketType.ROUND;
+
+            enableConnections = true;
+        }
+
+        override public function redraw():void {
+            super.redraw();
+
+            hbox.removeAllChildren();
 
             topMidBox.addChild(new BlockFlatTop(blockColor));
             bottomMidBox.addChild(new BlockFlatBottom(blockColor));
@@ -34,8 +41,6 @@
             addContent(spacer);
 
             hbox.filters = [ new BevelFilter(2, -45) ]; // inset bevel
-
-            enableConnections = true;
         }
 
         override public function hasInner():Boolean {
@@ -56,20 +61,6 @@
             inner = block;
 
             block.addEventListener(BlockConnectionEvent.DISCONNECT, onBlockDisconnect);
-        }
-
-        override public function toJSON():Object {
-            var o:Object = {
-                name: getQualifiedClassName(this)
-            };
-            if (inner) {
-                o.value = inner.toJSON();
-                o.type = 'block';
-            } else {
-                o.value = getValue();
-                o.type = typeof(o.value);
-            }
-            return o;
         }
 
         private function onBlockDisconnect(e:BlockConnectionEvent):void {

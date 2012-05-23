@@ -8,6 +8,10 @@
      */
     public class SingleLogicBlock extends LogicBlock {
 
+        public function SingleLogicBlock(blockName:String) {
+            super(blockName);
+        }
+
         override public function redraw():void {
             super.redraw();
 

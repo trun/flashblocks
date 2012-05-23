@@ -32,32 +32,32 @@ package com.flashblocks.logoblocks.interpreter {
 
             var val:int;
             switch (block.blockName) {
-                case "Forward":
+                case "forward":
                     val = parseInt(eval(block.getArgument()));
                     canvas.moveForward(val);
                     break;
-                case "Backward":
+                case "backward":
                     val = parseInt(eval(block.getArgument()));
                     canvas.moveBackward(val);
                     break;
-                case "Turn Right":
+                case "turn-right":
                     val = parseInt(eval(block.getArgument()));
                     canvas.turnRight(val);
                     break;
-                case "Turn Left":
+                case "turn-left":
                     val = parseInt(eval(block.getArgument()));
                     canvas.turnLeft(val);
                     break;
-                case "Set Pen Color":
+                case "set-pen-color":
                     canvas.penColor = eval(block.getArgument());
                     break;
-                case "Pen Up":
+                case "pen-up":
                     canvas.penUp = true;
                     break;
-                case "Pen Down":
+                case "pen-down":
                     canvas.penUp = false;
                     break;
-                case "Repeat":
+                case "repeat":
                     val = parseInt(eval(block.getArgument()));
                     var doRepeat:Function = function(i:uint):void {
                         if (i > 0) {
@@ -79,20 +79,18 @@ package com.flashblocks.logoblocks.interpreter {
 
         public static function eval(block:Block, context:Object=null):* {
             context = context || {};
-            if (block.blockType == BlockType.ARGUMENT) {
-                if (block.inner) {
-                    return eval(block.inner, context);
-                }
+            if (block.blockType == BlockType.ARGUMENT && block.inner) {
+                return eval(block.inner, context);
             }
             switch (block.blockName) {
-                case "And":
-                    return eval(block.getArgument(0).getValue(), context)
-                            && eval(block.getArgument(1).getValue(), context);
-                case "Or":
-                    return eval(block.getArgument(0).getValue(), context)
-                            || eval(block.getArgument(1).getValue(), context);
+                case "and":
+                    return eval(block.getArgument(0).blockValue, context)
+                            && eval(block.getArgument(1).blockValue, context);
+                case "or":
+                    return eval(block.getArgument(0).blockValue, context)
+                            || eval(block.getArgument(1).blockValue, context);
             }
-            return block.getValue();
+            return block.blockValue;
         }
     }
 }

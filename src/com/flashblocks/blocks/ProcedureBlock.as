@@ -16,8 +16,8 @@
 
         protected var connectionTarget:VBox;
 
-        public function ProcedureBlock() {
-            super();
+        public function ProcedureBlock(blockName:String) {
+            super(blockName);
 
             blockType = BlockType.PROCEDURE;
             socketType = SocketType.ROUND;

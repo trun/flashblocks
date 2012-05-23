@@ -47,8 +47,8 @@
         protected var leftSocket:Socket;
         protected var rightSocket:Socket;
 
-        public function SimpleBlock(blockValue:*=null) {
-            super(blockValue);
+        public function SimpleBlock(blockName:String, blockValue:*=null) {
+            super(blockName, blockValue);
 
             ChangeWatcher.watch(this, "socketType", onSocketTypeChange);
         }

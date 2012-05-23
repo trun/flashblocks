@@ -26,8 +26,10 @@ package com.flashblocks.blocks {
 
         protected var placeholderBlock:Block;
 
-        public function FactoryBlock(blockFunction:Function, blockCount:int=-1) {
-            this.blockFunction = blockFunction;
+        public function FactoryBlock(blockGenerator:Function, blockCount:int=-1) {
+            super("__factory");
+
+            this.blockFunction = blockGenerator;
             this.blockCount = blockCount;
 
             hbox = new HBox();
@@ -36,7 +38,7 @@ package com.flashblocks.blocks {
             hbox.mouseChildren = false;
             addChild(hbox);
 
-            placeholderBlock = blockFunction();
+            placeholderBlock = blockGenerator();
             hbox.addChild(placeholderBlock);
 
             countLabel = new Label();
