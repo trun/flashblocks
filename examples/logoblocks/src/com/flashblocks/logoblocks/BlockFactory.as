@@ -102,7 +102,7 @@ package com.flashblocks.logoblocks {
             var block:SingleLogicBlock = new SingleLogicBlock("repeat");
             block.blockColor = 0x2F6BF6;
             block.addContent(createBlockLabel("Repeat"));
-            block.addContent(new StringArgumentBlock("arg-string", "5"));
+            block.addContent(new StringArgumentBlock("arg-string", "8"));
             return block;
         }
 
@@ -124,6 +124,17 @@ package com.flashblocks.logoblocks {
 
         public static function createPinkBlock():ReporterBlock {
             return createColorBlock("Pink", 0xFF00FF);
+        }
+
+        public static function createRandomColorBlock():ReporterBlock {
+            var block:ReporterBlock = new ReporterBlock("random", function():uint {
+                return uint(Math.random() * 255)
+                        | uint(Math.random() * 255 << 8)
+                        | uint(Math.random() * 255 << 16);
+            });
+            block.blockColor = 0xCCCCCC;
+            block.addContent(createBlockLabel("Random"));
+            return block;
         }
 
         //

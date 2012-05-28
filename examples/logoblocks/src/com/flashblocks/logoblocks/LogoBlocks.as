@@ -67,6 +67,7 @@ import flash.geom.Rectangle;
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createGreenBlock), colorPalette);
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createBlueBlock), colorPalette);
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createPinkBlock), colorPalette);
+            addBlock(BlockFactory.createFactoryBlock(BlockFactory.createRandomColorBlock), colorPalette);
 
             anchorBlock = BlockFactory.createAnchorBlock("LogoBlocks");
             var page:Page = new Page();
@@ -146,8 +147,8 @@ import flash.geom.Rectangle;
                 interpreter.timeout = timeoutSlider.value;
             });
 
-            controlBox.addChild(runBtn);
             controlBox.addChild(resetBtn);
+            controlBox.addChild(runBtn);
             controlBox.addChild(jsonBtn);
             controlBox.addChild(timeoutFasterLabel);
             controlBox.addChild(timeoutSlider);

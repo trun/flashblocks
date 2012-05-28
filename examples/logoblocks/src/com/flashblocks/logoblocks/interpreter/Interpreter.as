@@ -107,7 +107,11 @@ package com.flashblocks.logoblocks.interpreter {
                     return eval(block.getArgument(0).blockValue, context)
                             || eval(block.getArgument(1).blockValue, context);
             }
-            return block.blockValue;
+            var val:* = block.blockValue;
+            if (val is Function) {
+                return val();
+            }
+            return val;
         }
 
     }
