@@ -98,6 +98,9 @@ import flash.geom.Rectangle;
             ChangeWatcher.watch(turtleCanvas, "height", onTurtleCanvasResize);
 
             var drawingCanvas:LogoCanvas = new LogoCanvas();
+            turtleCanvas.addChild(drawingCanvas);
+
+            // zoom controls
             turtleCanvas.addEventListener(MouseEvent.MOUSE_WHEEL, function(e:MouseEvent):void {
                 if (e.delta > 0 && drawingCanvas.scaleX < 2) {
                     drawingCanvas.scaleX += .1;
@@ -107,6 +110,8 @@ import flash.geom.Rectangle;
                     drawingCanvas.scaleY -= .1;
                 }
             });
+
+            // pan controls
             var turtleMouseX:int;
             var turtleMouseY:int;
             turtleCanvas.addEventListener(MouseEvent.MOUSE_MOVE, function(e:MouseEvent):void {
@@ -119,7 +124,6 @@ import flash.geom.Rectangle;
                 turtleMouseX = e.localX;
                 turtleMouseY = e.localY;
             });
-            turtleCanvas.addChild(drawingCanvas);
 
             interpreter = new Interpreter(drawingCanvas);
 
@@ -164,6 +168,7 @@ import flash.geom.Rectangle;
             timeoutSlider.value = interpreter.timeout;
             timeoutSlider.snapInterval = 10;
             timeoutSlider.tickValues = [10, 50, 100, 250, 500, 1000];
+            timeoutSlider.liveDragging = true;
             timeoutSlider.addEventListener(Event.CHANGE, function(e:Event):void {
                 interpreter.timeout = timeoutSlider.value;
             });
