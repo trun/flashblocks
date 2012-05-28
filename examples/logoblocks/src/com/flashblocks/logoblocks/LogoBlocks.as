@@ -5,27 +5,19 @@ package com.flashblocks.logoblocks {
     import com.flashblocks.PaletteList;
     import com.flashblocks.Workspace;
     import com.flashblocks.blocks.Block;
-    import com.flashblocks.blocks.FactoryBlock;
-    import com.flashblocks.logoblocks.BlockFactory;
     import com.flashblocks.logoblocks.interpreter.Interpreter;
+    import com.flashblocks.logoblocks.render.ImageAssets;
 
     import flash.events.Event;
     import flash.events.MouseEvent;
     import flash.geom.Rectangle;
-
     import mx.binding.utils.ChangeWatcher;
-
-    import mx.containers.Canvas;
-
     import mx.containers.HBox;
-    import mx.containers.HDividedBox;
-
     import mx.containers.Panel;
     import mx.containers.VBox;
     import mx.controls.Button;
-import mx.controls.HSlider;
-import mx.controls.Label;
-import mx.core.UIComponent;
+    import mx.controls.HSlider;
+    import mx.controls.Label;
     import mx.events.FlexEvent;
 
     public class LogoBlocks extends Panel {
@@ -107,12 +99,18 @@ import mx.core.UIComponent;
 
             interpreter = new Interpreter(drawingCanvas);
 
-            var resetBtn:Button = createControlButton("Reset");
+            var resetBtn:Button = new Button();
+            resetBtn.toolTip = "Reset";
+            resetBtn.buttonMode = true;
+            resetBtn.setStyle("icon", ImageAssets.RESET_ICON);
             resetBtn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
                 drawingCanvas.reset();
             });
 
-            var runBtn:Button = createControlButton("Run");
+            var runBtn:Button = new Button();
+            runBtn.toolTip = "Run";
+            runBtn.buttonMode = true;
+            runBtn.setStyle("icon", ImageAssets.PLAY_ICON);
             runBtn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
                 runBtn.enabled = false;
                 resetBtn.enabled = false;
@@ -147,8 +145,8 @@ import mx.core.UIComponent;
                 interpreter.timeout = timeoutSlider.value;
             });
 
-            controlBox.addChild(resetBtn);
             controlBox.addChild(runBtn);
+            controlBox.addChild(resetBtn);
             controlBox.addChild(timeoutFasterLabel);
             controlBox.addChild(timeoutSlider);
             controlBox.addChild(timeoutSlowerLabel);
