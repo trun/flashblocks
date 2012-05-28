@@ -21,7 +21,7 @@ import mx.controls.ColorPicker;
             colorPicker.width = 40;
             colorPicker.selectedColor = blockValue;
             colorPicker.addEventListener(Event.CHANGE, function(e:Event):void {
-                blockValue = colorPicker.selectedColor;
+                _blockValue = colorPicker.selectedColor;
             });
             hbox.addChild(colorPicker);
         }
@@ -30,7 +30,7 @@ import mx.controls.ColorPicker;
             if (colorPicker) {
                 colorPicker.selectedColor = value;
             }
-            super.blockValue = value;
+            _blockValue = value;
         }
 
     }

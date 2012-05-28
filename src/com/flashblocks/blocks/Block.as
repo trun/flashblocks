@@ -22,17 +22,17 @@
     [Event(name="disconnect", type="com.flashblocks.events.BlockConnectionEvent")]
     public class Block extends Canvas {
 
-        private var _socketType:String = SocketType.ROUND;
-        private var _blockType:String;
-        private var _blockName:String;
-        private var _blockColor:uint = 0x66FF66;
-        private var _blockValue:*;
-        private var _enableConnections:Boolean;
+        protected var _socketType:String = SocketType.ROUND;
+        protected var _blockType:String;
+        protected var _blockName:String;
+        protected var _blockColor:uint = 0x66FF66;
+        protected var _blockValue:*;
+        protected var _enableConnections:Boolean;
 
-        private var _before:Block;
-        private var _after:Block;
-        private var _inner:Block;
-        private var _nested:Array;
+        protected var _before:Block;
+        protected var _after:Block;
+        protected var _inner:Block;
+        protected var _nested:Array;
 
         protected var dragging:Boolean = false;
 

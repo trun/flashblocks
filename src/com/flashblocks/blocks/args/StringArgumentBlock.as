@@ -24,20 +24,18 @@
             textInput = new TextInput();
             textInput.text = String(blockValue);
             textInput.width = MIN_WIDTH;
-            textInput.addEventListener(Event.CHANGE, updateWidth);
+            textInput.addEventListener(Event.CHANGE, function(e:Event):void {
+                _blockValue = textInput.text;
+                textInput.width = Math.max(MIN_WIDTH, textInput.textWidth + 20);
+            });
             hbox.addChild(textInput);
-        }
-
-        private function updateWidth(e:Event = null):void {
-            blockValue = textInput.text;
-            textInput.width = Math.max(MIN_WIDTH, textInput.textWidth + 20);
         }
 
         override public function set blockValue(value:*):void {
             if (textInput) {
                 textInput.text = String(blockValue);
             }
-            super.blockValue = value;
+            _blockValue = value;
         }
 
     }
