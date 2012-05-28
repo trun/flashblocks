@@ -23,7 +23,9 @@ package com.flashblocks.logoblocks {
     import mx.containers.Panel;
     import mx.containers.VBox;
     import mx.controls.Button;
-    import mx.core.UIComponent;
+import mx.controls.HSlider;
+import mx.controls.Label;
+import mx.core.UIComponent;
     import mx.events.FlexEvent;
 
     public class LogoBlocks extends Panel {
@@ -72,30 +74,30 @@ package com.flashblocks.logoblocks {
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createBlueBlock), colorPalette);
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createPinkBlock), colorPalette);
 
-            var vBox:VBox = new VBox();
-            vBox.width = 300;
-            vBox.percentHeight = 100;
-            divBox.addChild(vBox);
-
             anchorBlock = BlockFactory.createAnchorBlock("LogoBlocks");
             var page:Page = new Page();
-            page.percentWidth = 100;
+            page.width = 300;
             page.percentHeight = 100;
             page.addBlock(anchorBlock);
-            vBox.addChild(page);
+            divBox.addChild(page);
             workspace.registerWidget(page);
 
-            var controlBox:HBox = new HBox();
-            controlBox.percentWidth = 100;
-            controlBox.setStyle("horizontalGap", 10);
-            vBox.addChild(controlBox);
+            var vBox:VBox = new VBox();
+            vBox.percentWidth = 100;
+            vBox.percentHeight = 100;
+            divBox.addChild(vBox);
 
             turtleCanvas = new Panel();
             turtleCanvas.percentWidth = 100;
             turtleCanvas.percentHeight = 100;
             turtleCanvas.setStyle("horizontalAlign", "center");
             turtleCanvas.setStyle("verticalAlign", "middle");
-            divBox.addChild(turtleCanvas);
+            vBox.addChild(turtleCanvas);
+
+            var controlBox:HBox = new HBox();
+            controlBox.percentWidth = 100;
+            controlBox.setStyle("horizontalGap", 10);
+            vBox.addChild(controlBox);
 
             ChangeWatcher.watch(turtleCanvas, "width", onTurtleCanvasResize);
             ChangeWatcher.watch(turtleCanvas, "height", onTurtleCanvasResize);
@@ -129,8 +131,27 @@ package com.flashblocks.logoblocks {
                 trace(code);
             });
 
+            var timeoutFasterLabel:Label = new Label();
+            timeoutFasterLabel.text = "Faster";
+
+            var timeoutSlowerLabel:Label = new Label();
+            timeoutSlowerLabel.text = "Slower";
+
+            var timeoutSlider:HSlider = new HSlider();
+            timeoutSlider.maximum = 1000;
+            timeoutSlider.minimum = 10;
+            timeoutSlider.value = interpreter.timeout;
+            timeoutSlider.snapInterval = 10;
+            timeoutSlider.tickValues = [10, 50, 100, 250, 500, 1000];
+            timeoutSlider.addEventListener(Event.CHANGE, function(e:Event):void {
+                interpreter.timeout = timeoutSlider.value;
+            });
+
             controlBox.addChild(resetBtn);
             controlBox.addChild(runBtn);
+            controlBox.addChild(timeoutFasterLabel);
+            controlBox.addChild(timeoutSlider);
+            controlBox.addChild(timeoutSlowerLabel);
             //controlBox.addChild(jsonBtn);
 
             // drag layer must be registered on creation complete

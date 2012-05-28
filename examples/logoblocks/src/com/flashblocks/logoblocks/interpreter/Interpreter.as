@@ -8,20 +8,37 @@ package com.flashblocks.logoblocks.interpreter {
     public class Interpreter {
         private var canvas:LogoCanvas;
 
+        private var nextBlock:Block;
+        private var nextContext:Object;
+        private var nextCallback:Function;
+
+        private var _timeout:uint = 100;
+
         public function Interpreter(canvas:LogoCanvas) {
             this.canvas = canvas;
         }
 
-        public function execute(block:Block, context:Object=null, callback:Function=null):void {
-            setTimeout(function():void {
-                executeDo(block, context, callback);
-            }, 100);
+        public function get timeout():uint {
+            return _timeout;
         }
 
-        public function executeDo(block:Block, context:Object=null, callback:Function=null):void {
-            if (!context) {
-                context = new Object();
-            }
+        public function set timeout(value:uint):void {
+            _timeout = value;
+        }
+
+        public function execute(block:Block, context:Object=null, callback:Function=null):void {
+            nextBlock = block;
+            nextContext = context;
+            nextCallback = callback;
+            setTimeout(function():void {
+                executeNext();
+            }, timeout);
+        }
+
+        private function executeNext():void {
+            var block:Block = nextBlock;
+            var context:Object = nextContext || new Object();
+            var callback:Function = nextCallback;
 
             if (block.after) {
                 var origCallback:Function = callback;
@@ -92,5 +109,6 @@ package com.flashblocks.logoblocks.interpreter {
             }
             return block.blockValue;
         }
+
     }
 }
