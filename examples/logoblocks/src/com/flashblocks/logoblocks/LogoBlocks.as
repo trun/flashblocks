@@ -98,6 +98,27 @@ import flash.geom.Rectangle;
             ChangeWatcher.watch(turtleCanvas, "height", onTurtleCanvasResize);
 
             var drawingCanvas:LogoCanvas = new LogoCanvas();
+            turtleCanvas.addEventListener(MouseEvent.MOUSE_WHEEL, function(e:MouseEvent):void {
+                if (e.delta > 0 && drawingCanvas.scaleX < 2) {
+                    drawingCanvas.scaleX += .1;
+                    drawingCanvas.scaleY += .1;
+                } else if (e.delta < 0 && drawingCanvas.scaleY > .5) {
+                    drawingCanvas.scaleX -= .1;
+                    drawingCanvas.scaleY -= .1;
+                }
+            });
+            var turtleMouseX:int;
+            var turtleMouseY:int;
+            turtleCanvas.addEventListener(MouseEvent.MOUSE_MOVE, function(e:MouseEvent):void {
+                var turleMouseDeltaX:int = e.localX - turtleMouseX;
+                var turleMouseDeltaY:int = e.localY - turtleMouseY;
+                if (e.buttonDown) {
+                    drawingCanvas.x += turleMouseDeltaX;
+                    drawingCanvas.y += turleMouseDeltaY;
+                }
+                turtleMouseX = e.localX;
+                turtleMouseY = e.localY;
+            });
             turtleCanvas.addChild(drawingCanvas);
 
             interpreter = new Interpreter(drawingCanvas);
