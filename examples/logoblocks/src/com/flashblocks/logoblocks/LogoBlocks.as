@@ -1,5 +1,6 @@
 package com.flashblocks.logoblocks {
-    import com.flashblocks.BlockDragLayer;
+import com.adobe.serialization.json.JSON;
+import com.flashblocks.BlockDragLayer;
     import com.flashblocks.Page;
     import com.flashblocks.Palette;
     import com.flashblocks.PaletteList;
@@ -10,7 +11,8 @@ package com.flashblocks.logoblocks {
 
     import flash.events.Event;
     import flash.events.MouseEvent;
-    import flash.geom.Rectangle;
+import flash.external.ExternalInterface;
+import flash.geom.Rectangle;
     import mx.binding.utils.ChangeWatcher;
     import mx.containers.HBox;
     import mx.containers.Panel;
@@ -120,13 +122,12 @@ package com.flashblocks.logoblocks {
                 });
             });
 
-            var jsonBtn:Button = createControlButton("JSON");
+            var jsonBtn:Button = new Button();
+            jsonBtn.buttonMode = true;
+            jsonBtn.setStyle("icon", ImageAssets.SAVE_ICON);
             jsonBtn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
-                var code:Array = [];
-                for each (var block:Block in page.getAllBlocks()) {
-                    code.push(block.toJSON());
-                }
-                trace(code);
+                var code:Object = page.getAllBlocks()[0].toJSON();
+                ExternalInterface.call("console.log($.parseJSON('" + JSON.encode(code) + "'))");
             });
 
             var timeoutFasterLabel:Label = new Label();
@@ -147,10 +148,10 @@ package com.flashblocks.logoblocks {
 
             controlBox.addChild(runBtn);
             controlBox.addChild(resetBtn);
+            controlBox.addChild(jsonBtn);
             controlBox.addChild(timeoutFasterLabel);
             controlBox.addChild(timeoutSlider);
             controlBox.addChild(timeoutSlowerLabel);
-            //controlBox.addChild(jsonBtn);
 
             // drag layer must be registered on creation complete
             // otherwise the pop up layer will not be visible
