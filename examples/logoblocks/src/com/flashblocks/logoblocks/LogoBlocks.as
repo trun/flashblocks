@@ -54,11 +54,11 @@ import flash.geom.Rectangle;
             var palette:Palette = addPalette("Movement", paletteList);
             var colorPalette:Palette = addPalette("Colors", paletteList);
 
+            addBlock(BlockFactory.createFactoryBlock(BlockFactory.createRepeatBlock), palette);
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createForwardBlock), palette);
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createBackwardBlock), palette);
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createTurnLeftBlock), palette);
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createTurnRightBlock), palette);
-            addBlock(BlockFactory.createFactoryBlock(BlockFactory.createRepeatBlock), palette);
 
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createPenUpBlock), colorPalette);
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createPenDownBlock), colorPalette);

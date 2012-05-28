@@ -100,7 +100,7 @@ package com.flashblocks.logoblocks {
 
         public static function createRepeatBlock():SingleLogicBlock {
             var block:SingleLogicBlock = new SingleLogicBlock("repeat");
-            block.blockColor = 0x00CCCC;
+            block.blockColor = 0x2F6BF6;
             block.addContent(createBlockLabel("Repeat"));
             block.addContent(new StringArgumentBlock("arg-string", "5"));
             return block;
@@ -130,14 +130,14 @@ package com.flashblocks.logoblocks {
         // Helpers
         //
 
-        private static function createCommandBlock0(label:String, color:uint=0x336699):CommandBlock {
+        private static function createCommandBlock0(label:String, color:uint=0x999AF8):CommandBlock {
             var block:CommandBlock = new CommandBlock(slugify(label));
             block.blockColor = color;
             block.addContent(createBlockLabel(label));
             return block;
         }
 
-        private static function createCommandBlock1(label:String, arg:String="0", color:uint=0x336699):CommandBlock {
+        private static function createCommandBlock1(label:String, arg:String="0", color:uint=0x999AF8):CommandBlock {
             var block:CommandBlock = new CommandBlock(slugify(label));
             block.blockColor = color;
             block.addContent(createBlockLabel(label));
