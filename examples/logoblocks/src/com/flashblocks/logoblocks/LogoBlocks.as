@@ -13,6 +13,9 @@ import com.flashblocks.BlockDragLayer;
     import flash.events.MouseEvent;
 import flash.external.ExternalInterface;
 import flash.geom.Rectangle;
+    import flash.net.SharedObject;
+    import flash.net.SharedObject;
+
     import mx.binding.utils.ChangeWatcher;
     import mx.containers.HBox;
     import mx.containers.Panel;
@@ -152,8 +155,32 @@ import flash.geom.Rectangle;
             jsonBtn.buttonMode = true;
             jsonBtn.setStyle("icon", ImageAssets.SAVE_ICON);
             jsonBtn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
-                var code:Object = page.getAllBlocks()[0].toJSON();
-                ExternalInterface.call("console.log($.parseJSON('" + JSON.encode(code) + "'))");
+                var anchor:Block = page.getAllBlocks()[0];
+                var code:Object = anchor.toJSON();
+                if (code is Array) {
+                    code = code.slice(1);
+                } else {
+                    code = [];
+                }
+                var so:SharedObject = SharedObject.getLocal("logoblocks");
+                so.data.code = code;
+                so.flush();
+            });
+
+            var loadBtn:Button = new Button();
+            loadBtn.buttonMode = true;
+            loadBtn.setStyle("icon", ImageAssets.LOAD_ICON);
+            loadBtn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
+                var so:SharedObject = SharedObject.getLocal("logoblocks");
+                var code:Array = so.data.code;
+
+                // clear existing program
+                if (anchorBlock.after) {
+                    anchorBlock.removeChild(anchorBlock.after);
+                    anchorBlock.cleanAfterConnections();
+                }
+
+                anchorBlock.connectAfter(BlockFactory.createBlock(code, workspace));
             });
 
             var timeoutFasterLabel:Label = new Label();
@@ -176,6 +203,7 @@ import flash.geom.Rectangle;
             controlBox.addChild(resetBtn);
             controlBox.addChild(runBtn);
             controlBox.addChild(jsonBtn);
+            controlBox.addChild(loadBtn);
             controlBox.addChild(timeoutFasterLabel);
             controlBox.addChild(timeoutSlider);
             controlBox.addChild(timeoutSlowerLabel);

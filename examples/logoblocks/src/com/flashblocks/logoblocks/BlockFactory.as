@@ -1,10 +1,13 @@
 package com.flashblocks.logoblocks {
+    import com.adobe.serialization.json.JSON;
+    import com.flashblocks.Workspace;
     import com.flashblocks.blocks.AnchorBlock;
     import com.flashblocks.blocks.Block;
     import com.flashblocks.blocks.CommandBlock;
     import com.flashblocks.blocks.FactoryBlock;
     import com.flashblocks.blocks.ReporterBlock;
     import com.flashblocks.blocks.SingleLogicBlock;
+    import com.flashblocks.blocks.args.ArgumentBlock;
     import com.flashblocks.blocks.args.ColorPickerArgumentBlock;
     import com.flashblocks.blocks.args.StringArgumentBlock;
 
@@ -12,32 +15,83 @@ package com.flashblocks.logoblocks {
 
     public class BlockFactory {
 
-        public static function createBlock(blockDefinition:Object):Block {
+        public static function createBlock(blockDefinition:Object, workspace:Workspace):Block {
             var block:Block = null;
-            switch (blockDefinition.name) {
-                case "forward":
-                    block = createForwardBlock();
-                    break;
-                case "backward":
-                    block = createBackwardBlock();
-                    break;
-                case "turn-right":
-                    block = createTurnRightBlock();
-                    break;
-                case "turn-left":
-                    block = createTurnLeftBlock();
-                    break;
-                case "pen-up":
-                    block = createPenUpBlock();
-                    break;
-                case "pen-down":
-                    block = createPenDownBlock();
-                    break;
-                case "set-pen-color":
-                    block = createPenColorBlock();
-                    break;
+
+            if (blockDefinition is Array) {
+                block = createBlock(blockDefinition[0], workspace);
+                if (blockDefinition.length > 1) {
+                    block.connectAfter(createBlock(blockDefinition.slice(1), workspace));
+                }
+            } else {
+                switch (blockDefinition.name) {
+                    case "repeat":
+                        block = createRepeatBlock();
+                        break;
+                    case "forward":
+                        block = createForwardBlock();
+                        break;
+                    case "backward":
+                        block = createBackwardBlock();
+                        break;
+                    case "turn-right":
+                        block = createTurnRightBlock();
+                        break;
+                    case "turn-left":
+                        block = createTurnLeftBlock();
+                        break;
+                    case "pen-up":
+                        block = createPenUpBlock();
+                        break;
+                    case "pen-down":
+                        block = createPenDownBlock();
+                        break;
+                    case "set-pen-color":
+                        block = createPenColorBlock();
+                        break;
+                    case "arg-string":
+                        block = new StringArgumentBlock(blockDefinition.name, blockDefinition.value);
+                        break;
+                    case "arg-color-picker":
+                        block = new ColorPickerArgumentBlock(blockDefinition.name, blockDefinition.value);
+                        break;
+                    case "pink":
+                        block = createPinkBlock();
+                        break;
+                    case "blue":
+                        block = createBlueBlock();
+                        break;
+                    case "red":
+                        block = createRedBlock();
+                        break;
+                    case "green":
+                        block = createGreenBlock();
+                        break;
+                }
+
+                if (blockDefinition.inner) {
+                    block.connectInner(createBlock(blockDefinition.inner, workspace));
+                }
+
+                if (blockDefinition.nested) {
+                    var i:uint = 0;
+                    for each (var nestedDefinition:Object in blockDefinition.nested) {
+                        if (nestedDefinition) {
+                            block.connectNested(i, createBlock(nestedDefinition, workspace));
+                        }
+                        i++;
+                    }
+                }
+
+                if (blockDefinition.args) {
+                    block.removeAllArguments();
+                    for each (var argDefitinion:Object in blockDefinition.args) {
+                        block.addArgument(createBlock(argDefitinion, workspace) as ArgumentBlock);
+                    }
+                }
             }
 
+            workspace.registerBlock(block);
             return block;
         }
 
@@ -90,7 +144,7 @@ package com.flashblocks.logoblocks {
 
         public static function createPenColorBlock():CommandBlock {
             var block:CommandBlock = createCommandBlock0("Set Pen Color", 0x6666FF);
-            block.addContent(new ColorPickerArgumentBlock("arg-color-picker"));
+            block.addArgument(new ColorPickerArgumentBlock("arg-color-picker"));
             return block;
         }
 
@@ -102,7 +156,7 @@ package com.flashblocks.logoblocks {
             var block:SingleLogicBlock = new SingleLogicBlock("repeat");
             block.blockColor = 0x2F6BF6;
             block.addContent(createBlockLabel("Repeat"));
-            block.addContent(new StringArgumentBlock("arg-string", "8"));
+            block.addArgument(new StringArgumentBlock("arg-string", "8"));
             return block;
         }
 
@@ -152,7 +206,7 @@ package com.flashblocks.logoblocks {
             var block:CommandBlock = new CommandBlock(slugify(label));
             block.blockColor = color;
             block.addContent(createBlockLabel(label));
-            block.addContent(new StringArgumentBlock("arg-string", arg));
+            block.addArgument(new StringArgumentBlock("arg-string", arg));
             return block;
         }
 

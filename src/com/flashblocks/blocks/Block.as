@@ -146,14 +146,20 @@
             return [ ];
         }
 
+        public function addArgument(block:ArgumentBlock):void {
+            // override
+        }
+
+        public function removeArgument(block:ArgumentBlock):void {
+            // override
+        }
+
+        public function removeAllArguments():void {
+            // override
+        }
+
         public function getArguments():Array {
-            var args:Array = new Array();
-            for each (var child:DisplayObject in getContent()) {
-                if (child is Block) {
-                    args.push(child);
-                }
-            }
-            return args;
+            return [ ]; // override
         }
 
         public function getArgument(i:uint=0):ArgumentBlock {
@@ -260,12 +266,12 @@
         //
 
         public function cleanConnections(recursive:Boolean=false):void {
-            cleanAfterConnections();
-            cleanInnerConnections();
-            cleanNestedConnections();
+            cleanAfterConnections(recursive);
+            cleanInnerConnections(recursive);
+            cleanNestedConnections(recursive);
 
             for each (var arg:ArgumentBlock in getArguments()) {
-                arg.cleanConnections();
+                arg.cleanConnections(recursive);
             }
         }
 

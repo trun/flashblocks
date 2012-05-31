@@ -1,4 +1,5 @@
 ﻿package com.flashblocks.blocks {
+    import com.flashblocks.blocks.args.ArgumentBlock;
     import com.flashblocks.events.BlockDragEvent;
     import com.flashblocks.blocks.sockets.Socket;
     import com.flashblocks.blocks.sockets.SocketFactory;
@@ -42,6 +43,8 @@
 
         protected var topMidBox:HBox;
         protected var centerMidBox:HBox;
+        protected var contentBox:HBox;
+        protected var argumentBox:HBox;
         protected var bottomMidBox:HBox;
 
         protected var leftSocket:Socket;
@@ -99,6 +102,12 @@
             centerMidBox.setStyle("backgroundColor", blockColor);
             middleBox.addChild(centerMidBox);
 
+            contentBox = new HBox();
+            centerMidBox.addChild(contentBox);
+
+            argumentBox = new HBox();
+            centerMidBox.addChild(argumentBox);
+
             bottomMidBox = new HBox();
             bottomMidBox.percentWidth = 100;
             bottomMidBox.setStyle("horizontalGap", 0);
@@ -120,15 +129,31 @@
         }
 
         override public function addContent(content:DisplayObject):void {
-            centerMidBox.addChild(content);
+            contentBox.addChild(content);
         }
 
         override public function removeContent(content:DisplayObject):void {
-            centerMidBox.removeChild(content);
+            contentBox.removeChild(content);
         }
 
         override public function getContent():Array {
             return centerMidBox.getChildren();
+        }
+
+        override public function addArgument(block:ArgumentBlock):void {
+            argumentBox.addChild(block);
+        }
+
+        override public function removeArgument(block:ArgumentBlock):void {
+            argumentBox.removeChild(block);
+        }
+
+        override public function removeAllArguments():void {
+            argumentBox.removeAllChildren();
+        }
+
+        override public function getArguments():Array {
+            return argumentBox.getChildren();
         }
 
         private function onSocketTypeChange(e:Event):void {

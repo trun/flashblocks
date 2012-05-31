@@ -1,4 +1,5 @@
 ﻿package com.flashblocks.blocks {
+    import com.flashblocks.blocks.args.ArgumentBlock;
     import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.events.BlockConnectionEvent;
     import com.flashblocks.events.BlockDragEvent;
@@ -17,8 +18,8 @@
     /**
      *   _______________________
      *  |_______________________|
-     *  ||  |     HBox      |  ||
-     *  || V|_______________|__||
+     *  ||  |  HBox | HBox  |  ||
+     *  || V|_______|_______|__||
      *  || B|     HBox         ||
      *  || o|_______________ __||
      *  || x|     HBox      |  ||
@@ -36,7 +37,9 @@
         protected var bottomBox:HBox;
         protected var bottomVBox:VBox;
         protected var topTopLineBox:HBox;
+        protected var topMidBox:HBox;
         protected var topContentBox:HBox;
+        protected var topArgumentBox:HBox;
         protected var topNestedLineBox:HBox;
         protected var midStretchBox:HBox;
         protected var midLeftBox:VBox;
@@ -98,12 +101,18 @@
             topTopLineBox.setStyle("horizontalGap", 0);
             topVBox.addChild(topTopLineBox);
 
+            topMidBox = new HBox();
+            topMidBox.percentWidth = 100;
+            topMidBox.setStyle("verticalAlign", "middle");
+            topMidBox.setStyle("horizontalGap", 5);
+            topMidBox.setStyle("backgroundColor", blockColor);
+            topVBox.addChild(topMidBox);
+
             topContentBox = new HBox();
-            topContentBox.percentWidth = 100;
-            topContentBox.setStyle("verticalAlign", "middle");
-            topContentBox.setStyle("horizontalGap", 5);
-            topContentBox.setStyle("backgroundColor", blockColor);
-            topVBox.addChild(topContentBox);
+            topMidBox.addChild(topContentBox);
+
+            topArgumentBox = new HBox();
+            topMidBox.addChild(topArgumentBox);
 
             topNestedLineBox = new HBox();
             topNestedLineBox.percentWidth = 100;
@@ -182,6 +191,22 @@
 
         override public function getContent():Array {
             return topContentBox.getChildren();
+        }
+
+        override public function addArgument(block:ArgumentBlock):void {
+            topArgumentBox.addChild(block);
+        }
+
+        override public function removeArgument(block:ArgumentBlock):void {
+            topArgumentBox.removeChild(block);
+        }
+
+        override public function removeAllArguments():void {
+            topArgumentBox.removeAllChildren();
+        }
+
+        override public function getArguments():Array {
+            return topArgumentBox.getChildren();
         }
 
         private function onSocketTypeChange(e:Event):void {
