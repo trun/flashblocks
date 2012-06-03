@@ -1,6 +1,5 @@
 package com.flashblocks.logoblocks {
-import com.adobe.serialization.json.JSON;
-import com.flashblocks.BlockDragLayer;
+    import com.flashblocks.BlockDragLayer;
     import com.flashblocks.Page;
     import com.flashblocks.Palette;
     import com.flashblocks.PaletteList;
@@ -11,9 +10,7 @@ import com.flashblocks.BlockDragLayer;
 
     import flash.events.Event;
     import flash.events.MouseEvent;
-import flash.external.ExternalInterface;
-import flash.geom.Rectangle;
-    import flash.net.SharedObject;
+    import flash.geom.Rectangle;
     import flash.net.SharedObject;
 
     import mx.binding.utils.ChangeWatcher;
