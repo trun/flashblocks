@@ -80,6 +80,14 @@
             removeChild(block);
         }
 
+        public function dragEnterBlock(block:Block):void {
+            // TODO
+        }
+
+        public function dragExitBlock(block:Block):void {
+            // TODO
+        }
+
         public function getAllBlocks():Array{
             return getChildren();
         }

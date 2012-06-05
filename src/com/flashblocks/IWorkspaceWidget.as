@@ -13,6 +13,10 @@
 
         function removeBlock(block:Block):void;
 
+        function dragEnterBlock(block:Block):void;
+
+        function dragExitBlock(block:Block):void;
+
         function getAllBlocks():Array;
 
     }

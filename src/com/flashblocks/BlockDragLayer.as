@@ -68,6 +68,14 @@
             block = null;
         }
 
+        public function dragEnterBlock(block:Block):void {
+            // do nothing
+        }
+
+        public function dragExitBlock(block:Block):void {
+            // do nothing
+        }
+
         public function getAllBlocks():Array {
             if (block) {
                 return [ block ];
