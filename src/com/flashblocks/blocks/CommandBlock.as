@@ -117,7 +117,7 @@
             var centerX:Number = p.x + block.width / 2;
 
             return p.y >= hbox.height && p.y < hbox.height + 20
-                    && centerX >= x && centerX <= x + hbox.width;
+                    && centerX >= 0 && centerX <= hbox.width;
         }
 
         override public function hasBefore():Boolean {
