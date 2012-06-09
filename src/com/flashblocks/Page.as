@@ -157,9 +157,8 @@
 
             if (child.hasAfter()) {
                 if (child.testAfterConnection(block)) {
-                    if (hoverChild) {
+                    if (hoverChild)
                         hoverChild.outAfter(block);
-                    }
                     child.overAfter(block);
                     hoverChild = child;
                     return true;
@@ -168,6 +167,8 @@
 
             if (child.hasBefore() && child.before == null) {
                 if (child.testBeforeConnection(block)) {
+                    if (hoverChild)
+                        hoverChild.outBefore(block);
                     child.overBefore(block);
                     hoverChild = child;
                     return true;
@@ -224,6 +225,7 @@
             }
 
             if (hoverChild) {
+                hoverChild.outBefore(block);
                 hoverChild.outAfter(block);
                 hoverChild = null;
             }
@@ -231,6 +233,7 @@
 
         public function dragExitBlock(block:Block):void {
             if (hoverChild) {
+                hoverChild.outBefore(block);
                 hoverChild.outAfter(block);
             }
             // TODO all out calls

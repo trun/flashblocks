@@ -39,12 +39,6 @@
             bottomMidBox.removeAllChildren();
             bottomMidBox.addChild(new BlockNotchBottom(blockColor));
             bottomMidBox.addChild(new BlockFlatBottom(blockColor));
-
-            if (widthWatcher)
-                widthWatcher.unwatch();
-            widthWatcher = ChangeWatcher.watch(hbox, "width", function(e:Event):void {
-                marker.width = hbox.width;
-            });
         }
 
         override public function connectBefore(block:Block):void {
@@ -78,13 +72,22 @@
         }
 
         override public function overBefore(block:Block):void {
-
+            addChild(marker);
+            marker.x = 0;
+            marker.y = 0;
+            marker.width = hbox.width;
         }
 
         override public function overAfter(block:Block):void {
             addChild(marker);
             marker.x = 0;
             marker.y = hbox.height;
+            marker.width = hbox.width;
+        }
+
+        override public function outBefore(block:Block):void {
+            if (marker.parent == this)
+                removeChild(marker);
         }
 
         override public function outAfter(block:Block):void {
@@ -103,7 +106,7 @@
             var bottomY:Number = p.y + block.height;
 
             return bottomY < this.y && bottomY > this.y - 20
-                    && centerX >= 0 && centerX <= hbox.width;
+                    && centerX >= x && centerX <= x + hbox.width;
         }
 
         override public function testAfterConnection(block:Block):Boolean {
@@ -114,7 +117,7 @@
             var centerX:Number = p.x + block.width / 2;
 
             return p.y >= hbox.height && p.y < hbox.height + 20
-                    && centerX >= 0 && centerX <= hbox.width;
+                    && centerX >= x && centerX <= x + hbox.width;
         }
 
         override public function hasBefore():Boolean {
