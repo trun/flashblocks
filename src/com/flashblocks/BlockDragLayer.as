@@ -1,4 +1,5 @@
 ﻿package com.flashblocks {
+    import com.flashblocks.IWorkspaceWidget;
     import com.flashblocks.blocks.Block;
     import com.flashblocks.events.BlockDragEvent;
     import com.flashblocks.util.BlockUtil;
@@ -24,6 +25,7 @@
 
         private var lastMouseX:Number;
         private var lastMouseY:Number;
+        private var hoverWidget:IWorkspaceWidget;
 
         private var shadowFilter:BitmapFilter;
 
@@ -46,6 +48,17 @@
 
                 lastMouseX = mouseX;
                 lastMouseY = mouseY;
+
+                if (xDiff != 0 || yDiff != 0) {
+                    var newHoverWidget:IWorkspaceWidget = getHoverWidget(block);
+                    if (newHoverWidget) {
+                        if (hoverWidget && newHoverWidget != hoverWidget) {
+                            hoverWidget.dragExitBlock(block);
+                        }
+                        hoverWidget = newHoverWidget;
+                        hoverWidget.dragEnterBlock(block);
+                    }
+                }
             }
         }
 
@@ -64,6 +77,9 @@
             stopDragBlock(block);
             if (this.contains(block)) {
                 removeChild(block);
+            }
+            if (hoverWidget) {
+                hoverWidget.dragExitBlock(block);
             }
             block = null;
         }
@@ -129,36 +145,17 @@
             if (block != e.block)
                 return;
 
-            var dropped:Boolean = false;
-
-            for each (var widget:IWorkspaceWidget in workspace.getWidgets()) {
-                // skip the drag layer
-                if (widget == this)
-                    continue;
-
-                // skip widgets that are not DisplayObjects
-                var widgetDO:DisplayObject;
-                if (!widget is DisplayObject)
-                    continue;
-
-                // skip invisible widgets
-                widgetDO = widget as DisplayObject;
-                if (!widgetDO.visible)
-                    continue;
-
-                if (widgetDO.hitTestObject(block)) {
-                    if (originalParent is Block) {
-                        (originalParent as Block).cleanConnections();
-                    }
-                    widget.addBlock(block);
-                    dropped = true;
-                    break;
+            var widget:IWorkspaceWidget = getHoverWidget(block);
+            if (widget) {
+                if (originalParent is Block) {
+                    (originalParent as Block).cleanConnections();
                 }
+                widget.addBlock(block);
             }
 
             // Return block to original state
             // TODO: remember block connection so we can clean connections prior to dropping the block
-            if (!dropped) {
+            if (!widget) {
                 block.x = originalPositionX;
                 block.y = originalPositionY;
                 if (originalParent is IWorkspaceWidget) {
@@ -176,8 +173,6 @@
                         originalParentBlock.connectInner(block);
                     } else {
                         for (var i:uint = 0; i < originalParentBlock.nested.length; i++) {
-                            trace('testing nested... ' + i);
-                            trace(' - original parent... ' + originalParentBlock.nested[i]);
                             if (originalParentBlock.nested[i] == block) {
                                 originalParentBlock.nested[i] = null;
                                 originalParentBlock.connectNested(i, block);
@@ -190,6 +185,33 @@
             }
 
             removeBlock(block);
+        }
+
+        private function getHoverWidget(block:Block):IWorkspaceWidget {
+            if (!block)
+                return null;
+
+            for each (var widget:IWorkspaceWidget in workspace.getWidgets()) {
+                // skip the drag layer
+                if (widget == this)
+                    continue;
+
+                // skip widgets that are not DisplayObjects
+                var widgetDO:DisplayObject;
+                if (!widget is DisplayObject)
+                    continue;
+
+                // skip invisible widgets
+                widgetDO = widget as DisplayObject;
+                if (!widgetDO.visible)
+                    continue;
+
+                if (widgetDO.hitTestObject(block)) {
+                    return widget;
+                }
+            }
+
+            return null;
         }
 
     }

@@ -2,7 +2,12 @@
     import com.flashblocks.blocks.render.*;
     import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.util.BlockUtil;
+
+    import flash.events.Event;
     import flash.geom.Point;
+
+    import mx.binding.utils.ChangeWatcher;
+    import mx.containers.Canvas;
 
     /**
      * ...
@@ -10,11 +15,18 @@
      */
     public class CommandBlock extends SimpleBlock {
 
+        private var marker:Canvas;
+        private var widthWatcher:ChangeWatcher;
+
         public function CommandBlock(blockName:String) {
             super(blockName);
 
             socketType = SocketType.SQUARE;
             blockType = BlockType.COMMAND;
+
+            marker = new Canvas();
+            marker.height = 5;
+            marker.setStyle("backgroundColor", 0x00FFFF);
         }
 
         override public function redraw():void {
@@ -27,6 +39,12 @@
             bottomMidBox.removeAllChildren();
             bottomMidBox.addChild(new BlockNotchBottom(blockColor));
             bottomMidBox.addChild(new BlockFlatBottom(blockColor));
+
+            if (widthWatcher)
+                widthWatcher.unwatch();
+            widthWatcher = ChangeWatcher.watch(hbox, "width", function(e:Event):void {
+                marker.width = hbox.width;
+            });
         }
 
         override public function connectBefore(block:Block):void {
@@ -47,11 +65,31 @@
             block.x = 0;
             block.y = hbox.height;
 
-            if (after)
-                block.connectAfter(after);
+            if (after) {
+                var lastBlock:Block = block;
+                while (lastBlock.after != null) {
+                    lastBlock = lastBlock.after;
+                }
+                lastBlock.connectAfter(after);
+            }
 
             block.before = this;
             this.after = block;
+        }
+
+        override public function overBefore(block:Block):void {
+
+        }
+
+        override public function overAfter(block:Block):void {
+            addChild(marker);
+            marker.x = 0;
+            marker.y = hbox.height;
+        }
+
+        override public function outAfter(block:Block):void {
+            if (marker.parent == this)
+                removeChild(marker);
         }
 
         override public function testBeforeConnection(block:Block):Boolean {
@@ -61,8 +99,11 @@
                 return false;
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this.parent);
+            var centerX:Number = p.x + block.width / 2;
+            var bottomY:Number = p.y + block.height;
 
-            return hbox.hitTestObject(block) && (p.y < this.y);
+            return bottomY < this.y && bottomY > this.y - 20
+                    && centerX >= 0 && centerX <= hbox.width;
         }
 
         override public function testAfterConnection(block:Block):Boolean {
@@ -70,8 +111,10 @@
                 return false;
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
+            var centerX:Number = p.x + block.width / 2;
 
-            return hbox.hitTestObject(block) && (p.y > hbox.height - 10);
+            return p.y >= hbox.height && p.y < hbox.height + 20
+                    && centerX >= 0 && centerX <= hbox.width;
         }
 
         override public function hasBefore():Boolean {

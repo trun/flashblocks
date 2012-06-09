@@ -239,6 +239,42 @@
         }
 
         //
+        // HOVER METHODS -- Preview block connections at specific ports.
+        //
+
+        public function overBefore(block:Block):void {
+            // override
+        }
+
+        public function overAfter(block:Block):void {
+            // override
+        }
+
+        public function overInner(block:Block):void {
+            // override
+        }
+
+        public function overNested(level:uint, block:Block):void {
+            // override
+        }
+
+        public function outBefore(block:Block):void {
+            // override
+        }
+
+        public function outAfter(block:Block):void {
+            // override
+        }
+
+        public function outInner(block:Block):void {
+            // override
+        }
+
+        public function outNested(level:uint, block:Block):void {
+            // override
+        }
+
+        //
         // Dragging Methods
         //
 

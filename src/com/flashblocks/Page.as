@@ -11,6 +11,7 @@
     public class Page extends Canvas implements IWorkspaceWidget {
 
         protected var workspace:Workspace;
+        private var hoverChild:Block;
 
         public function Page() {
             super();
@@ -150,17 +151,89 @@
             return false;
         }
 
+        private function tryHoverConnection(child:Block, block:Block):Boolean {
+            if (!child.enableConnections)
+                return false;
+
+            if (child.hasAfter()) {
+                if (child.testAfterConnection(block)) {
+                    if (hoverChild) {
+                        hoverChild.outAfter(block);
+                    }
+                    child.overAfter(block);
+                    hoverChild = child;
+                    return true;
+                }
+            }
+
+            if (child.hasBefore() && child.before == null) {
+                if (child.testBeforeConnection(block)) {
+                    child.overBefore(block);
+                    hoverChild = child;
+                    return true;
+                }
+            }
+
+            for each (var arg:Block in child.getArguments()) {
+                if (arg.enableConnections && arg.testInnerConnection(block)) {
+                    arg.overInner(block);
+                    hoverChild = child;
+                    return true;
+                }
+
+                if (arg.inner) {
+                    if (tryHoverConnection(arg.inner, block)) {
+                        return true;
+                    }
+                }
+            }
+
+            if (child.after != null) {
+                if (tryHoverConnection(child.after, block)) {
+                    return true;
+                }
+            }
+
+            for each (var nested:Block in child.nested) {
+                if (nested && tryHoverConnection(nested, block)) {
+                    return true;
+                }
+            }
+
+            for (var i:uint = 0; i < child.numNested(); i++) {
+                if (child.testNestedConnection(i, block)) {
+                    child.overNested(i, block);
+                    hoverChild = child;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public function removeBlock(block:Block):void {
             block.enableConnections = false;
             removeChild(block);
         }
 
         public function dragEnterBlock(block:Block):void {
-            // TODO
+            for each (var child:Block in getAllBlocks()) {
+                if (tryHoverConnection(child, block)) {
+                    return;
+                }
+            }
+
+            if (hoverChild) {
+                hoverChild.outAfter(block);
+                hoverChild = null;
+            }
         }
 
         public function dragExitBlock(block:Block):void {
-            // TODO
+            if (hoverChild) {
+                hoverChild.outAfter(block);
+            }
+            // TODO all out calls
         }
 
         public function getAllBlocks():Array {
