@@ -6,7 +6,6 @@
     import flash.events.Event;
     import flash.geom.Point;
 
-    import mx.binding.utils.ChangeWatcher;
     import mx.containers.Canvas;
 
     /**
@@ -16,7 +15,6 @@
     public class CommandBlock extends SimpleBlock {
 
         private var marker:Canvas;
-        private var widthWatcher:ChangeWatcher;
 
         public function CommandBlock(blockName:String) {
             super(blockName);
@@ -101,12 +99,12 @@
             if (block.after != null)
                 return false;
 
-            var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this.parent);
+            var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
             var centerX:Number = p.x + block.width / 2;
             var bottomY:Number = p.y + block.height;
 
-            return bottomY < this.y && bottomY > this.y - 20
-                    && centerX >= x && centerX <= x + hbox.width;
+            return bottomY < 0 && bottomY > -20
+                    && centerX >= 0 && centerX <= hbox.width;
         }
 
         override public function testAfterConnection(block:Block):Boolean {

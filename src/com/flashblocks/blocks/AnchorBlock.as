@@ -12,6 +12,7 @@
     import flash.geom.Point;
 
     import mx.binding.utils.ChangeWatcher;
+    import mx.containers.Canvas;
 
     /**
      * Anchored block that is fixed in its parent and cannot be moved.
@@ -25,6 +26,7 @@
      */
     public class AnchorBlock extends SimpleBlock {
         private var widthWatcher:ChangeWatcher;
+        private var marker:Canvas;
 
         public function AnchorBlock(blockName:String) {
             super(blockName);
@@ -34,6 +36,10 @@
 
             addEventListener(Event.ADDED, onParentChange);
             addEventListener(Event.REMOVED, onParentChange);
+
+            marker = new Canvas();
+            marker.height = 5;
+            marker.setStyle("backgroundColor", 0x00FFFF);
         }
 
         override public function redraw():void {
@@ -57,8 +63,13 @@
             block.x = 15;
             block.y = hbox.height;
 
-            if (after)
-                block.connectAfter(after);
+            if (after) {
+                var lastBlock:Block = block;
+                while (lastBlock.after != null) {
+                    lastBlock = lastBlock.after;
+                }
+                lastBlock.connectAfter(after);
+            }
 
             block.before = this;
             this.after = block;
@@ -69,8 +80,22 @@
                 return false;
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
+            var centerX:Number = p.x + block.width / 2;
 
-            return hbox.hitTestObject(block) && (p.y > hbox.height - 10);
+            return p.y >= hbox.height && p.y < hbox.height + 20
+                    && centerX >= 0 && centerX <= hbox.width;
+        }
+
+        override public function overAfter(block:Block):void {
+            addChild(marker);
+            marker.x = 15;
+            marker.y = hbox.height;
+            marker.width = hbox.width - 30;
+        }
+
+        override public function outAfter(block:Block):void {
+            if (marker.parent == this)
+                removeChild(marker);
         }
 
         override public function hasAfter():Boolean {
