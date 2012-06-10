@@ -220,6 +220,7 @@ package com.flashblocks.logoblocks {
             var blockLabel:Label = new Label();
             blockLabel.mouseChildren = false;
             blockLabel.text = str;
+            blockLabel.setStyle("paddingTop", 2);
             blockLabel.setStyle("fontWeight", "bold");
             blockLabel.setStyle("color", 0xFFFFFF);
             blockLabel.setStyle("fontSize", size);
