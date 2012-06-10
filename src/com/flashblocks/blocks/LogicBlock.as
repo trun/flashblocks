@@ -12,6 +12,7 @@
     import flash.filters.BevelFilter;
     import flash.geom.Point;
     import mx.binding.utils.ChangeWatcher;
+    import mx.containers.Canvas;
     import mx.containers.HBox;
     import mx.containers.VBox;
 
@@ -54,11 +55,17 @@
         protected var nestedBlockWidthWatcher:ChangeWatcher;
         protected var nestedBlockHeightWatcher:ChangeWatcher;
 
+        private var marker:Canvas;
+
         public function LogicBlock(blockName:String) {
             super(blockName);
 
             blockType = BlockType.LOGIC;
             socketType = SocketType.SQUARE;
+
+            marker = new Canvas();
+            marker.height = 5;
+            marker.setStyle("backgroundColor", 0x00FFFF);
 
             ChangeWatcher.watch(this, "socketType", onSocketTypeChange);
         }
@@ -302,9 +309,25 @@
             if (block.after != null)
                 return false;
 
-            var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this.parent);
+            var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
 
-            return hbox.hitTestObject(block) && (p.y < this.y);
+            var centerX:Number = p.x + block.width / 2;
+            var bottomY:Number = p.y + block.height;
+
+            return bottomY < 0 && bottomY > -20
+                    && centerX >= 0 && centerX <= hbox.width;
+        }
+
+        override public function overBefore(block:Block):void {
+            addChild(marker);
+            marker.x = 0;
+            marker.y = 0;
+            marker.width = hbox.width;
+        }
+
+        override public function outBefore(block:Block):void {
+            if (marker.parent == this)
+                removeChild(marker);
         }
 
         //
@@ -315,26 +338,45 @@
             return true;
         }
 
-        override public function testAfterConnection(block:Block):Boolean {
-            if (!block.hasAfter())
-                return false;
-
-            var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
-
-            return hbox.hitTestObject(block) && (p.y > hbox.height - 10);
-        }
-
         override public function connectAfter(block:Block):void {
             addChild(block);
 
             block.x = 0;
             block.y = hbox.height;
 
-            if (after)
-                block.connectAfter(after);
+            if (after) {
+                var lastBlock:Block = block;
+                while (lastBlock.after != null) {
+                    lastBlock = lastBlock.after;
+                }
+                lastBlock.connectAfter(after);
+            }
 
             block.before = this;
             this.after = block;
+        }
+
+        override public function testAfterConnection(block:Block):Boolean {
+            if (!block.hasAfter())
+                return false;
+
+            var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
+            var centerX:Number = p.x + block.width / 2;
+
+            return p.y >= hbox.height && p.y < hbox.height + 20
+                    && centerX >= 0 && centerX <= hbox.width;
+        }
+
+        override public function overAfter(block:Block):void {
+            addChild(marker);
+            marker.x = 0;
+            marker.y = hbox.height;
+            marker.width = hbox.width;
+        }
+
+        override public function outAfter(block:Block):void {
+            if (marker.parent == this)
+                removeChild(marker);
         }
 
         //
@@ -350,8 +392,10 @@
                 return false;
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
+            var centerX:Number = p.x + block.width / 2;
 
-            return hbox.hitTestObject(block) && (p.y > topVBox.height - 10) && (p.y < topVBox.height + 10);
+            return p.y > topVBox.height && p.y < topVBox.height + 20
+                    && centerX >= topVBox.x && centerX <= topVBox.x + topVBox.width;
         }
 
         override public function connectNested(level:uint, block:Block):void {
@@ -371,6 +415,18 @@
             block.addEventListener(BlockConnectionEvent.DISCONNECT, onNestedBlockDisconnect);
 
             resizeMidBox();
+        }
+
+        override public function overNested(level:uint, block:Block):void {
+            addChild(marker);
+            marker.x = 30;
+            marker.y = topBox.height;
+            marker.width = topBox.width - 15;
+        }
+
+        override public function outNested(level:uint, block:Block):void {
+            if (marker.parent == this)
+                removeChild(marker);
         }
 
         override public function cleanNestedConnections(recursive:Boolean=false):void {
