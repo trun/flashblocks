@@ -5,6 +5,8 @@
     import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.util.BlockUtil;
     import flash.geom.Point;
+
+    import mx.containers.Canvas;
     import mx.containers.VBox;
     import mx.controls.Spacer;
 
@@ -13,14 +15,21 @@
      * @author Trevor Rundell
      */
     public class ProcedureBlock extends SimpleBlock {
-
-        protected var connectionTarget:VBox;
+        private var marker:Canvas;
 
         public function ProcedureBlock(blockName:String) {
             super(blockName);
 
             blockType = BlockType.PROCEDURE;
             socketType = SocketType.ROUND;
+
+            marker = new Canvas();
+            marker.height = 5;
+            marker.setStyle("backgroundColor", 0x00FFFF);
+        }
+
+        override public function redraw():void {
+            super.redraw();
 
             topMidBox.addChild(new BlockCapTop(blockColor));
 
@@ -34,8 +43,6 @@
             var rightSpacer:Spacer = new Spacer();
             rightSpacer.height = 10;
             rightBox.addChildAt(rightSpacer, 0);
-
-            //centerMidBox.setStyle("paddingRight", 15);
         }
 
         override public function connectAfter(block:Block):void {
@@ -44,8 +51,13 @@
             block.x = 0;
             block.y = hbox.height;
 
-            if (after)
-                block.connectAfter(after);
+            if (after) {
+                var lastBlock:Block = block;
+                while (lastBlock.after != null) {
+                    lastBlock = lastBlock.after;
+                }
+                lastBlock.connectAfter(after);
+            }
 
             block.before = this;
             this.after = block;
@@ -56,8 +68,22 @@
                 return false;
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
+            var centerX:Number = p.x + block.width / 2;
 
-            return hbox.hitTestObject(block) && (p.y > hbox.height - 10);
+            return p.y >= hbox.height && p.y < hbox.height + 20
+                    && centerX >= 0 && centerX <= hbox.width;
+        }
+
+        override public function overAfter(block:Block):void {
+            addChild(marker);
+            marker.x = 15;
+            marker.y = hbox.height;
+            marker.width = hbox.width - 30;
+        }
+
+        override public function outAfter(block:Block):void {
+            if (marker.parent == this)
+                removeChild(marker);
         }
 
         override public function hasAfter():Boolean {
