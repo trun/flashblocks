@@ -1,7 +1,10 @@
 ﻿package com.flashblocks.blocks.args {
-import flash.events.Event;
+    import com.flashblocks.blocks.Block;
 
-import mx.controls.ColorPicker;
+    import flash.events.Event;
+    import flash.filters.GlowFilter;
+
+    import mx.controls.ColorPicker;
 
     public class ColorPickerArgumentBlock extends ArgumentBlock {
 
@@ -31,6 +34,14 @@ import mx.controls.ColorPicker;
                 colorPicker.selectedColor = value;
             }
             _blockValue = value;
+        }
+
+        override public function overInner(block:Block):void {
+            hbox.filters = [ new GlowFilter(0x00FFFF, 1.0, 2, 2, 255, 3, true) ];
+        }
+
+        override public function outInner(block:Block):void {
+            hbox.filters = [ ];
         }
 
     }
