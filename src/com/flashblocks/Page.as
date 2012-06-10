@@ -177,8 +177,10 @@
 
             for each (var arg:Block in child.getArguments()) {
                 if (arg.enableConnections && arg.testInnerConnection(block)) {
+                    if (hoverChild)
+                        hoverChild.outInner(block);
                     arg.overInner(block);
-                    hoverChild = child;
+                    hoverChild = arg;
                     return true;
                 }
 
@@ -203,6 +205,8 @@
 
             for (var i:uint = 0; i < child.numNested(); i++) {
                 if (child.testNestedConnection(i, block)) {
+                    if (hoverChild)
+                        hoverChild.outNested(i, block);
                     child.overNested(i, block);
                     hoverChild = child;
                     return true;
@@ -227,6 +231,8 @@
             if (hoverChild) {
                 hoverChild.outBefore(block);
                 hoverChild.outAfter(block);
+                hoverChild.outNested(0, block);
+                hoverChild.outInner(block);
                 hoverChild = null;
             }
         }
@@ -235,8 +241,9 @@
             if (hoverChild) {
                 hoverChild.outBefore(block);
                 hoverChild.outAfter(block);
+                hoverChild.outNested(0, block);
+                hoverChild.outInner(block);
             }
-            // TODO all out calls
         }
 
         public function getAllBlocks():Array {

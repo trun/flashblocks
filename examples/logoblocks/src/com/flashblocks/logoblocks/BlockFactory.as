@@ -1,5 +1,4 @@
 package com.flashblocks.logoblocks {
-    import com.adobe.serialization.json.JSON;
     import com.flashblocks.Workspace;
     import com.flashblocks.blocks.AnchorBlock;
     import com.flashblocks.blocks.Block;
