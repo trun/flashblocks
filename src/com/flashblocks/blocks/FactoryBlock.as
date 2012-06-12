@@ -101,15 +101,22 @@ package com.flashblocks.blocks {
 
             // position block on parent widget
             var point:Point = BlockUtil.positionLocalToLocal(placeholderBlock, hbox, parent);
+            block.includeInLayout = false;
             parent.addChild(block);
-            block.x = point.x;
-            block.y = point.y;
 
-            // register block with workspace
-            Workspace.getInstance().registerBlock(block);
+            callLater(function():void {
+                block.x = point.x;
+                block.y = point.y;
 
-            // drag block
-            dispatchEvent(new BlockDragEvent(BlockDragEvent.DRAG_START, false, false, block, block.parent));
+                // register block with workspace
+                Workspace.getInstance().registerBlock(block);
+
+                // drag block
+                callLater(function():void {
+                    block.includeInLayout = true;
+                    dispatchEvent(new BlockDragEvent(BlockDragEvent.DRAG_START, false, false, block, block.parent));
+                });
+            });
         }
     }
 }
