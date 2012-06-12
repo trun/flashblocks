@@ -395,7 +395,7 @@
             var centerX:Number = p.x + block.width / 2;
 
             return p.y > topVBox.height && p.y < topVBox.height + 20
-                    && centerX >= topVBox.x && centerX <= topVBox.x + topVBox.width;
+                    && centerX >= 30 && centerX <= 30 + topVBox.width;
         }
 
         override public function connectNested(level:uint, block:Block):void {

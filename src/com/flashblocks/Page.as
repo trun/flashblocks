@@ -50,6 +50,7 @@
 
             if (!connected) {
                 addChild(block);
+                cleanConnections(block);
 
                 if (p.x < 0)
                     p.x = 0;
