@@ -234,13 +234,13 @@
         }
 
         private function onHeightChange(e:Event):void {
-            if (after) {
+            if (after && contains(after)) {
                 after.y = hbox.height;
             }
         }
 
         private function onTopHeightChange(e:Event):void {
-            if (nested[0]) {
+            if (nested[0] && contains(nested[0])) {
                 nested[0].y = topBox.height;
             }
         }
