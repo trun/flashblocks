@@ -302,6 +302,7 @@
         //
 
         public function cleanConnections(recursive:Boolean=false):void {
+            cleanBeforeConnections(recursive);
             cleanAfterConnections(recursive);
             cleanInnerConnections(recursive);
             cleanNestedConnections(recursive);
@@ -311,22 +312,32 @@
             }
         }
 
+        public function cleanBeforeConnections(recursive:Boolean=false):void {
+            if (before) {
+                if (this.parent != before) {
+                    before = null;
+                }
+            }
+        }
+
         public function cleanAfterConnections(recursive:Boolean=false):void {
             if (after) {
+                if (recursive) {
+                    after.cleanConnections(true);
+                }
                 if (after.parent != this) {
                     after = null;
-                } else if (recursive) {
-                    after.cleanConnections(true);
                 }
             }
         }
 
         public function cleanInnerConnections(recursive:Boolean=false):void {
             if (inner) {
+                if (recursive) {
+                    inner.cleanConnections(true);
+                }
                 if (inner.parent != this) {
                     inner = null;
-                } else if (recursive) {
-                    inner.cleanConnections(true);
                 }
             }
         }
@@ -334,10 +345,11 @@
         public function cleanNestedConnections(recursive:Boolean=false):void {
             for (var i:uint = 0; i < nested.length; i++) {
                 if (nested[i]) {
+                    if (recursive) {
+                        nested[i].cleanConnections(true);
+                    }
                     if (nested[i].parent != this) {
                         nested[i] = null;
-                    } else if (recursive) {
-                        nested[i].cleanConnections(true);
                     }
                 }
             }
