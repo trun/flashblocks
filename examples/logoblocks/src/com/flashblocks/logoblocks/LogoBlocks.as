@@ -15,6 +15,7 @@ package com.flashblocks.logoblocks {
 
     import mx.binding.utils.ChangeWatcher;
     import mx.containers.HBox;
+    import mx.containers.HDividedBox;
     import mx.containers.Panel;
     import mx.containers.VBox;
     import mx.controls.Button;
@@ -69,18 +70,23 @@ package com.flashblocks.logoblocks {
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createPinkBlock), colorPalette);
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createRandomColorBlock), colorPalette);
 
+            var hDivBox:HDividedBox = new HDividedBox();
+            hDivBox.percentWidth = 100;
+            hDivBox.percentHeight = 100;
+            divBox.addChild(hDivBox);
+
             anchorBlock = BlockFactory.createAnchorBlock("LogoBlocks");
             var page:Page = new Page();
             page.width = 300;
             page.percentHeight = 100;
             page.addBlock(anchorBlock);
-            divBox.addChild(page);
+            hDivBox.addChild(page);
             workspace.registerWidget(page);
 
             var vBox:VBox = new VBox();
             vBox.percentWidth = 100;
             vBox.percentHeight = 100;
-            divBox.addChild(vBox);
+            hDivBox.addChild(vBox);
 
             turtleCanvas = new Panel();
             turtleCanvas.percentWidth = 100;
