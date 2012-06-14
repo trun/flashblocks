@@ -4,6 +4,7 @@
     import com.flashblocks.blocks.render.BlockNotchBottom;
     import com.flashblocks.blocks.render.RenderConstants;
     import com.flashblocks.blocks.sockets.SocketType;
+    import com.flashblocks.events.BlockConnectionEvent;
     import com.flashblocks.util.BlockUtil;
 
     import flash.events.Event;
@@ -27,6 +28,10 @@
     public class AnchorBlock extends SimpleBlock {
         private var widthWatcher:ChangeWatcher;
         private var marker:Canvas;
+        private var spacer:Canvas;
+
+        private var heightWatcher:ChangeWatcher;
+        private var afterHeightWatcher:ChangeWatcher;
 
         public function AnchorBlock(blockName:String) {
             super(blockName);
@@ -40,6 +45,14 @@
             marker = new Canvas();
             marker.height = 5;
             marker.setStyle("backgroundColor", 0x00FFFF);
+
+            spacer = new Canvas();
+            spacer.height = 200;
+            addChild(spacer);
+
+            ChangeWatcher.watch(this, "height", function(e:Event):void {
+                repositionSpacer();
+            });
         }
 
         override public function redraw():void {
@@ -70,6 +83,18 @@
                 }
                 lastBlock.connectAfter(after);
             }
+
+            afterHeightWatcher = ChangeWatcher.watch(block, "height", function(e:Event):void {
+                repositionSpacer();
+            });
+            block.addEventListener(BlockConnectionEvent.DISCONNECT, function(e:Event):void {
+                block.removeEventListener(BlockConnectionEvent.DISCONNECT, arguments.callee);
+                if (afterHeightWatcher) {
+                    afterHeightWatcher.unwatch();
+                    afterHeightWatcher = null;
+                }
+                repositionSpacer();
+            });
 
             block.before = this;
             this.after = block;
@@ -118,6 +143,10 @@
 
         private function onResize(e:Event=null):void {
             hbox.width = parent.width;
+        }
+
+        private function repositionSpacer():void {
+            spacer.y = (after) ? after.y + after.height : hbox.height;
         }
 
         //

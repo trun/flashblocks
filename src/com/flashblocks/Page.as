@@ -1,8 +1,21 @@
 ﻿package com.flashblocks {
     import com.flashblocks.blocks.Block;
     import com.flashblocks.util.BlockUtil;
+
+    import flash.display.Bitmap;
+    import flash.display.Graphics;
+    import flash.events.Event;
+    import flash.events.MouseEvent;
+    import flash.geom.Matrix;
     import flash.geom.Point;
+    import flash.geom.Rectangle;
+    import flash.utils.setInterval;
+
     import mx.containers.Canvas;
+    import mx.core.ScrollPolicy;
+    import mx.core.UIComponent;
+    import mx.events.ScrollEvent;
+    import mx.graphics.ImageSnapshot;
 
     /**
      * ...
@@ -12,6 +25,7 @@
 
         protected var workspace:Workspace;
         private var hoverChild:Block;
+        private var snapshot:UIComponent;
 
         public function Page() {
             super();
@@ -19,11 +33,54 @@
             percentWidth = 100;
             percentHeight = 100;
 
-            setStyle("paddingLeft", 10);
-            setStyle("paddingRight", 10);
-            setStyle("paddingTop", 10);
-            setStyle("paddingBottom", 10);
-            setStyle("backgroundColor", "#FFFFFF");
+            setStyle("backgroundColor", 0xFFFFFF);
+
+            verticalScrollPolicy = ScrollPolicy.OFF;
+            horizontalScrollPolicy = ScrollPolicy.OFF;
+
+            /*
+            // snapshot based scrolling
+            snapshot = new Canvas();
+            snapshot.width = 50;
+            snapshot.height = 100;
+            snapshot.includeInLayout = false;
+            addChild(snapshot);
+
+            var page:Page = this;
+            setInterval(function():void {
+                removeChild(snapshot);
+
+                var m:Matrix = new Matrix();
+                var sx:Number = snapshot.width / page.width;
+                m.scale(sx, sx);
+                snapshot.height = page.height * sx;
+
+                var g:Graphics = snapshot.graphics;
+                g.clear();
+                g.beginBitmapFill(ImageSnapshot.captureBitmapData(page, m));
+                g.drawRect(0, 0, snapshot.width, snapshot.height);
+                g.endFill();
+
+                snapshot.x = width - snapshot.width - 10;
+                snapshot.y = 10;
+                addChild(snapshot);
+            }, 1000);
+            */
+
+            scrollRect = new Rectangle();
+            addEventListener(Event.RESIZE, function(e:Event):void {
+                scrollRect = new Rectangle(scrollRect.x, scrollRect.y, width, height);
+            });
+            addEventListener(MouseEvent.MOUSE_WHEEL, function(e:MouseEvent):void {
+                var calcHeight:Number = 0;
+                for each (var block:Block in getAllBlocks()) {
+                    calcHeight = Math.max(block.y + block.height, calcHeight);
+                }
+                var scrollY:Number = verticalScrollPosition - verticalLineScrollSize * e.delta;
+                scrollY = Math.max(scrollY, 0);
+                scrollY = Math.min(scrollY, calcHeight);
+                verticalScrollPosition = scrollY;
+            });
         }
 
         /* INTERFACE com.flashblocks.IBlockContainer */
@@ -248,7 +305,9 @@
         }
 
         public function getAllBlocks():Array {
-            return getChildren();
+            return getChildren().filter(function(item:*, index:int, array:Array):Boolean {
+                return item is Block;
+            });
         }
 
         /* INTERFACE com.flashblocks.IWorkspaceWidget */
