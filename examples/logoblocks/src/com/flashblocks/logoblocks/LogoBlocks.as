@@ -118,14 +118,25 @@ package com.flashblocks.logoblocks {
             });
 
             // pan controls
+            var panCanvas:Boolean = false;
+            turtleCanvas.addEventListener(MouseEvent.MOUSE_DOWN, function(e:MouseEvent):void {
+                panCanvas = true;
+            });
+
+            turtleCanvas.addEventListener(MouseEvent.MOUSE_UP, function(e:MouseEvent):void {
+                panCanvas = false;
+            });
+
             var turtleMouseX:int;
             var turtleMouseY:int;
             turtleCanvas.addEventListener(MouseEvent.MOUSE_MOVE, function(e:MouseEvent):void {
                 var turleMouseDeltaX:int = e.localX - turtleMouseX;
                 var turleMouseDeltaY:int = e.localY - turtleMouseY;
-                if (e.buttonDown) {
+                if (e.buttonDown && panCanvas) {
                     drawingCanvas.x += turleMouseDeltaX;
                     drawingCanvas.y += turleMouseDeltaY;
+                } else {
+                    panCanvas = false;
                 }
                 turtleMouseX = e.localX;
                 turtleMouseY = e.localY;
