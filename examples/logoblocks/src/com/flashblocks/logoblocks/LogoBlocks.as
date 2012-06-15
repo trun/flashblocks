@@ -50,6 +50,7 @@ package com.flashblocks.logoblocks {
 
             var paletteList:PaletteList = new PaletteList();
             paletteList.percentHeight = 100;
+            workspace.registerWidget(paletteList);
             divBox.addChild(paletteList);
 
             var palette:Palette = addPalette("Movement", paletteList);

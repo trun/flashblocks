@@ -51,29 +51,11 @@
             }
 
             // replenish block factories
-            for each (var child:Block in getAllBlocks()) {
-                if (child is FactoryBlock && child.blockName == block.blockName) {
-                    (child as FactoryBlock).incrementCount();
-                    block.parent.removeChild(block);
-                    workspace.deregisterBlock(block);
-                    return;
-                }
+            if (addBlockToFactory(block)) {
+                return;
             }
 
-            // insert block into display list at estimated position
-            if (block.parent) {
-                var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
-
-                for (i = 0; i < numChildren; i++) {
-                    if (p.y <= getChildAt(i).y) {
-                        addChildAt(block, i);
-                        return;
-                    }
-                }
-            }
-
-            // insert block into display list at end
-            addChild(block);
+            addBlockToPalette(block);
         }
 
         public function removeBlock(block:Block):void {
@@ -90,6 +72,35 @@
 
         public function getAllBlocks():Array{
             return getChildren();
+        }
+
+        public function addBlockToFactory(block:Block):Boolean {
+            for each (var child:Block in getAllBlocks()) {
+                if (child is FactoryBlock && child.blockName == block.blockName) {
+                    (child as FactoryBlock).incrementCount();
+                    block.parent.removeChild(block);
+                    workspace.deregisterBlock(block);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public function addBlockToPalette(block:Block):Boolean {
+            // insert block into display list at estimated position
+            if (block.parent) {
+                var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
+
+                for (var i:uint = 0; i < numChildren; i++) {
+                    if (p.y <= getChildAt(i).y) {
+                        return addChildAt(block, i) as Boolean;
+                    }
+                }
+            }
+
+            // insert block into display list at end
+            return addChild(block) as Boolean;
         }
 
         /* INTERFACE com.flashblocks.IWorkspaceWidget */

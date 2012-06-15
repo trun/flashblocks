@@ -399,8 +399,14 @@
         }
 
         override public function connectNested(level:uint, block:Block):void {
-            if (nested[level])
-                block.connectAfter(nested[level]);
+            if (nested[level]) {
+                var lastBlock:Block = block;
+                while (lastBlock.after != null) {
+                    lastBlock = lastBlock.after;
+                }
+                lastBlock.connectAfter(nested[level]);
+            }
+
 
             addChild(block);
 
