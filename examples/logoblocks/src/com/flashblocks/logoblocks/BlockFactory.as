@@ -90,7 +90,10 @@ package com.flashblocks.logoblocks {
                 }
             }
 
-            workspace.registerBlock(block);
+            if (block) {
+                block.enableConnections = true;
+                workspace.registerBlock(block);
+            }
             return block;
         }
 
