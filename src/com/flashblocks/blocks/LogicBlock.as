@@ -15,6 +15,7 @@
     import mx.containers.Canvas;
     import mx.containers.HBox;
     import mx.containers.VBox;
+    import mx.core.ScrollPolicy;
 
     /**
      *   _______________________
@@ -90,6 +91,8 @@
             middleBox = new VBox();
             middleBox.percentHeight = 100;
             middleBox.percentWidth = 100;
+            middleBox.verticalScrollPolicy = ScrollPolicy.OFF;
+            middleBox.horizontalScrollPolicy = ScrollPolicy.OFF;
             middleBox.setStyle("verticalGap", 0);
             hbox.addChild(middleBox);
 
