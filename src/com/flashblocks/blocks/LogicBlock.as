@@ -191,6 +191,17 @@
             ChangeWatcher.watch(topBox, "height", onTopHeightChange);
         }
 
+        override public function set highlight(value:Boolean):void {
+            if (value) {
+                hbox.filters = hbox.filters.concat([ HIGHLIGHT_FILTER ]);
+            } else {
+                hbox.filters = hbox.filters.filter(function(item:*, ...rest):Boolean {
+                    return item != HIGHLIGHT_FILTER;
+                });
+            }
+            super.highlight = value;
+        }
+
         override public function addContent(content:DisplayObject):void {
             topContentBox.addChild(content);
         }

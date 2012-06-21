@@ -4,6 +4,7 @@
     import com.flashblocks.events.BlockConnectionEvent;
     import flash.display.DisplayObject;
     import flash.events.MouseEvent;
+    import flash.filters.GlowFilter;
     import flash.utils.getQualifiedClassName;
 
     import mx.containers.Canvas;
@@ -28,6 +29,7 @@
         protected var _blockColor:uint = 0x66FF66;
         protected var _blockValue:*;
         protected var _enableConnections:Boolean;
+        protected var _highlight:Boolean;
 
         protected var _before:Block;
         protected var _after:Block;
@@ -35,6 +37,8 @@
         protected var _nested:Array;
 
         protected var dragging:Boolean = false;
+
+        protected const HIGHLIGHT_FILTER:GlowFilter = new GlowFilter(0xFFFFFF, 1.0, 2, 2, 255, 3, true);
 
         public function Block(blockName:String, blockValue:*=null) {
             super();
@@ -105,6 +109,14 @@
 
         public function set enableConnections(value:Boolean):void {
             _enableConnections = value;
+        }
+
+        public function get highlight():Boolean {
+            return _highlight;
+        }
+
+        public function set highlight(value:Boolean):void {
+            _highlight = value;
         }
 
         public function get before():Block { return _before; }

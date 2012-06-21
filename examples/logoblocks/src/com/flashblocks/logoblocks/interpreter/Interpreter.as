@@ -8,6 +8,7 @@ package com.flashblocks.logoblocks.interpreter {
     public class Interpreter {
         private var canvas:LogoCanvas;
 
+        private var lastBlock:Block;
         private var nextBlock:Block;
         private var nextContext:Object;
         private var nextCallback:Function;
@@ -24,6 +25,14 @@ package com.flashblocks.logoblocks.interpreter {
 
         public function set timeout(value:uint):void {
             _timeout = value;
+        }
+
+        public function reset():void {
+            canvas.reset();
+            if (lastBlock) {
+                lastBlock.highlight = false;
+                lastBlock = null;
+            }
         }
 
         public function execute(block:Block, context:Object=null, callback:Function=null):void {
@@ -46,6 +55,12 @@ package com.flashblocks.logoblocks.interpreter {
                     execute(block.after, context, origCallback);
                 };
             }
+
+            block.highlight = true;
+            if (lastBlock) {
+                lastBlock.highlight = false;
+            }
+            lastBlock = block;
 
             var val:int;
             switch (block.blockName) {

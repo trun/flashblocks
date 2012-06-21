@@ -150,7 +150,7 @@ package com.flashblocks.logoblocks {
             resetBtn.buttonMode = true;
             resetBtn.setStyle("icon", ImageAssets.RESET_ICON);
             resetBtn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
-                drawingCanvas.reset();
+                interpreter.reset();
             });
 
             var runBtn:Button = new Button();
