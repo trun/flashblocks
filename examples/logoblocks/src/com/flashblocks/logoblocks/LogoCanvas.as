@@ -108,11 +108,11 @@ package com.flashblocks.logoblocks {
                 graphics.moveTo(xVal, yVal);
             } else {
                 graphics.lineTo(xVal, yVal);
-                xMax = Math.max(xVal, xMax);
-                yMax = Math.max(yVal, yMax);
-                xMin = Math.min(xVal, xMin);
-                yMin = Math.min(yVal, yMin);
             }
+            xMax = Math.max(xVal, xMax);
+            yMax = Math.max(yVal, yMax);
+            xMin = Math.min(xVal, xMin);
+            yMin = Math.min(yVal, yMin);
             redrawTurtle();
         }
 
