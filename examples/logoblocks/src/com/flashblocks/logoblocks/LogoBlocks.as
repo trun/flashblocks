@@ -12,6 +12,7 @@ package com.flashblocks.logoblocks {
     import flash.events.Event;
     import flash.events.MouseEvent;
     import flash.external.ExternalInterface;
+    import flash.filters.DropShadowFilter;
     import flash.geom.Rectangle;
     import flash.net.SharedObject;
 
@@ -28,7 +29,7 @@ package com.flashblocks.logoblocks {
     import mx.graphics.ImageSnapshot;
     import mx.graphics.ImageSnapshot;
 
-    public class LogoBlocks extends Panel {
+    public class LogoBlocks extends VBox {
         private var workspace:Workspace;
         private var dragLayer:BlockDragLayer;
         private var interpreter:Interpreter;
@@ -43,6 +44,7 @@ package com.flashblocks.logoblocks {
             setStyle("paddingRight", 10);
             setStyle("paddingTop", 10);
             setStyle("paddingBottom", 10);
+            setStyle("backgroundColor", 0xffffff);
 
             workspace = Workspace.getInstance();
 
