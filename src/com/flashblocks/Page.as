@@ -212,7 +212,7 @@
             if (child.hasAfter()) {
                 if (child.testAfterConnection(block)) {
                     if (hoverChild)
-                        hoverChild.outAfter(block);
+                        hoverChild.outAll(block);
                     child.overAfter(block);
                     hoverChild = child;
                     return true;
@@ -222,7 +222,7 @@
             if (child.hasBefore() && child.before == null) {
                 if (child.testBeforeConnection(block)) {
                     if (hoverChild)
-                        hoverChild.outBefore(block);
+                        hoverChild.outAll(block);
                     child.overBefore(block);
                     hoverChild = child;
                     return true;
@@ -232,7 +232,7 @@
             for each (var arg:Block in child.getArguments()) {
                 if (arg.enableConnections && arg.testInnerConnection(block)) {
                     if (hoverChild)
-                        hoverChild.outInner(block);
+                        hoverChild.outAll(block);
                     arg.overInner(block);
                     hoverChild = arg;
                     return true;
@@ -260,7 +260,7 @@
             for (var i:uint = 0; i < child.numNested(); i++) {
                 if (child.testNestedConnection(i, block)) {
                     if (hoverChild)
-                        hoverChild.outNested(i, block);
+                        hoverChild.outAll(block);
                     child.overNested(i, block);
                     hoverChild = child;
                     return true;

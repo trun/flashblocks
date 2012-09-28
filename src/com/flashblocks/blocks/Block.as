@@ -1,5 +1,6 @@
 ﻿package com.flashblocks.blocks {
     import com.flashblocks.blocks.args.ArgumentBlock;
+    import com.flashblocks.blocks.render.BlockCapTop;
     import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.events.BlockConnectionEvent;
     import flash.display.DisplayObject;
@@ -284,6 +285,15 @@
 
         public function outNested(level:uint, block:Block):void {
             // override
+        }
+
+        public function outAll(block:Block):void {
+            outBefore(block);
+            outAfter(block);
+            outInner(block);
+            for (var i:uint = 0; i < numNested(); i++) {
+                outNested(i, block);
+            }
         }
 
         //
