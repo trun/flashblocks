@@ -2,6 +2,7 @@
     import com.flashblocks.blocks.Block;
 
     import flash.events.Event;
+    import flash.events.FocusEvent;
     import flash.filters.GlowFilter;
 
     import mx.controls.TextInput;
@@ -28,9 +29,14 @@
             textInput = new TextInput();
             textInput.text = String(blockValue);
             textInput.width = MIN_WIDTH;
+            textInput.setStyle("cornerRadius", 5);
+            textInput.setStyle("borderStyle", "solid");
             textInput.addEventListener(Event.CHANGE, function(e:Event):void {
                 _blockValue = textInput.text;
                 textInput.width = Math.max(MIN_WIDTH, textInput.textWidth + 20);
+            });
+            textInput.addEventListener(FocusEvent.FOCUS_IN, function(e:Event):void {
+                textInput.setSelection(0, textInput.text.length);
             });
             hbox.addChild(textInput);
         }
