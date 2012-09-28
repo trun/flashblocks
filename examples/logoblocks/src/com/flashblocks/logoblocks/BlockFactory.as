@@ -16,7 +16,7 @@ package com.flashblocks.logoblocks {
 
     public class BlockFactory {
 
-        public static function createBlock(blockDefinition:Object, workspace:Workspace):Block {
+        public static function createBlock(blockDefinition:Object, workspace:Workspace, registerBlock:Boolean=true):Block {
             var block:Block = null;
 
             if (blockDefinition is Array) {
@@ -90,14 +90,16 @@ package com.flashblocks.logoblocks {
                 if (blockDefinition.args) {
                     block.removeAllArguments();
                     for each (var argDefitinion:Object in blockDefinition.args) {
-                        block.addArgument(createBlock(argDefitinion, workspace) as ArgumentBlock);
+                        block.addArgument(createBlock(argDefitinion, workspace, false) as ArgumentBlock);
                     }
                 }
             }
 
             if (block) {
                 block.enableConnections = true;
-                workspace.registerBlock(block);
+                if (registerBlock) {
+                    workspace.registerBlock(block);
+                }
             }
             return block;
         }

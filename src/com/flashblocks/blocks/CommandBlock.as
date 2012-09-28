@@ -100,11 +100,11 @@
                 return false;
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
-            var centerX:Number = p.x + block.width / 2;
+            var centerX:Number = p.x + RenderConstants.NOTCH_OFFSET + RenderConstants.NOTCH_OFFSET / 2;
             var bottomY:Number = p.y + block.height;
 
             return bottomY < 0 && bottomY > -20
-                    && centerX >= 0 && centerX <= hbox.width;
+                    && centerX >= -30 && centerX <= hbox.width;
         }
 
         override public function testAfterConnection(block:Block):Boolean {
@@ -112,10 +112,10 @@
                 return false;
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
-            var centerX:Number = p.x + block.width / 2;
+            var centerX:Number = p.x + RenderConstants.NOTCH_OFFSET + RenderConstants.NOTCH_OFFSET / 2;
 
             return p.y >= hbox.height && p.y < hbox.height + 20
-                    && centerX >= 0 && centerX <= hbox.width;
+                    && centerX >= -30 && centerX <= hbox.width;
         }
 
         override public function hasBefore():Boolean {

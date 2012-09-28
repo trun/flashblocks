@@ -193,11 +193,12 @@ package com.flashblocks.logoblocks {
 
             var forkBtn:Button = new Button();
             forkBtn.buttonMode = true;
-            forkBtn.enabled = false;
             forkBtn.toolTip = 'Fork this program';
             forkBtn.setStyle("icon", ImageAssets.FORK_ICON);
             forkBtn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
-
+                if (ExternalInterface.available) {
+                    ExternalInterface.call("logoblocksCanvasFork");
+                }
             });
 
             var timeoutFasterLabel:Label = new Label();

@@ -1,5 +1,6 @@
 ﻿package com.flashblocks.blocks {
     import com.flashblocks.blocks.args.ArgumentBlock;
+    import com.flashblocks.blocks.render.RenderConstants;
     import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.events.BlockConnectionEvent;
     import com.flashblocks.events.BlockDragEvent;
@@ -337,11 +338,11 @@
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
 
-            var centerX:Number = p.x + block.width / 2;
+            var centerX:Number = p.x + RenderConstants.NOTCH_OFFSET + RenderConstants.NOTCH_OFFSET / 2;
             var bottomY:Number = p.y + block.height;
 
             return bottomY < 0 && bottomY > -20
-                    && centerX >= 0 && centerX <= hbox.width;
+                    && centerX >= -30 && centerX <= hbox.width;
         }
 
         override public function overBefore(block:Block):void {
@@ -387,10 +388,10 @@
                 return false;
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
-            var centerX:Number = p.x + block.width / 2;
+            var centerX:Number = p.x + RenderConstants.NOTCH_OFFSET + RenderConstants.NOTCH_OFFSET / 2;
 
             return p.y >= hbox.height && p.y < hbox.height + 20
-                    && centerX >= 0 && centerX <= hbox.width;
+                    && centerX >= -30 && centerX <= hbox.width;
         }
 
         override public function overAfter(block:Block):void {
@@ -418,10 +419,10 @@
                 return false;
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
-            var centerX:Number = p.x + block.width / 2;
+            var centerX:Number = p.x + RenderConstants.NOTCH_OFFSET + RenderConstants.NOTCH_OFFSET / 2;
 
             return p.y > topVBox.height && p.y < topVBox.height + 20
-                    && centerX >= 30 && centerX <= 30 + topVBox.width;
+                    && centerX >= 0 && centerX <= 30 + topVBox.width;
         }
 
         override public function connectNested(level:uint, block:Block):void {
@@ -432,7 +433,6 @@
                 }
                 lastBlock.connectAfter(nested[level]);
             }
-
 
             addChild(block);
 

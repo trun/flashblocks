@@ -2,6 +2,7 @@
     import com.flashblocks.blocks.render.BlockCapTop;
     import com.flashblocks.blocks.render.BlockFlatBottom;
     import com.flashblocks.blocks.render.BlockNotchBottom;
+    import com.flashblocks.blocks.render.RenderConstants;
     import com.flashblocks.blocks.sockets.SocketType;
     import com.flashblocks.util.BlockUtil;
     import flash.geom.Point;
@@ -68,10 +69,10 @@
                 return false;
 
             var p:Point = BlockUtil.positionLocalToLocal(block, block.parent, this);
-            var centerX:Number = p.x + block.width / 2;
+            var centerX:Number = p.x + RenderConstants.NOTCH_OFFSET + RenderConstants.NOTCH_OFFSET / 2;
 
             return p.y >= hbox.height && p.y < hbox.height + 20
-                    && centerX >= 0 && centerX <= hbox.width;
+                    && centerX >= -30 && centerX <= hbox.width;
         }
 
         override public function overAfter(block:Block):void {
