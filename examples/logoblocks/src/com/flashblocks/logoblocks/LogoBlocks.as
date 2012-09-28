@@ -73,6 +73,8 @@ package com.flashblocks.logoblocks {
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createPenUpBlock), colorPalette);
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createPenDownBlock), colorPalette);
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createPenColorBlock), colorPalette);
+            addBlock(BlockFactory.createFactoryBlock(BlockFactory.createBeginFillBlock), colorPalette);
+            addBlock(BlockFactory.createFactoryBlock(BlockFactory.createEndFillBlock), colorPalette);
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createRedBlock), colorPalette);
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createGreenBlock), colorPalette);
             addBlock(BlockFactory.createFactoryBlock(BlockFactory.createBlueBlock), colorPalette);

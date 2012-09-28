@@ -62,26 +62,32 @@ package com.flashblocks.logoblocks.interpreter {
             }
             lastBlock = block;
 
-            var val:int;
+            var val:Number;
             switch (block.blockName) {
                 case "forward":
-                    val = parseInt(eval(block.getArgument()));
+                    val = parseFloat(eval(block.getArgument()));
                     canvas.moveForward(val);
                     break;
                 case "backward":
-                    val = parseInt(eval(block.getArgument()));
+                    val = parseFloat(eval(block.getArgument()));
                     canvas.moveBackward(val);
                     break;
                 case "turn-right":
-                    val = parseInt(eval(block.getArgument()));
+                    val = parseFloat(eval(block.getArgument()));
                     canvas.turnRight(val);
                     break;
                 case "turn-left":
-                    val = parseInt(eval(block.getArgument()));
+                    val = parseFloat(eval(block.getArgument()));
                     canvas.turnLeft(val);
                     break;
                 case "set-pen-color":
                     canvas.penColor = eval(block.getArgument());
+                    break;
+                case "begin-fill":
+                    canvas.beginFill(eval(block.getArgument()));
+                    break;
+                case "end-fill":
+                    canvas.endFill();
                     break;
                 case "pen-up":
                     canvas.penUp = true;

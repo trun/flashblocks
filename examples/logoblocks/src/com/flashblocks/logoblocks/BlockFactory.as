@@ -50,6 +50,12 @@ package com.flashblocks.logoblocks {
                     case "set-pen-color":
                         block = createPenColorBlock();
                         break;
+                    case "begin-fill":
+                        block = createBeginFillBlock();
+                        break;
+                    case "end-fill":
+                        block = createEndFillBlock();
+                        break;
                     case "arg-string":
                         block = new StringArgumentBlock(blockDefinition.name, blockDefinition.value);
                         break;
@@ -154,6 +160,17 @@ package com.flashblocks.logoblocks {
         public static function createPenColorBlock():CommandBlock {
             var block:CommandBlock = createCommandBlock0("Set Pen Color", 0x6666FF);
             block.addArgument(new ColorPickerArgumentBlock("arg-color-picker"));
+            return block;
+        }
+
+        public static function createBeginFillBlock():CommandBlock {
+            var block:CommandBlock = createCommandBlock0("Begin Fill", 0x6666FF);
+            block.addArgument(new ColorPickerArgumentBlock("arg-color-picker"));
+            return block;
+        }
+
+        public static function createEndFillBlock():CommandBlock {
+            var block:CommandBlock = createCommandBlock0("End Fill", 0x6666FF);
             return block;
         }
 

@@ -61,6 +61,14 @@ package com.flashblocks.logoblocks {
             draw();
         }
 
+        public function beginFill(val:Number):void {
+            graphics.beginFill(val);
+        }
+
+        public function endFill():void {
+            graphics.endFill();
+        }
+
         public function moveForward(val:Number):void {
             xVal += Math.cos(rad(rotVal)) * val;
             yVal += Math.sin(rad(rotVal)) * val;
