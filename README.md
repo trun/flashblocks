@@ -22,7 +22,7 @@ ant build
 
 Included in the source are some sample projects built using the Flashblocks library.
 
-### LogoBlocks
+### [LogoBlocks](http://logoblocks.herokuapp.com)
 
 A very simple simulator based on the [Logo](http://en.wikipedia.org/wiki/Logo_%28programming_language%29) programming language. Users use commands like `Turn Right` and `Forward` to control a virtual turtle that draws lines with its tail. You can also utilize loops and colors to make interesting patterns.
 
