@@ -16,6 +16,7 @@
     import mx.containers.HBox;
     import mx.containers.VBox;
     import mx.core.ScrollPolicy;
+    import mx.events.ChildExistenceChangedEvent;
 
     /**
      *   _______________________
@@ -114,7 +115,7 @@
             topMidBox = new HBox();
             topMidBox.percentWidth = 100;
             topMidBox.setStyle("verticalAlign", "middle");
-            topMidBox.setStyle("horizontalGap", 5);
+            topMidBox.setStyle("horizontalGap", 0);
             topMidBox.setStyle("backgroundColor", blockColor);
             topVBox.addChild(topMidBox);
 
@@ -122,6 +123,9 @@
             topMidBox.addChild(topContentBox);
 
             topArgumentBox = new HBox();
+            topArgumentBox.setStyle("paddingLeft", 0);
+            topArgumentBox.addEventListener(ChildExistenceChangedEvent.CHILD_ADD, onArgumentChange);
+            topArgumentBox.addEventListener(ChildExistenceChangedEvent.CHILD_REMOVE, onArgumentChange);
             topMidBox.addChild(topArgumentBox);
 
             topNestedLineBox = new HBox();
@@ -245,6 +249,14 @@
             leftBox.addChild(leftSocket);
             topBox.addChild(rightTopSocket);
             bottomBox.addChild(rightBottomSocket);
+        }
+
+        private function onArgumentChange(e:Event):void {
+            if (topArgumentBox.numChildren == 0) {
+                topArgumentBox.setStyle("paddingLeft", 0);
+            } else {
+                topArgumentBox.setStyle("paddingLeft", 5);
+            }
         }
 
         private function onHeightChange(e:Event):void {

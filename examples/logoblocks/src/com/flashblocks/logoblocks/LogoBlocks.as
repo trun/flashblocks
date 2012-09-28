@@ -1,4 +1,5 @@
 package com.flashblocks.logoblocks {
+    import com.adobe.serialization.json.JSON;
     import com.flashblocks.BlockDragLayer;
     import com.flashblocks.Page;
     import com.flashblocks.Palette;
@@ -10,6 +11,7 @@ package com.flashblocks.logoblocks {
 
     import flash.events.Event;
     import flash.events.MouseEvent;
+    import flash.external.ExternalInterface;
     import flash.geom.Rectangle;
     import flash.net.SharedObject;
 
@@ -20,8 +22,11 @@ package com.flashblocks.logoblocks {
     import mx.containers.VBox;
     import mx.controls.Button;
     import mx.controls.HSlider;
+    import mx.controls.Image;
     import mx.controls.Label;
     import mx.events.FlexEvent;
+    import mx.graphics.ImageSnapshot;
+    import mx.graphics.ImageSnapshot;
 
     public class LogoBlocks extends Panel {
         private var workspace:Workspace;
@@ -29,6 +34,7 @@ package com.flashblocks.logoblocks {
         private var interpreter:Interpreter;
         private var anchorBlock:Block;
         private var turtleCanvas:Panel;
+        private var isOwner:Boolean = true;
 
         public function LogoBlocks() {
             percentWidth = 100;
@@ -145,7 +151,12 @@ package com.flashblocks.logoblocks {
 
             interpreter = new Interpreter(drawingCanvas);
 
+            var lockIcon:Image = new Image();
+            lockIcon.toolTip = 'You own this program';
+            lockIcon.data = ImageAssets.LOCK_ICON;
+
             var resetBtn:Button = new Button();
+            resetBtn.width = 50;
             resetBtn.toolTip = "Reset";
             resetBtn.buttonMode = true;
             resetBtn.setStyle("icon", ImageAssets.RESET_ICON);
@@ -154,6 +165,7 @@ package com.flashblocks.logoblocks {
             });
 
             var runBtn:Button = new Button();
+            runBtn.width = 50;
             runBtn.toolTip = "Run";
             runBtn.buttonMode = true;
             runBtn.setStyle("icon", ImageAssets.PLAY_ICON);
@@ -163,39 +175,29 @@ package com.flashblocks.logoblocks {
                 interpreter.execute(anchorBlock, null, function():void {
                     runBtn.enabled = true;
                     resetBtn.enabled = true;
+                    if (ExternalInterface.available && isOwner) {
+                        ExternalInterface.call("logoblocksCanvasDrawComplete");
+                    }
                 });
             });
 
-            var jsonBtn:Button = new Button();
-            jsonBtn.buttonMode = true;
-            jsonBtn.setStyle("icon", ImageAssets.SAVE_ICON);
-            jsonBtn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
-                var anchor:Block = page.getAllBlocks()[0];
-                var code:Object = anchor.toJSON();
-                if (code is Array) {
-                    code = code.slice(1);
-                } else {
-                    code = [];
+            var saveBtn:Button = new Button();
+            saveBtn.buttonMode = true;
+            saveBtn.toolTip = 'Save this program';
+            saveBtn.setStyle("icon", ImageAssets.SAVE_ICON);
+            saveBtn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
+                if (ExternalInterface.available) {
+                    ExternalInterface.call("logoblocksCanvasUpdate");
                 }
-                var so:SharedObject = SharedObject.getLocal("logoblocks");
-                so.data.code = code;
-                so.flush();
             });
 
-            var loadBtn:Button = new Button();
-            loadBtn.buttonMode = true;
-            loadBtn.setStyle("icon", ImageAssets.LOAD_ICON);
-            loadBtn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
-                var so:SharedObject = SharedObject.getLocal("logoblocks");
-                var code:Array = so.data.code;
+            var forkBtn:Button = new Button();
+            forkBtn.buttonMode = true;
+            forkBtn.enabled = false;
+            forkBtn.toolTip = 'Fork this program';
+            forkBtn.setStyle("icon", ImageAssets.FORK_ICON);
+            forkBtn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
 
-                // clear existing program
-                if (anchorBlock.after) {
-                    anchorBlock.removeChild(anchorBlock.after);
-                    anchorBlock.cleanAfterConnections();
-                }
-
-                anchorBlock.connectAfter(BlockFactory.createBlock(code, workspace));
             });
 
             var timeoutFasterLabel:Label = new Label();
@@ -205,6 +207,7 @@ package com.flashblocks.logoblocks {
             timeoutSlowerLabel.text = "Slower";
 
             var timeoutSlider:HSlider = new HSlider();
+            timeoutSlider.percentWidth = 100;
             timeoutSlider.maximum = 1000;
             timeoutSlider.minimum = 10;
             timeoutSlider.value = interpreter.timeout;
@@ -215,17 +218,63 @@ package com.flashblocks.logoblocks {
                 interpreter.timeout = timeoutSlider.value;
             });
 
+            controlBox.addChild(saveBtn);
+            controlBox.addChild(forkBtn);
             controlBox.addChild(resetBtn);
             controlBox.addChild(runBtn);
-            controlBox.addChild(jsonBtn);
-            controlBox.addChild(loadBtn);
             controlBox.addChild(timeoutFasterLabel);
             controlBox.addChild(timeoutSlider);
             controlBox.addChild(timeoutSlowerLabel);
+            controlBox.addChild(lockIcon);
+
+            // ExternalInterface callbacks
+            if (ExternalInterface.available) {
+                ExternalInterface.addCallback('getBlocksJSON', function():String {
+                    return JSON.encode(getBlocks());
+                });
+                ExternalInterface.addCallback('setBlocksJSON', function(s:String):void {
+                    setBlocks(JSON.decode(s));
+                });
+                ExternalInterface.addCallback('setOwner', function(val:Boolean):void {
+                    saveBtn.enabled = val;
+                    isOwner = val;
+                    if (!val) {
+                        lockIcon.toolTip = 'You do NOT own this program';
+                        lockIcon.data = ImageAssets.UNLOCK_ICON;
+                    } else {
+                        lockIcon.toolTip = 'You own this program';
+                        lockIcon.data = ImageAssets.LOCK_ICON;
+                    }
+                });
+                ExternalInterface.addCallback('getSnapshot', function():String {
+                    return ImageSnapshot.encodeImageAsBase64(drawingCanvas.snapshot());
+                });
+                ExternalInterface.call('logoblocksCanvasReady');
+            }
 
             // drag layer must be registered on creation complete
             // otherwise the pop up layer will not be visible
             addEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete);
+        }
+
+        private function getBlocks():Object {
+            var code:Object = anchorBlock.toJSON();
+            if (code is Array) {
+                code = code.slice(1);
+            } else {
+                code = [];
+            }
+            return code;
+        }
+
+        private function setBlocks(code:Object):void {
+            // clear existing program
+            if (anchorBlock.after) {
+                anchorBlock.removeChild(anchorBlock.after);
+                anchorBlock.cleanAfterConnections();
+            }
+
+            anchorBlock.connectAfter(BlockFactory.createBlock(code, workspace));
         }
 
         private function onTurtleCanvasResize(e:Event):void {

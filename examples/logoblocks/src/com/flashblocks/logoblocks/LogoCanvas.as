@@ -1,5 +1,13 @@
 package com.flashblocks.logoblocks {
+    import flash.display.BitmapData;
+    import flash.display.BitmapData;
+    import flash.geom.Matrix;
+    import flash.geom.Rectangle;
+
     import mx.core.UIComponent;
+    import mx.graphics.ImageSnapshot;
+    import mx.graphics.ImageSnapshot;
+    import mx.graphics.ImageSnapshot;
 
     public class LogoCanvas extends UIComponent {
         private var xVal:Number;
@@ -7,6 +15,8 @@ package com.flashblocks.logoblocks {
         private var rotVal:Number;
         private var _penUp:Boolean;
         private var _penColor:uint;
+        private var xMin:Number, xMax:Number;
+        private var yMin:Number, yMax:Number;
 
         private var turtleCursor:UIComponent;
 
@@ -39,6 +49,10 @@ package com.flashblocks.logoblocks {
         public function reset():void {
             xVal = 0;
             yVal = 0;
+            xMin = 0;
+            xMax = 0;
+            yMin = 0;
+            yMax = 0;
             rotVal = 0;
             _penUp = false;
             _penColor = 0x000000;
@@ -69,13 +83,33 @@ package com.flashblocks.logoblocks {
             draw();
         }
 
+        public function snapshot():ImageSnapshot {
+            clearTurtle();
+            var m:Matrix = new Matrix();
+            var w:Number = xMax - xMin;
+            var h:Number = yMax - yMin;
+            m.translate(-xMin + 5, -yMin + 5);
+            var bitmapData:BitmapData = new BitmapData(w + 10, h + 10);
+            bitmapData.draw(this, m);
+            redrawTurtle();
+            return ImageSnapshot.captureImage(bitmapData);
+        }
+
         private function draw():void {
             if (penUp) {
                 graphics.moveTo(xVal, yVal);
             } else {
                 graphics.lineTo(xVal, yVal);
+                xMax = Math.max(xVal, xMax);
+                yMax = Math.max(yVal, yMax);
+                xMin = Math.min(xVal, xMin);
+                yMin = Math.min(yVal, yMin);
             }
             redrawTurtle();
+        }
+
+        private function clearTurtle():void {
+            turtleCursor.graphics.clear();
         }
 
         private function redrawTurtle():void {

@@ -38,7 +38,7 @@
 
         protected var dragging:Boolean = false;
 
-        protected const HIGHLIGHT_FILTER:GlowFilter = new GlowFilter(0xFFFFFF, 1.0, 2, 2, 255, 3, true);
+        protected const HIGHLIGHT_FILTER:GlowFilter = new GlowFilter(0x00FFFF, 1.0, 2, 2, 255, 3, true);
 
         public function Block(blockName:String, blockValue:*=null) {
             super();

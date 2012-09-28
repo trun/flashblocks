@@ -2,6 +2,7 @@ package com.flashblocks.logoblocks {
     import com.flashblocks.Workspace;
     import com.flashblocks.blocks.AnchorBlock;
     import com.flashblocks.blocks.Block;
+    import com.flashblocks.blocks.BlockType;
     import com.flashblocks.blocks.CommandBlock;
     import com.flashblocks.blocks.FactoryBlock;
     import com.flashblocks.blocks.ReporterBlock;
@@ -9,6 +10,7 @@ package com.flashblocks.logoblocks {
     import com.flashblocks.blocks.args.ArgumentBlock;
     import com.flashblocks.blocks.args.ColorPickerArgumentBlock;
     import com.flashblocks.blocks.args.StringArgumentBlock;
+    import com.flashblocks.blocks.sockets.SocketType;
 
     import mx.controls.Label;
 
@@ -65,6 +67,9 @@ package com.flashblocks.logoblocks {
                         break;
                     case "green":
                         block = createGreenBlock();
+                        break;
+                    case "random":
+                        block = createRandomColorBlock();
                         break;
                 }
 
@@ -188,6 +193,7 @@ package com.flashblocks.logoblocks {
                         | uint(Math.random() * 255 << 8)
                         | uint(Math.random() * 255 << 16);
             });
+            block.socketType = SocketType.ROUND;
             block.blockColor = 0xCCCCCC;
             block.addContent(createBlockLabel("Random"));
             return block;

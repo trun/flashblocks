@@ -17,10 +17,6 @@
     import mx.events.ScrollEvent;
     import mx.graphics.ImageSnapshot;
 
-    /**
-     * ...
-     * @author Trevor Rundell
-     */
     public class Page extends Canvas implements IWorkspaceWidget {
 
         protected var workspace:Workspace;

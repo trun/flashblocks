@@ -185,6 +185,8 @@
             }
 
             removeBlock(block);
+
+            dispatchEvent(new Event('canvasUpdate')); // TODO: make a real event
         }
 
         private function getHoverWidget(block:Block):IWorkspaceWidget {

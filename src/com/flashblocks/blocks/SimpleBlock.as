@@ -10,6 +10,7 @@
     import mx.binding.utils.ChangeWatcher;
     import mx.containers.HBox;
     import mx.containers.VBox;
+    import mx.events.ChildExistenceChangedEvent;
 
     /**
      * A simple block layout.
@@ -98,7 +99,7 @@
             centerMidBox = new HBox();
             centerMidBox.percentWidth = 100;
             centerMidBox.setStyle("verticalAlign", "middle");
-            centerMidBox.setStyle("horizontalGap", 5);
+            centerMidBox.setStyle("horizontalGap", 0);
             centerMidBox.setStyle("backgroundColor", blockColor);
             middleBox.addChild(centerMidBox);
 
@@ -106,6 +107,9 @@
             centerMidBox.addChild(contentBox);
 
             argumentBox = new HBox();
+            argumentBox.setStyle("paddingLeft", 0);
+            argumentBox.addEventListener(ChildExistenceChangedEvent.CHILD_ADD, onArgumentChange);
+            argumentBox.addEventListener(ChildExistenceChangedEvent.CHILD_REMOVE, onArgumentChange);
             centerMidBox.addChild(argumentBox);
 
             bottomMidBox = new HBox();
@@ -180,6 +184,13 @@
             rightBox.addChild(rightSocket);
         }
 
+        private function onArgumentChange(e:Event):void {
+            if (argumentBox.numChildren == 0) {
+                argumentBox.setStyle("paddingLeft", 0);
+            } else {
+                argumentBox.setStyle("paddingLeft", 5);
+            }
+        }
 
         private function onHeightChange(e:Event):void{
             if (after)
