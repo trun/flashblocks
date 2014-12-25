@@ -61,7 +61,7 @@ package com.flashblocks.sandbox {
             workspace.registerWidget(page);
 
             var block:Block;
-            block = new ProcedureBlock();
+            block = new ProcedureBlock("navigation");
             block.blockColor = 0x993333;
             block.addContent(blockLabel("Navigation"));
             workspace.registerBlock(block);
@@ -69,22 +69,22 @@ package com.flashblocks.sandbox {
 
             var spacer:Spacer = new Spacer();
             spacer.width = 25;
-            block = new SingleLogicBlock();
+            block = new SingleLogicBlock("if");
             block.blockColor = 0xCC3300;
             block.addContent(blockLabel("If"));
             block.addContent(spacer);
-            block.addContent(new ArgumentBlock());
+            block.addContent(new ArgumentBlock("arg0"));
             workspace.registerBlock(block);
             logicPalette.addBlock(block);
 
-            block = new SingleLogicBlock();
+            block = new SingleLogicBlock("repeat");
             block.blockColor = 0xCC3300;
             block.addContent(blockLabel("Repeat"));
-            block.addContent(new StringArgumentBlock());
+            block.addContent(new StringArgumentBlock("arg0"));
             workspace.registerBlock(block);
             logicPalette.addBlock(block);
 
-            block = new SingleLogicBlock();
+            block = new SingleLogicBlock("forever");
             block.blockColor = 0x3366FF;
             block.addContent(blockLabel("Forever"));
             workspace.registerBlock(block);
@@ -123,12 +123,12 @@ package com.flashblocks.sandbox {
             palette.addBlock(block);
 
             block = BlockFactory.createBooleanReporterBlock("Facing?");
-            block.addContent(new ArgumentBlock());
+            block.addContent(new ArgumentBlock("arg0"));
             workspace.registerBlock(block);
             palette.addBlock(block);
 
             block = BlockFactory.createBooleanReporterBlock("Not");
-            block.addContent(new ArgumentBlock());
+            block.addContent(new ArgumentBlock("arg0"));
             workspace.registerBlock(block);
             palette.addBlock(block);
 
