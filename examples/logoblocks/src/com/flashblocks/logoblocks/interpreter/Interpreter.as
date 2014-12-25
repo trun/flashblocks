@@ -56,10 +56,10 @@ package com.flashblocks.logoblocks.interpreter {
                 };
             }
 
-            block.highlight = true;
             if (lastBlock) {
                 lastBlock.highlight = false;
             }
+            block.highlight = true;
             lastBlock = block;
 
             var val:Number;
